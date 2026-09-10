@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REAna – Regelwerk & Struktur | SU9_ANA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161e;
+    --bg3: #1a1f2b;
+    --border: #2a3040;
+    --accent-w: #4a9eff;
+    --accent-v: #ff6b4a;
+    --accent-both: #a8ff78;
+    --text: #e2e8f0;
+    --text-dim: #7a8899;
+    --text-bright: #ffffff;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--accent-both);
+    background: rgba(168,255,120,0.1);
+    border: 1px solid rgba(168,255,120,0.3);
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .header-title {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+  .header-title span { color: var(--text); }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    gap: 28px;
+  }
+
+  /* SECTION HEADER */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-body { padding: 20px; }
+
+  /* LEAGUE PILL */
+  .pill-w {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--accent-w);
+    background: rgba(74,158,255,0.12);
+    border: 1px solid rgba(74,158,255,0.3);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .pill-v {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--accent-v);
+    background: rgba(255,107,74,0.12);
+    border: 1px solid rgba(255,107,74,0.3);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .card-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-bright);
+  }
+
+  /* TWO-COL GRID */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* RULE COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .compare-table th {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .compare-table th.col-w { color: var(--accent-w); }
+  .compare-table th.col-v { color: var(--accent-v); }
+  .compare-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(42,48,64,0.5);
+    vertical-align: middle;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table td.label {
+    color: var(--text-dim);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .val-w { color: var(--accent-w); font-weight: 600; }
+  .val-v { color: var(--accent-v); font-weight: 600; }
+  .val-same { color: var(--accent-both); font-weight: 600; }
+
+  /* DIFF HIGHLIGHT */
+  .diff-box {
+    background: rgba(168,255,120,0.05);
+    border: 1px solid rgba(168,255,120,0.2);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 13px;
+  }
+  .diff-box .diff-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent-both);
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+  }
+
+  /* RULE BLOCKS */
+  .rule-block {
+    border-left: 3px solid var(--border);
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  .rule-block.w-rule { border-color: var(--accent-w); background: rgba(74,158,255,0.04); }
+  .rule-block.v-rule { border-color: var(--accent-v); background: rgba(255,107,74,0.04); }
+  .rule-block.both-rule { border-color: var(--accent-both); background: rgba(168,255,120,0.04); }
+  .rule-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .rule-title.wc { color: var(--accent-w); }
+  .rule-title.vc { color: var(--accent-v); }
+  .rule-title.bc { color: var(--accent-both); }
+
+  /* RANKING RULES */
+  .ranking-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(42,48,64,0.5);
+  }
+  .ranking-step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 22px;
+    color: var(--text-dim);
+  }
+  .step-text { font-size: 13px; }
+
+  /* STAT CHIPS */
+  .stat-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .stat-chip {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .stat-chip .n { color: var(--text-dim); font-size: 10px; display: block; margin-bottom: 2px; }
+  .stat-chip .v { color: var(--text-bright); font-weight: 600; }
+
+  /* LIVE DATA TAG */
+  .live-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--accent-both);
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .live-dot {
+    width: 5px; height: 5px;
+    background: var(--accent-both);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  /* ANALYSIS BOX */
+  .analysis {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .analysis strong { color: var(--accent-both); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+
+  /* URL list */
+  .url-list { list-style: none; }
+  .url-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(42,48,64,0.4);
+    font-size: 12px;
+  }
+  .url-list li:last-child { border-bottom: none; }
+  .url-list a {
+    color: var(--accent-w);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 11px;
+    word-break: break-all;
+  }
+  .url-list a:hover { text-decoration: underline; }
+  .url-label { color: var(--text-dim); min-width: 80px; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-badge">SU9_ANA</span>
+  <span class="header-title"><span>REAna</span> — Regelwerk & Ligastruktur</span>
+  <span class="live-tag"><span class="live-dot"></span>Live-Daten 2025/26</span>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 1. PUNKTESYSTEM -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div>
+    <div class="section-label">01 — Punktesystem</div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Mannschaftspunkte im Vergleich</span>
+      </div>
+      <div class="card-body">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Ergebnis</th>
+              <th class="col-w">WTTV</th>
+              <th class="col-v">VÖB</th>
+              <th>Differenz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label">Sieg</td>
+              <td><span class="val-w">2 Punkte</span></td>
+              <td><span class="val-v">3 Punkte</span></td>
+              <td style="color:#ff9f43; font-family:var(--mono); font-size:12px;">+1 beim VÖB</td>
+            </tr>
+            <tr>
+              <td class="label">Remis / Unentschieden</td>
+              <td><span class="val-same">1 Punkt</span></td>
+              <td><span class="val-same">1 Punkt</span></td>
+              <td style="color:var(--text-dim); font-family:var(--mono); font-size:12px;">gleich</td>
+            </tr>
+            <tr>
+              <td class="label">Niederlage</td>
+              <td><span class="val-same">0 Punkte</span></td>
+              <td><span class="val-same">0 Punkte</span></td>
+              <td style="color:var(--text-dim); font-family:var(--mono); font-size:12px;">gleich</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="diff-box" style="margin-top:16px;">
+          <div class="diff-label">▲ ANALYSEHINWEIS</div>
+          Im VÖB ist ein Sieg 3 Punkte wert (statt 2 beim WTTV). Dies bewirkt, dass Siege im VÖB
+          deutlich stärker gewichtet werden als Remis. Ein Remis entspricht nur 33 % eines Sieges (VÖB)
+          gegenüber 50 % beim WTTV — <strong style="color:var(--accent-v)">Remis sind im VÖB weniger wertvoll!</strong>
+          Die Tabellendynamik im VÖB belohnt Siege stärker und bestraft Remis relativ gesehen härter.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 2. TABELLENREIHUNG -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div>
+    <div class="section-label">02 — Tabellenreihung bei Punktegleichstand</div>
+    <div class="card">
+      <div class="card-header">
+        <span class="pill-w">WTTV</span><span class="pill-v" style="margin-left:6px">VÖB</span>
+        <span class="card-title" style="margin-left:8px">Beide Ligen – gleiches Regelwerk</span>
+      </div>
+      <div class="card-body">
+        <div class="rule-block both-rule">
+          <div class="rule-title bc">ÜBERNOMMEN VOM ÖTTV-HANDBUCH (April 2009, §18 Abs. 3)</div>
+          Bei gleicher Punktezahl entscheiden nacheinander:
+        </div>
+        <div class="ranking-step">
+          <span class="step-num">1.</span>
+          <span class="step-text"><strong>Spielverhältnis (Sp.-V.)</strong> — Summe gewonnener ÷ Summe verlorener Einzel- und Doppelspiele. Höherer Quotient = besserer Rang.</span>
+        </div>
+        <div class="ranking-step">
+          <span class="step-num">2.</span>
+          <span class="step-text"><strong>Anzahl gewonnener Spiele (S)</strong> — Bei gleichem Quotienten entscheidet die größere Anzahl der Siege.</span>
+        </div>
+        <div class="ranking-step">
+          <span class="step-num">3.</span>
+          <span class="step-text"><strong>Gesamtsatzverhältnis (Sz.-V.)</strong> — Gewonnene ÷ verlorene Sätze aller Spiele.</span>
+        </div>
+        <div class="ranking-step">
+          <span class="step-num">!</span>
+          <span class="step-text" style="color:#ff9f43"><strong>Nichtantreten:</strong> Wird gemäß §10 Abs. 2 lit. c mit dem höchstmöglichen Resultat gewertet
+          (z.B. 0:2 Punkte, 0:7 Einzelspiele, 0:21 Sätze).</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 3. EINZELRANGLISTE -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div>
+    <div class="section-label">03 — Einzelrangliste (Reihungsliste)</div>
+    <div class="two-col">
+
+      <div class="card">
+        <div class="card-header">
+          <span class="pill-w">WTTV</span>
+          <span class="card-title" style="margin-left:8px;">Mindest-Einsatz: 50 %</span>
+        </div>
+        <div class="card-body">
+          <div class="rule-block w-rule">
+            <div class="rule-title wc">AUFNAHMEBEDINGUNG</div>
+            Spieler muss in ≥ 50 % der möglichen Mannschaftsspiele eingesetzt worden sein.
+          </div>
+          <div class="ranking-step">
+            <span class="step-num">1.</span>
+            <span class="step-text">Spieler <strong>ohne Niederlage</strong> rangieren vor Spielern mit Niederlage.<br>
+            Bei zwei ohne-N: höheres Produkt Sp × S gewinnt.</span>
+          </div>
+          <div class="ranking-step">
+            <span class="step-num">2.</span>
+            <span class="step-text">Bei ≥ 1 Niederlage: höheres Produkt <strong>Sp × (S/N)</strong> gewinnt.</span>
+          </div>
+          <div class="ranking-step">
+            <span class="step-num">!</span>
+            <span class="step-text" style="color:#ff9f43">Kampflose Niederlage nach begonnenem Spiel = volle Niederlage für Rangliste.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="pill-v">VÖB</span>
+          <span class="card-title" style="margin-left:8px;">Mindest-Einsatz: 51 %</span>
+        </div>
+        <div class="card-body">
+          <div class="rule-block v-rule">
+            <div class="rule-title vc">AUFNAHMEBEDINGUNG</div>
+            Spieler muss in ≥ <strong>51 %</strong> der möglichen Mannschaftsspiele eingesetzt worden sein.
+            (1 % strenger als WTTV!)
+          </div>
+          <div class="ranking-step">
+            <span class="step-num">1.</span>
+            <span class="step-text">Spieler <strong>ohne Niederlage</strong> rangieren vor Spielern mit Niederlage.<br>
+            Bei zwei ohne-N: höheres Produkt Sp × S gewinnt.</span>
+          </div>
+          <div class="ranking-step">
+            <span class="step-num">2.</span>
+            <span class="step-text">Bei ≥ 1 Niederlage: höheres Produkt <strong>Sp × (S/N)</strong> gewinnt.</span>
+          </div>
+          <div class="ranking-step">
+            <span class="step-num">!</span>
+            <span class="step-text" style="color:#ff9f43">Gleiche Sonderregel für kampflose Niederlagen wie WTTV.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="diff-box" style="margin-top:12px">
+      <div class="diff-label">▲ ANALYSEHINWEIS</div>
+      Der VÖB verlangt 51 % statt 50 % Mindest-Einsatz. Bei ungerader Rundenzahl kann das relevant werden:
+      bei 11 Runden z.B. braucht man im VÖB <strong style="color:var(--accent-v)">6 Einsätze</strong> (51 % = 5,61 → aufgerundet), beim WTTV nur 5.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 4. DOPPELRANGLISTE -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div>
+    <div class="section-label">04 — Doppelrangliste</div>
+    <div class="card">
+      <div class="card-header">
+        <span class="pill-w">WTTV</span><span class="pill-v" style="margin-left:6px">VÖB</span>
+        <span class="card-title" style="margin-left:8px;">Beide Ligen – gleiches Regelwerk</span>
+      </div>
+      <div class="card-body">
+        <div class="ranking-step">
+          <span class="step-num">1.</span>
+          <span class="step-text">Mannschaft <strong>ohne Doppel-Niederlage</strong>: höheres Produkt Sp × S gewinnt.</span>
+        </div>
+        <div class="ranking-step">
+          <span class="step-num">2.</span>
+          <span class="step-text">Bei ≥ 1 Niederlage: höheres Produkt <strong>Sp × (S/N)</strong> gewinnt.</span>
+        </div>
+        <div class="ranking-step">
+          <span class="step-num">3.</span>
+          <span class="step-text">Bei gleichem Quotienten: mehr gewonnene Doppelspiele (S).</span>
+        </div>
+        <div class="ranking-step">
+          <span class="step-num">4.</span>
+          <span class="step-text">Bei weiterer Gleichheit: Gesamtsatzverhältnis im Doppel.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 5. LIGAKLASSEN & AKTUELLE STANDINGS -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div>
+    <div class="section-label">05 — Ligaklassen & aktuelle Tabellenposition SU9</div>
+    <div class="two-col">
+
+      <div class="card">
+        <div class="card-header">
+          <span class="pill-w">WTTV W1</span>
+          <span class="card-title" style="margin-left:8px;">3. Klasse B</span>
+          <span class="live-tag"><span class="live-dot"></span>Live</span>
+        </div>
+        <div class="card-body">
+          <div class="stat-row">
+            <div class="stat-chip"><span class="n">RANG</span><span class="v">9. von 10</span></div>
+            <div class="stat-chip"><span class="n">PUNKTE</span><span class="v">11</span></div>
+            <div class="stat-chip"><span class="n">SPIELE</span><span class="v">13</span></div>
+            <div class="stat-chip"><span class="n">S-U-N</span><span class="v">4-3-6</span></div>
+            <div class="stat-chip"><span class="n">SP-V</span><span class="v">52:65</span></div>
+          </div>
+          <div class="analysis" style="margin-top:14px">
+            W1 liegt auf Rang 9 von 10 mit 11 Punkten — gleichauf mit Kontakt 7 (ebenfalls 11 Punkte),
+            aber schwächerem Spielverhältnis (52:65 vs. 60:72). Die Situation ist angespannt:
+            <strong>Abstiegsgefahr</strong> besteht, da Langenzersdorf 4 auf Rang 10 nur 3 Punkte hat —
+            der Abstand nach oben (Rang 8: 13 Punkte) ist erreichbar.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="pill-v">VÖB V1</span>
+          <span class="card-title" style="margin-left:8px;">2. Klasse</span>
+          <span class="live-tag"><span class="live-dot"></span>Live</span>
+        </div>
+        <div class="card-body">
+          <div class="stat-row">
+            <div class="stat-chip"><span class="n">RANG</span><span class="v">3. von 10</span></div>
+            <div class="stat-chip"><span class="n">PUNKTE</span><span class="v">25</span></div>
+            <div class="stat-chip"><span class="n">SPIELE</span><span class="v">12</span></div>
+            <div class="stat-chip"><span class="n">S-U-N</span><span class="v">8-1-3</span></div>
+            <div class="stat-chip"><span class="n">SP-V</span><span class="v">62:39</span></div>
+          </div>
+          <div class="analysis" style="margin-top:14px">
+            V1 liegt exzellent auf Rang 3 mit 25 Punkten — gleichauf mit BTTC 2 (ebenfalls 25 Punkte),
+            aber besserem Spielverhältnis (62:39 vs. 64:46). Rang 2 (SKH 3, 30 Punkte) ist noch
+            <strong>in Reichweite</strong>. Rang 1 (BRZ 2, 37 Punkte) ist weit weg.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 6. BEWERTUNGSSYSTEM VÖB (CRS vs WTTV RC) -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div>
+    <div class="section-label">06 — Bewertungssysteme</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">
+          <span class="pill-w">WTTV</span>
+          <span class="card-title" style="margin-left:8px;">RC — Ratings Central</span>
+        </div>
+        <div class="card-body" style="font-size:13px; line-height:1.7">
+          Das WTTV verwendet das internationale <strong>Ratings Central (RC)</strong>-System.
+          Punkte werden als <code style="color:var(--accent-w)">Wert ± Standardabweichung</code> angegeben.
+          Hohe Standardabweichung = wenige aktuelle Ergebnisse, geringere Verlässlichkeit.
+          Die RL-Punkte fließen in die österreichische Rangliste ein.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="pill-v">VÖB</span>
+          <span class="card-title" style="margin-left:8px;">CRS — VÖB-intern</span>
+        </div>
+        <div class="card-body" style="font-size:13px; line-height:1.7">
+          Der VÖB verwendet ein eigenes <strong>CRS-Punktesystem</strong> mit einer
+          <code style="color:var(--accent-v)">SIK-Unsicherheit</code> (0–1).
+          CRS-Punkte vom MuBA zugeordnete Werte werden mit * markiert.
+          Das System ist <strong>nicht</strong> direkt mit RC-Punkten des WTTV vergleichbar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 7. DATENQUELLEN -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div>
+    <div class="section-label">07 — Datenquellen & URLs</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">
+          <span class="pill-w">WTTV</span>
+          <span class="card-title" style="margin-left:8px;">oettv.xttv.at</span>
+        </div>
+        <div class="card-body">
+          <ul class="url-list">
+            <li><span class="url-label">Spieler</span><a href="https://oettv.xttv.at/ed/index.php?oid=196&do=spielersuche&f_anf=Y&v_anf=Y&o_p_id=&p_nachname=&p_vorname=&p_ak=&p_geschlecht=&n_code=&vid=435&Spielersuche=suchen" target="_blank">Vereinsspieler SU9</a></li>
+            <li><span class="url-label">W1 Daten</span><a href="https://oettv.xttv.at/ed/index.php?tid=52678&do=mdaten" target="_blank">tid=52678 mdaten</a></li>
+            <li><span class="url-label">W1 Spiele</span><a href="https://oettv.xttv.at/ed/index.php?tid=52678&do=spiele" target="_blank">tid=52678 spiele</a></li>
+            <li><span class="url-label">W1 Tabelle</span><a href="https://oettv.xttv.at/ed/index.php?lid=8461" target="_blank">lid=8461</a></li>
+            <li><span class="url-label">W2 Daten</span><a href="https://oettv.xttv.at/ed/index.php?tid=52679&do=mdaten" target="_blank">tid=52679 mdaten</a></li>
+            <li><span class="url-label">W2 Spiele</span><a href="https://oettv.xttv.at/ed/index.php?tid=52679&do=spiele" target="_blank">tid=52679 spiele</a></li>
+            <li><span class="url-label">W2 Tabelle</span><a href="https://oettv.xttv.at/ed/index.php?lid=8463" target="_blank">lid=8463</a></li>
+            <li><span class="url-label">Begegnung</span><a href="https://oettv.xttv.at/ed/index.php?meid=434744" target="_blank">meid=… (Beispiel)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="pill-v">VÖB</span>
+          <span class="card-title" style="margin-left:8px;">voeb.xttv.at</span>
+        </div>
+        <div class="card-body">
+          <ul class="url-list">
+            <li><span class="url-label">Spieler</span><a href="https://voeb.xttv.at/ed/index.php?oid=1000000&do=spielersuche&f_anf=Y&v_anf=Y&o_p_id=&p_nachname=&p_vorname=&p_ak=&p_geschlecht=&n_code=&vid=1000106&Spielersuche=suchen" target="_blank">Vereinsspieler SU9</a></li>
+            <li><span class="url-label">V1 Daten</span><a href="https://voeb.xttv.at/ed/index.php?tid=3090&do=mdaten" target="_blank">tid=3090 mdaten</a></li>
+            <li><span class="url-label">V1 Spiele</span><a href="https://voeb.xttv.at/ed/index.php?tid=3090&do=spiele" target="_blank">tid=3090 spiele</a></li>
+            <li><span class="url-label">V1 Tabelle</span><a href="https://voeb.xttv.at/ed/index.php?lid=4220117" target="_blank">lid=4220117</a></li>
+            <li><span class="url-label">V2 Daten</span><a href="https://voeb.xttv.at/ed/index.php?tid=3091&do=mdaten" target="_blank">tid=3091 mdaten</a></li>
+            <li><span class="url-label">V2 Spiele</span><a href="https://voeb.xttv.at/ed/index.php?tid=3091&do=spiele" target="_blank">tid=3091 spiele</a></li>
+            <li><span class="url-label">V2 Tabelle</span><a href="https://voeb.xttv.at/ed/index.php?lid=4220118" target="_blank">lid=4220118</a></li>
+            <li><span class="url-label">Begegnung</span><a href="https://voeb.xttv.at/ed/index.php?meid=4226353" target="_blank">meid=… (Beispiel)</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  SU9_ANA · REAna · Regelwerk & Ligastruktur · Stand: März 2026 · Saison 2025/2026
+</footer>
+
+</body>
+</html>
