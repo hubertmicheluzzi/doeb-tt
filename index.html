@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEBAna – TT-Übersicht</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0d0f14; --bg2:#13161e; --border:#2a3040;
+    --text:#e2e8f0; --dim:#7a8899; --bright:#ffffff;
+    --w1:#a78bfa; --w2:#f472b6; --v1:#34d399; --v2:#60a5fa;
+    --ar:#94a3b8; --re:#fbbf24;
+    --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; }
+
+  #header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 10px 20px 0; position: relative; }
+  .header-top { display: flex; align-items: center; gap: 12px; padding-bottom: 10px; }
+  .header-title-main { font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--bright); }
+  .header-title-main .stand { font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--dim); margin-left: 10px; }
+  .live-tag { margin-left: auto; font-family: var(--mono); font-size: 11px; color: #34d399; display: flex; align-items: center; gap: 5px; }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  .tabs { display: flex; gap: 4px; }
+  .tab {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0; padding: 5px 6px 6px;
+    border: 1px solid var(--border); border-bottom: none;
+    border-radius: 4px 4px 0 0; cursor: pointer;
+    color: var(--dim); background: transparent; transition: all .15s;
+    white-space: nowrap;
+  }
+  .tab:hover { color: var(--bright); }
+  .tab.active { background: var(--bg); color: var(--bright); border-color: var(--border); }
+  .tab[data-id="w1"] { border-top: 2px solid var(--w1); }
+  .tab[data-id="w2"] { border-top: 2px solid var(--w2); }
+  .tab[data-id="v1"] { border-top: 2px solid var(--v1); }
+  .tab[data-id="v2"] { border-top: 2px solid var(--v2); }
+  .tab[data-id="ar"] { border-top: 2px solid var(--ar); }
+  .tab[data-id="re"] { border-top: 2px solid var(--re); }
+  .tab.active[data-id="w1"] { color: var(--w1); }
+  .tab.active[data-id="w2"] { color: var(--w2); }
+  .tab.active[data-id="v1"] { color: var(--v1); }
+  .tab.active[data-id="v2"] { color: var(--v2); }
+  .tab.active[data-id="ar"] { color: var(--ar); }
+  .tab.active[data-id="re"] { color: var(--re); }
+
+  .subtitle { font-family: var(--mono); font-size: 11px; color: var(--dim); padding: 5px 0; border-top: 1px solid var(--border); }
+
+  #content { position: relative; height: calc(100vh - 90px); }
+  .pane { position: absolute; inset: 0; display: none; width: 100%; height: 100%; border: none; }
+  .pane.active { display: block; }
+  .pane[data-id="ar"], .pane[data-id="re"] { overflow-y: auto; background: var(--bg); }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div class="header-top">
+    <span class="header-title-main">DOEB TT-Übersicht<span class="stand"> · Stand: <span id="today-date"></span></span></span>
+    <span class="live-tag"><span class="live-dot"></span>Live</span>
+  </div>
+  <div class="tabs">
+    <div class="tab" data-id="w1">W1·3.Kl.B</div>
+    <div class="tab" data-id="w2">W2·Gr.VIb</div>
+    <div class="tab active" data-id="v1">V1·1.Kl.B</div>
+    <div class="tab" data-id="v2">V2·4.Kl</div>
+    <div class="tab" data-id="ar">Archiv</div>
+    <div class="tab" data-id="re">Regeln</div>
+  </div>
+  <div class="subtitle" id="subtitle"></div>
+</div>
+
+<div id="content">
+  <iframe class="pane" data-id="w1" src="LIVE/DOEBAna_W1.html"></iframe>
+  <iframe class="pane" data-id="w2" src="LIVE/DOEBAna_W2.html"></iframe>
+  <iframe class="pane active" data-id="v1" src="LIVE/DOEBAna_V1.html"></iframe>
+  <iframe class="pane" data-id="v2" src="LIVE/DOEBAna_V2.html"></iframe>
+  <iframe class="pane" data-id="ar" src="archiv.html"></iframe>
+  <div class="pane" data-id="re" style="display:none;align-items:center;justify-content:center;">
+    <div style="text-align:center;">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:16px;">Regelwerk öffnet in einem neuen Tab</div>
+      <a href="REAna.html" target="_blank" style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--re);background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);padding:12px 24px;border-radius:5px;text-decoration:none;">⚙ REAna · Regelwerk öffnen ↗</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const subtitles = {
+    w1: 'WTTV · 3. Klasse B · DOEB3 · —',
+    w2: 'WTTV · Gruppe VIb · DOEB6 · —',
+    v1: 'VÖB · 1. Klasse B · DÖBı1 · —',
+    v2: 'VÖB · 4. Klasse · DÖBı2 · —',
+    ar: 'Archiv · Mannschaftssaisons 2026',
+    re: 'Regelwerk · ITTF / ÖTTV · Gastspielregel-Checker'
+  };
+
+  document.getElementById('today-date').textContent =
+    new Date().toLocaleDateString('de-AT', {day:'2-digit',month:'2-digit',year:'numeric'});
+  document.getElementById('subtitle').textContent = subtitles['v1'];
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.id;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('subtitle').textContent = subtitles[id] || '';
+      document.querySelectorAll('.pane').forEach(p => {
+        p.classList.remove('active');
+        if (p.dataset.id === 're') p.style.display = 'none';
+      });
+      const pane = document.querySelector(`.pane[data-id="${id}"]`);
+      if (pane) {
+        pane.classList.add('active');
+        if (id === 're') pane.style.display = 'flex';
+      }
+    });
+  });
+</script>
+</body>
+</html>
