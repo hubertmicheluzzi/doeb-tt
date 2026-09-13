@@ -1,7 +1,309 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8"><title>NOCH NICHT GESPIELT</title>
-<style>body{background:#0d0f14;color:#7a8899;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-size:13px;}</style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEBAna V1 – VÖB 1. Klasse B</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040;
+  --text:#e2e8f0; --dim:#7a8899; --bright:#fff;
+  --acc:#34d399; --red:#f87171; --yellow:#fbbf24;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;padding:20px;}
+.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:12px;}
+.card-top{border-top:2px solid var(--acc);}
+.big-score{display:flex;align-items:center;justify-content:center;gap:24px;padding:28px 0;}
+.team-name{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--dim);text-align:center;}
+.team-name.doeb{color:var(--acc);}
+.score-num{font-family:var(--mono);font-size:52px;font-weight:600;}
+.score-num.lose{color:var(--red);}
+.score-sep{font-family:var(--mono);font-size:36px;color:var(--dim);}
+.score-meta{text-align:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:4px;}
+.kpi-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.kpi{flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:12px;text-align:center;}
+.kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:6px;}
+.kpi-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--bright);}
+.kpi-val.red{color:var(--red);}
+.alert{border-radius:5px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:10px;}
+.alert-info{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);}
+.alert-warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);}
+.good{color:var(--acc);}
+.bad{color:var(--red);}
+.neutral{color:var(--yellow);}
+
+/* Player cards */
+.player-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.pcard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:14px;}
+.pcard-name{font-weight:600;font-size:13px;color:var(--bright);margin-bottom:2px;}
+.pcard-pos{font-family:var(--mono);font-size:10px;color:var(--dim);margin-bottom:10px;}
+.pstat-row{display:flex;justify-content:space-between;margin-bottom:5px;}
+.pstat-label{font-family:var(--mono);font-size:10px;color:var(--dim);}
+.pstat-val{font-family:var(--mono);font-size:13px;font-weight:600;}
+.pbar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;}
+.pbar-fill{height:100%;border-radius:2px;background:var(--acc);}
+.pbar-fill.red{background:var(--red);}
+.match-detail{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:8px;line-height:1.8;}
+.match-detail .w{color:var(--acc);}
+.match-detail .l{color:var(--red);}
+
+/* Table */
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;}
+th{color:var(--dim);font-weight:400;text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);}
+td{padding:6px 8px;border-bottom:1px solid rgba(42,48,64,.5);}
+tr.doeb-row td{background:rgba(52,211,153,.06);color:var(--bright);}
+tr.doeb-row td:first-child{color:var(--acc);font-weight:600;}
+.rank{color:var(--dim);}
+
+/* Next match */
+.next-card{background:var(--bg3);border:1px solid rgba(52,211,153,.3);border-radius:6px;padding:18px;}
+.next-title{font-family:var(--mono);font-size:11px;color:var(--acc);letter-spacing:.1em;margin-bottom:10px;}
+.next-match{font-size:16px;font-weight:700;color:var(--bright);margin-bottom:6px;}
+.next-meta{font-family:var(--mono);font-size:11px;color:var(--dim);line-height:1.8;}
+
+/* Matrix */
+.matrix-wrap{overflow-x:auto;}
+.matrix{border-collapse:collapse;font-family:var(--mono);font-size:11px;}
+.matrix th,.matrix td{padding:6px 10px;border:1px solid var(--border);white-space:nowrap;}
+.matrix th{background:var(--bg3);color:var(--dim);}
+.matrix .win{color:var(--acc);}
+.matrix .loss{color:var(--red);}
+.matrix .header-doeb{color:var(--acc);}
+</style>
 </head>
-<body>NOCH NICHT GESPIELT · DÖB · DG1 · R8 · V1</body>
+<body>
+
+<!-- 01 AKTUELLES ERGEBNIS -->
+<div class="sec-label">01 — Aktuelles Ergebnis</div>
+<div class="card card-top">
+  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px;">DG1 · Runde 1 · Mi 10.09.2026 · Auswärts</div>
+  <div class="big-score">
+    <div>
+      <div class="team-name">BKAı1</div>
+      <div class="score-num">6</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Heim</div>
+    </div>
+    <div class="score-sep">:</div>
+    <div>
+      <div class="team-name doeb">DÖBı1</div>
+      <div class="score-num lose">2</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Gast</div>
+    </div>
+  </div>
+  <div class="score-meta">Niederlage · +0 Punkte</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Mannschaftspunkte</div><div class="kpi-val red">+0</div></div>
+    <div class="kpi"><div class="kpi-label">DOEB Gesamtpunkte</div><div class="kpi-val">0</div></div>
+    <div class="kpi"><div class="kpi-label">DOEB Rang</div><div class="kpi-val red">9 / 11</div></div>
+  </div>
+  <div style="margin-top:14px;" class="alert alert-info">
+    <strong style="color:var(--acc)">VÖB-Punktesystem:</strong> Sieg = 3 Punkte · Remis = 1 Punkt · Niederlage = 0 Punkte
+  </div>
+  <div class="alert alert-warn">
+    Auftaktniederlage gegen BKAı1 (Rang 3) — deutliche 2:6 Niederlage auswärts. 
+    <span class="bad">Ramadan 0:2 und Doppel verloren</span>, aber <span class="good">Kohlmann und Wintersteller je 1 Punkt geholt</span>. Klassenwechsel in die 1. Klasse B macht sich bemerkbar — stärkere Gegner als in der Vorsaison.
+  </div>
+</div>
+
+<!-- 02 SPIELERLEISTUNG -->
+<div class="sec-label">02 — Unsere Spielerleistung · DG1 R1 vs BKAı1</div>
+<div class="player-grid">
+  <div class="pcard">
+    <div class="pcard-name">Richard Kohlmann</div>
+    <div class="pcard-pos">DG1 R1 · Position A · Einzel 1/2 · kein Doppel</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--yellow)">1</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val" style="color:var(--red)">1</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--dim)">—</span></div>
+    <div class="pbar"><div class="pbar-fill" style="width:50%"></div></div>
+    <div class="match-detail">
+      <span class="l">I vs Drechsel 1:3 ✗</span><br>
+      <span class="w">V vs Holnthoner 3:2 ✓</span>
+    </div>
+  </div>
+  <div class="pcard">
+    <div class="pcard-name">Bary Ramadan</div>
+    <div class="pcard-pos">DG1 R1 · Position B · Einzel 0/2 · kein Doppel</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--red)">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val" style="color:var(--red)">2</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--dim)">—</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      <span class="l">II vs Belski 1:3 ✗</span><br>
+      <span class="l">VI vs Holnthoner 2:3 ✗</span>
+    </div>
+  </div>
+  <div class="pcard">
+    <div class="pcard-name">Max Wintersteller</div>
+    <div class="pcard-pos">DG1 R1 · Position C · Einzel 1/2 · Doppel: Niederlage</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--yellow)">1</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val" style="color:var(--red)">2</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--red)">✗</span></div>
+    <div class="pbar"><div class="pbar-fill" style="width:33%"></div></div>
+    <div class="match-detail">
+      <span class="l">III vs Holnthoner 2:3 ✗</span><br>
+      <span class="w">VII vs Belski 3:0 ✓</span><br>
+      <span class="l">IIIA Doppel W/K 0:3 ✗</span>
+    </div>
+  </div>
+</div>
+
+<!-- 03 DER GEGNER -->
+<div class="sec-label">03 — Der Gegner · SK Bundeskanzleramt 1</div>
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div style="font-family:var(--mono);font-size:16px;font-weight:600;color:var(--bright);margin-bottom:4px;">BKAı1 · SK Bundeskanzleramt 1</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--dim);">VÖB 1. Klasse B · Rang 3/11 · 3 Punkte · 6:2 Sp-V</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:22px;font-weight:600;color:var(--yellow);">Rang 3</div>
+  </div>
+  <div style="margin-top:14px;" class="alert alert-info">
+    Starkes Team mit klarer Hierarchie: <strong>Belski Adam</strong> (CRS 15372, 3:0) dominiert auf Position 2, <strong>Holnthoner Martin</strong> (CRS 12994) auf Position 3 mit 2 Einzelsiegen. Doppel Belski/Holnthoner perfekt 1:0. 
+    Direktbilanz: 0:1 (Hinspiel verloren). Rückspiel in DG2 R1 (Heim).
+  </div>
+</div>
+
+<!-- 04 KREUZMATRIX -->
+<div class="sec-label">04 — Spiel-Details Kreuzmatrix</div>
+<div class="card">
+  <div class="matrix-wrap">
+    <table class="matrix">
+      <tr>
+        <th></th>
+        <th class="header-doeb">A: Kohlmann (DOEB)</th>
+        <th class="header-doeb">B: Ramadan (DOEB)</th>
+        <th class="header-doeb">C: Wintersteller (DOEB)</th>
+        <th class="header-doeb">Doppel W/K</th>
+      </tr>
+      <tr>
+        <th>1: Drechsel (BKA)</th>
+        <td class="loss">(I) 1:3 ✗</td>
+        <td></td>
+        <td class="win">(V) 3:2 ✓ BKA</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>2: Belski (BKA)</th>
+        <td></td>
+        <td class="loss">(II) 1:3 ✗</td>
+        <td class="win">(VII) 3:0 ✓ DOEB</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>3: Holnthoner (BKA)</th>
+        <td class="win">(V)→ s.o.</td>
+        <td class="loss">(VI) 2:3 ✗</td>
+        <td class="loss">(III) 2:3 ✗</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>Doppel B/H (BKA)</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="loss">(IIIA) 0:3 ✗</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- 05 GESAMTANALYSE -->
+<div class="sec-label">05 — Gesamtanalyse · Saison 2026/27</div>
+<div class="card">
+  <div class="alert alert-warn" style="margin-bottom:10px;">
+    <strong style="color:var(--yellow)">Saisonstart — 1 Spiel gespielt</strong><br>
+    Auftaktniederlage 2:6 auswärts gegen BKAı1. Die Mannschaft spielt erstmals in der VÖB 1. Klasse B — einem deutlich stärkeren Umfeld als in der Vorsaison. <span class="bad">Ramadan 0/2</span> war der schwächste Auftritt, <span class="good">Kohlmann und Wintersteller</span> zeigten mit je 1 Sieg Kampfgeist. Das Doppel muss noch Stabilität finden.
+  </div>
+  <div class="alert alert-info">
+    <strong>Prognose Saison:</strong> Mit 11 Teams und 22 Spielen ist das Jahr lang. Die nächste Runde (LAND·1 Heim, Do 17.09.) bietet die erste Chance auf Punkte.
+  </div>
+</div>
+
+<!-- 06 NÄCHSTES SPIEL -->
+<div class="sec-label">06 — Nächstes Spiel</div>
+<div class="next-card">
+  <div class="next-title">▶ NÄCHSTES SPIEL · DG1 R2</div>
+  <div class="next-match">DÖBı1 – LANDı1</div>
+  <div class="next-meta">
+    Do 17.09.2026 · 18:00 · Heim<br>
+    WTTC Landstraße 1 · aktuell: 0 Sp (noch nicht gespielt)<br>
+    Chancen: Heimspiel — erste Möglichkeit auf Punkte
+  </div>
+</div>
+
+<!-- 07 TABELLENSTAND -->
+<div class="sec-label">07 — Tabellenstand · VÖB 1. Klasse B 2026/27</div>
+<div class="card">
+  <table>
+    <tr><th>Rang</th><th>Mannschaft</th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>Sp-V</th><th>P</th></tr>
+    <tr><td class="rank">1.</td><td>KSV Wiener Netze 1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:1</td><td>3</td></tr>
+    <tr><td class="rank">2.</td><td>Brunner TTC 1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:2</td><td>3</td></tr>
+    <tr><td class="rank">3.</td><td>SK Bundeskanzleramt 1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:2</td><td>3</td></tr>
+    <tr><td class="rank">4.</td><td>SK Bundesrechenzentrum 2</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:3</td><td>3</td></tr>
+    <tr><td class="rank">—</td><td>ESV FJB 2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+    <tr><td class="rank">—</td><td>WTTC Landstraße 1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+    <tr><td class="rank">—</td><td>Otto Wagner Areal 2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+    <tr><td class="rank">8.</td><td>KSV Wiener Linien 4</td><td>1</td><td>0</td><td>0</td><td>1</td><td>3:6</td><td>0</td></tr>
+    <tr class="doeb-row"><td class="rank">9.</td><td>DÖBı1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>2:6</td><td>0</td></tr>
+    <tr><td class="rank">10.</td><td>SK Handelsministerium 1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>2:6</td><td>0</td></tr>
+    <tr><td class="rank">11.</td><td>ORF· 1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1:6</td><td>0</td></tr>
+  </table>
+</div>
+
+<!-- 08 SPIELERSTATISTIKEN -->
+<div class="sec-label">08 — Spielerstatistiken · Saison 2026/27</div>
+<div class="card">
+  <table>
+    <tr><th>Rang</th><th>Name</th><th>Pass</th><th>Sp</th><th>S/N (Einzel)</th><th>CRS</th></tr>
+    <tr class="doeb-row"><td>8.</td><td>Kohlmann Richard</td><td>3672</td><td>1</td><td>1:1</td><td>13822</td></tr>
+    <tr class="doeb-row"><td>16.</td><td>Wintersteller Max</td><td>3983</td><td>1</td><td>1:2</td><td>12750*</td></tr>
+    <tr class="doeb-row"><td>19.</td><td>Ramadan Bary</td><td>3790</td><td>1</td><td>0:2</td><td>12688</td></tr>
+  </table>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:8px;">* CRS vom MuBA zugeordnet</div>
+</div>
+
+<!-- 09 DOPPELSTATISTIK -->
+<div class="sec-label">09 — Doppelstatistik</div>
+<div class="card">
+  <table>
+    <tr><th>Rang</th><th>Paar</th><th>Sp</th><th>S/N</th></tr>
+    <tr class="doeb-row"><td>8.</td><td>Wintersteller / Kohlmann</td><td>1</td><td>0:1</td></tr>
+  </table>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:10px;">Doppelrangliste Rang 8/8 (nur Mannschaften mit gespielten Doppeln gewertet)</div>
+</div>
+
+<!-- 10 ALLE ERGEBNISSE -->
+<div class="sec-label">10 — Alle Ergebnisse · Saison 2026/27</div>
+<div class="card">
+  <table>
+    <tr><th>DG</th><th>R.</th><th>Datum</th><th>Begegnung</th><th>Erg.</th><th>H/A</th></tr>
+    <tr class="doeb-row"><td>1</td><td>1</td><td>10.09.2026</td><td>BKAı1 – DÖBı1</td><td style="color:var(--red)">2:6 ✗</td><td>A</td></tr>
+  </table>
+</div>
+
+<!-- 11 OFFENE SPIELE -->
+<div class="sec-label">11 — Offene Spiele</div>
+<div class="card">
+  <table>
+    <tr><th>DG</th><th>R.</th><th>Datum</th><th>Begegnung</th><th>H/A</th></tr>
+    <tr><td>1</td><td>2</td><td>Do 17.09.2026</td><td>DÖBı1 – LANDı1</td><td>H</td></tr>
+    <tr><td>1</td><td>3</td><td>Mi 23.09.2026</td><td>OWAı2 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>4</td><td>Mi 07.10.2026</td><td>SKHı1 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>5</td><td>Do 15.10.2026</td><td>DÖBı1 – ORFı1</td><td>H</td></tr>
+    <tr><td>1</td><td>6</td><td>Do 22.10.2026</td><td>WILIı4 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>8</td><td>Mi 11.11.2026</td><td>BTTCı1 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>9</td><td>Do 19.11.2026</td><td>DÖBı1 – FJBı2</td><td>H</td></tr>
+    <tr><td>1</td><td>10</td><td>Mo 23.11.2026</td><td>BRZı2 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>11</td><td>Do 10.12.2026</td><td>DÖBı1 – WNı1</td><td>H</td></tr>
+    <tr><td>2</td><td>1–11</td><td>Jan–Apr 2027</td><td>Rückrunde</td><td>—</td></tr>
+  </table>
+</div>
+
+</body>
 </html>
