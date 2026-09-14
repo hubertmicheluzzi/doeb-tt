@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEB Archiv · MSJ 2026 · DG2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap');
+  :root { --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040; --text:#e2e8f0; --dim:#7a8899; --bright:#fff; --acc:#fbbf24; --w1:#a78bfa; --w2:#f472b6; --v1:#34d399; --v2:#60a5fa; --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh;}
+  .header{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;}
+  .back-btn{font-family:var(--mono);font-size:11px;color:var(--dim);text-decoration:none;border:1px solid var(--border);padding:5px 12px;border-radius:3px;transition:all .15s;}
+  .back-btn:hover{color:var(--bright);border-color:var(--dim);}
+  .header-title{font-family:var(--sans);font-size:18px;font-weight:700;color:var(--bright);}
+  .header-title .sub{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--dim);margin-left:10px;}
+  .container{max-width:900px;margin:0 auto;padding:32px 24px;}
+  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  .rounds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:32px;}
+  .round-card{background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--acc);border-radius:6px;padding:16px;}
+  .round-title{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--acc);margin-bottom:12px;}
+  .team-btn{display:block;width:100%;font-family:var(--mono);font-size:11px;font-weight:600;padding:7px 10px;border-radius:4px;text-decoration:none;border:1px solid var(--border);background:var(--bg3);margin-bottom:6px;transition:all .15s;text-align:center;}
+  .team-btn.w1{color:var(--w1);border-color:rgba(167,139,250,.3);}
+  .team-btn.w1:hover{background:rgba(167,139,250,.1);}
+  .team-btn.w2{color:var(--w2);border-color:rgba(244,114,182,.3);}
+  .team-btn.w2:hover{background:rgba(244,114,182,.1);}
+  .team-btn.v1{color:var(--v1);border-color:rgba(52,211,153,.3);}
+  .team-btn.v1:hover{background:rgba(52,211,153,.1);}
+  .team-btn.v2{color:var(--v2);border-color:rgba(96,165,250,.3);}
+  .team-btn.v2:hover{background:rgba(96,165,250,.1);}
+  .team-btn.empty{opacity:.35;cursor:default;pointer-events:none;}
+  .note{font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px 16px;line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back-btn" href="../../archiv.html">← Archiv</a>
+  <span class="header-title">DG2 · Frühjahr 2026<span class="sub">· MSJ 2026 · Jan–Jun 2027</span></span>
+</div>
+<div class="container">
+  <div class="section-label">Runden</div>
+  <div class="rounds-grid">
+
+    <div class="round-card">
+      <div class="round-title">R1 · </div>
+      <a class="team-btn w1 empty" href="R1/DOEBAna_W1.html">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="R1/DOEBAna_W2.html">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="R1/DOEBAna_V1.html">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="R1/DOEBAna_V2.html">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R2</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R3</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R4</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R5</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R6</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R7</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R8</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R9</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R10</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+    <div class="round-card">
+      <div class="round-title">R11</div>
+      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
+      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
+      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
+      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
+    </div>
+
+  </div>
+  <div class="note">
+    <strong>Legende:</strong> Farbige Buttons = Daten vorhanden · Ausgegraut = noch nicht gespielt oder nicht archiviert
+  </div>
+</div>
+</body>
+</html>
