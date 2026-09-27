@@ -3,137 +3,307 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DOEB Archiv · MSJ 2026 · DG1</title>
+<title>DOEBAna V1 – VÖB 1. Klasse B</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap');
-  :root { --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040; --text:#e2e8f0; --dim:#7a8899; --bright:#fff; --acc:#fbbf24; --w1:#a78bfa; --w2:#f472b6; --v1:#34d399; --v2:#60a5fa; --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif; }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh;}
-  .header{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;}
-  .back-btn{font-family:var(--mono);font-size:11px;color:var(--dim);text-decoration:none;border:1px solid var(--border);padding:5px 12px;border-radius:3px;transition:all .15s;}
-  .back-btn:hover{color:var(--bright);border-color:var(--dim);}
-  .header-title{font-family:var(--sans);font-size:18px;font-weight:700;color:var(--bright);}
-  .header-title .sub{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--dim);margin-left:10px;}
-  .container{max-width:900px;margin:0 auto;padding:32px 24px;}
-  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
-  .rounds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:32px;}
-  .round-card{background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--acc);border-radius:6px;padding:16px;}
-  .round-title{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--acc);margin-bottom:12px;}
-  .team-btn{display:block;width:100%;font-family:var(--mono);font-size:11px;font-weight:600;padding:7px 10px;border-radius:4px;text-decoration:none;border:1px solid var(--border);background:var(--bg3);margin-bottom:6px;transition:all .15s;text-align:center;}
-  .team-btn.w1{color:var(--w1);border-color:rgba(167,139,250,.3);}
-  .team-btn.w1:hover{background:rgba(167,139,250,.1);}
-  .team-btn.w2{color:var(--w2);border-color:rgba(244,114,182,.3);}
-  .team-btn.w2:hover{background:rgba(244,114,182,.1);}
-  .team-btn.v1{color:var(--v1);border-color:rgba(52,211,153,.3);}
-  .team-btn.v1:hover{background:rgba(52,211,153,.1);}
-  .team-btn.v2{color:var(--v2);border-color:rgba(96,165,250,.3);}
-  .team-btn.v2:hover{background:rgba(96,165,250,.1);}
-  .team-btn.empty{opacity:.35;cursor:default;pointer-events:none;}
-  .note{font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px 16px;line-height:1.7;}
+:root {
+  --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040;
+  --text:#e2e8f0; --dim:#7a8899; --bright:#fff;
+  --acc:#34d399; --red:#f87171; --yellow:#fbbf24;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;padding:20px;}
+.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:12px;}
+.card-top{border-top:2px solid var(--acc);}
+.big-score{display:flex;align-items:center;justify-content:center;gap:24px;padding:28px 0;}
+.team-name{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--dim);text-align:center;}
+.team-name.doeb{color:var(--acc);}
+.score-num{font-family:var(--mono);font-size:52px;font-weight:600;}
+.score-num.lose{color:var(--red);}
+.score-sep{font-family:var(--mono);font-size:36px;color:var(--dim);}
+.score-meta{text-align:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:4px;}
+.kpi-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.kpi{flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:12px;text-align:center;}
+.kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:6px;}
+.kpi-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--bright);}
+.kpi-val.red{color:var(--red);}
+.alert{border-radius:5px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:10px;}
+.alert-info{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);}
+.alert-warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);}
+.good{color:var(--acc);}
+.bad{color:var(--red);}
+.neutral{color:var(--yellow);}
+.player-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.pcard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:14px;}
+.pcard.star{border-color:rgba(52,211,153,.4);}
+.pcard-name{font-weight:600;font-size:13px;color:var(--bright);margin-bottom:2px;}
+.pcard-pos{font-family:var(--mono);font-size:10px;color:var(--dim);margin-bottom:10px;}
+.pstat-row{display:flex;justify-content:space-between;margin-bottom:5px;}
+.pstat-label{font-family:var(--mono);font-size:10px;color:var(--dim);}
+.pstat-val{font-family:var(--mono);font-size:13px;font-weight:600;}
+.pbar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;}
+.pbar-fill{height:100%;border-radius:2px;background:var(--acc);}
+.pbar-fill.red{background:var(--red);}
+.match-detail{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:8px;line-height:1.8;}
+.match-detail .w{color:var(--acc);}
+.match-detail .l{color:var(--red);}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;}
+th{color:var(--dim);font-weight:400;text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);}
+td{padding:6px 8px;border-bottom:1px solid rgba(42,48,64,.5);}
+tr.doeb-row td{background:rgba(52,211,153,.06);color:var(--bright);}
+tr.doeb-row td:first-child{color:var(--acc);font-weight:600;}
+.rank{color:var(--dim);}
+.next-card{background:var(--bg3);border:1px solid rgba(52,211,153,.3);border-radius:6px;padding:18px;}
+.next-title{font-family:var(--mono);font-size:11px;color:var(--acc);letter-spacing:.1em;margin-bottom:10px;}
+.next-match{font-size:16px;font-weight:700;color:var(--bright);margin-bottom:6px;}
+.next-meta{font-family:var(--mono);font-size:11px;color:var(--dim);line-height:1.8;}
+.matrix-wrap{overflow-x:auto;}
+.matrix{border-collapse:collapse;font-family:var(--mono);font-size:11px;}
+.matrix th,.matrix td{padding:6px 10px;border:1px solid var(--border);white-space:nowrap;}
+.matrix th{background:var(--bg3);color:var(--dim);}
+.matrix .win{color:var(--acc);}
+.matrix .loss{color:var(--red);}
+.matrix .header-doeb{color:var(--acc);}
 </style>
 </head>
 <body>
-<div class="header">
-  <a class="back-btn" href="../../archiv.html">← Archiv</a>
-  <span class="header-title">DG1 · Herbst 2026<span class="sub">· MSJ 2026 · Sep–Dez 2026</span></span>
+<div style="position:sticky;top:0;z-index:999;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:12px;">
+  <a href="javascript:window.close()" style="font-family:var(--mono);font-size:11px;color:var(--dim);text-decoration:none;border:1px solid var(--border);padding:4px 10px;border-radius:3px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--dim)'">✕ Schließen</a>
+  <span style="font-family:var(--mono);font-size:11px;color:var(--dim);">Archiv-Ansicht · zum Schließen oben klicken</span>
 </div>
-<div class="container">
-  <div class="section-label">Runden</div>
-  <div class="rounds-grid">
 
-    <div class="round-card">
-      <div class="round-title">R1 · 10.09.2026</div>
-      <a class="team-btn w1 empty" href="R1/DOEBAna_W1.html">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="R1/DOEBAna_W2.html">W2 · Gr.VIb</a>
-      <a class="team-btn v1" target="_blank" href="R1/DOEBAna_V1.html">V1 · 1.Kl.B</a>
-      <a class="team-btn v2" target="_blank" href="R1/DOEBAna_V2.html">V2 · 4.Kl</a>
+
+<!-- 01 AKTUELLES ERGEBNIS -->
+<div class="sec-label">01 — Aktuelles Ergebnis</div>
+<div class="card card-top">
+  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px;">DG1 · Runde 3 · Mi 23.09.2026 · Auswärts</div>
+  <div class="big-score">
+    <div>
+      <div class="team-name">OWAı2</div>
+      <div class="score-num">6</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Heim</div>
     </div>
-
-    <div class="round-card">
-      <div class="round-title">R2 · 16./17.09.2026</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1" target="_blank" href="R2/DOEBAna_V1.html">V1 · 1.Kl.B</a>
-      <a class="team-btn v2" target="_blank" href="R2/DOEBAna_V2.html">V2 · 4.Kl</a>
+    <div class="score-sep">:</div>
+    <div>
+      <div class="team-name doeb">DÖBı1</div>
+      <div class="score-num lose">4</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Gast</div>
     </div>
-
-    <div class="round-card">
-      <div class="round-title">R3 · 23.09.2026</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1" target="_blank" href="R3/DOEBAna_V1.html">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
-    <div class="round-card">
-      <div class="round-title">R4</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
-    <div class="round-card">
-      <div class="round-title">R5</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
-    <div class="round-card">
-      <div class="round-title">R6</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
-    <div class="round-card">
-      <div class="round-title">R7</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
-    <div class="round-card">
-      <div class="round-title">R8</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
-    <div class="round-card">
-      <div class="round-title">R9</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
-    <div class="round-card">
-      <div class="round-title">R10</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
-    <div class="round-card">
-      <div class="round-title">R11</div>
-      <a class="team-btn w1 empty" href="#">W1 · 3.Kl.B</a>
-      <a class="team-btn w2 empty" href="#">W2 · Gr.VIb</a>
-      <a class="team-btn v1 empty" href="#">V1 · 1.Kl.B</a>
-      <a class="team-btn v2 empty" href="#">V2 · 4.Kl</a>
-    </div>
-
   </div>
-  <div class="note">
-    <strong>Legende:</strong> Farbige Buttons = Daten vorhanden · Ausgegraut = noch nicht gespielt oder nicht archiviert
+  <div class="score-meta">Niederlage · +0 Punkte</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Mannschaftspunkte</div><div class="kpi-val red">+0</div></div>
+    <div class="kpi"><div class="kpi-label">DOEB Gesamtpunkte</div><div class="kpi-val">3</div></div>
+    <div class="kpi"><div class="kpi-label">DOEB Rang</div><div class="kpi-val red">7 / 11</div></div>
+  </div>
+  <div style="margin-top:14px;" class="alert alert-info">
+    <strong style="color:var(--acc)">VÖB-Punktesystem:</strong> Sieg = 3 Punkte · Remis = 1 Punkt · Niederlage = 0 Punkte
+  </div>
+  <div class="alert alert-warn">
+    4:6 Auswärtsniederlage gegen OWAı2. <span class="good">Georg Fuchs war der Matchwinner mit 3/3 Einzeln + Doppelsieg</span> — allein auf weiter Flur. <span class="bad">Ramadan 0/2 und Micheluzzi 0/3</span> konnten nicht punkten. OWA 2 stärker als erwartet.
   </div>
 </div>
+
+<!-- 02 SPIELERLEISTUNG -->
+<div class="sec-label">02 — Unsere Spielerleistung · DG1 R3 vs OWAı2</div>
+<div class="player-grid">
+  <div class="pcard">
+    <div class="pcard-name">Bary Ramadan</div>
+    <div class="pcard-pos">DG1 R3 · Position A · Einzel 0/2 · kein Doppel</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--red)">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val" style="color:var(--red)">2</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--dim)">—</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      <span class="l">I vs Loimer 2:3 ✗</span><br>
+      <span class="l">IV vs Kosabek 2:3 ✗</span>
+    </div>
+  </div>
+  <div class="pcard">
+    <div class="pcard-name">Hubert Micheluzzi</div>
+    <div class="pcard-pos">DG1 R3 · Position B · Einzel 0/3 · Doppel: Sieg</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--red)">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val" style="color:var(--red)">3</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--acc)">✓</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      <span class="l">IX vs Loimer 1:3 ✗</span><br>
+      <span class="l">II vs Kosabek 1:3 ✗</span><br>
+      <span class="l">VI vs Rodriguez 0:3 ✗</span><br>
+      <span class="w">IIIA Doppel M/F 3:2 ✓</span>
+    </div>
+  </div>
+  <div class="pcard star">
+    <div class="pcard-name">Georg Fuchs ⭐</div>
+    <div class="pcard-pos">DG1 R3 · Position C · Einzel 3/3 · Doppel: Sieg</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--acc)">3</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--acc)">✓</span></div>
+    <div class="pbar"><div class="pbar-fill" style="width:100%"></div></div>
+    <div class="match-detail">
+      <span class="w">V vs Loimer 3:0 ✓</span><br>
+      <span class="w">VII vs Kosabek 3:1 ✓</span><br>
+      <span class="w">III vs Rodriguez 3:2 ✓</span><br>
+      <span class="w">IIIA Doppel M/F 3:2 ✓</span>
+    </div>
+  </div>
+</div>
+
+<!-- 03 DER GEGNER -->
+<div class="sec-label">03 — Der Gegner · Otto Wagner Areal 2</div>
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div style="font-family:var(--mono);font-size:16px;font-weight:600;color:var(--bright);margin-bottom:4px;">OWAı2 · Otto Wagner Areal 2</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--dim);">VÖB 1. Klasse B · 1 Sp · 3 Punkte · 6:4 Sp-V</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:22px;font-weight:600;color:var(--yellow);">Rang 4</div>
+  </div>
+  <div style="margin-top:14px;" class="alert alert-info">
+    Stärkeres Team als erwartet: <strong>Loimer Arnold</strong> (Pass 3173) und <strong>Kosabek Martin</strong> (Pass 3635) je 2:1 Einzel, <strong>Rodriguez Pedro</strong> (Pass 2874) 1:2 — schwächste Stelle. Doppel Kosabek/Rodriguez 0:1 verloren. Direktbilanz: 0:1. Rückspiel DG2 R3 (Heim, Do 28.01.2027).
+  </div>
+</div>
+
+<!-- 04 KREUZMATRIX -->
+<div class="sec-label">04 — Spiel-Details Kreuzmatrix</div>
+<div class="card">
+  <div class="matrix-wrap">
+    <table class="matrix">
+      <tr>
+        <th></th>
+        <th class="header-doeb">A: Ramadan (DOEB)</th>
+        <th class="header-doeb">B: Micheluzzi (DOEB)</th>
+        <th class="header-doeb">C: Fuchs (DOEB)</th>
+        <th class="header-doeb">Doppel M/F</th>
+      </tr>
+      <tr>
+        <th>1: Loimer (OWA)</th>
+        <td class="loss">(I) 2:3 ✗</td>
+        <td class="loss">(IX) 1:3 ✗</td>
+        <td class="win">(V) 3:0 ✓</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>2: Kosabek (OWA)</th>
+        <td class="loss">(IV) 2:3 ✗</td>
+        <td class="loss">(II) 1:3 ✗</td>
+        <td class="win">(VII) 3:1 ✓</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>3: Rodriguez (OWA)</th>
+        <td></td>
+        <td class="loss">(VI) 0:3 ✗</td>
+        <td class="win">(III) 3:2 ✓</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>Doppel K/R (OWA)</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="win">(IIIA) 3:2 ✓</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- 05 GESAMTANALYSE -->
+<div class="sec-label">05 — Gesamtanalyse · Saison 2026/27</div>
+<div class="card">
+  <div class="alert alert-warn" style="margin-bottom:10px;">
+    <strong style="color:var(--yellow)">Nach 3 Spielen: 1 Sieg (k.a.) · 2 Niederlagen · 3 Punkte · Rang 7/11</strong><br>
+    Strukturproblem: <span class="bad">Ramadan (0:4 Einzel, 0%) und Micheluzzi (0:3 Einzel, 0%) in R3</span> können auf Position A und B nicht mithalten. <span class="good">Fuchs (3:0 in R3, 100%) ist der einzige verlässliche Einzelpunktelieferant.</span> Das Doppel Micheluzzi/Fuchs gewann 3:2 — kämpferisch stark.
+  </div>
+  <div class="alert alert-info">
+    <strong>Saisonbilanz Einzel:</strong> Fuchs 3:0 (100%), Kohlmann 1:1 (50%), Wintersteller 1:2 (33%), Ramadan 0:4 (0%), Micheluzzi 0:3 (0%). Die Aufstellung in R3 war ungewöhnlich — R4 (07.10. vs SKHı1) zeigt ob Kohlmann/Wintersteller zurückkehren.
+  </div>
+</div>
+
+<!-- 06 NÄCHSTES SPIEL -->
+<div class="sec-label">06 — Nächstes Spiel</div>
+<div class="next-card">
+  <div class="next-title">▶ NÄCHSTES SPIEL · DG1 R4</div>
+  <div class="next-match">SKHı1 – DÖBı1</div>
+  <div class="next-meta">
+    Mi 07.10.2026 · 18:00 · Auswärts<br>
+    SK Handelsministerium 1 · aktuell: 0 Punkte · 2:6 Sp-V<br>
+    Auf Augenhöhe — gute Chance auf Punkte
+  </div>
+</div>
+
+<!-- 07 TABELLENSTAND -->
+<div class="sec-label">07 — Tabellenstand · VÖB 1. Klasse B 2026/27</div>
+<div class="card">
+  <table>
+    <tr><th>Rang</th><th>Mannschaft</th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>Sp-V</th><th>P</th></tr>
+    <tr><td class="rank">1.</td><td>KSV Wiener Netze 1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:1</td><td>3</td></tr>
+    <tr><td class="rank">2.</td><td>Brunner TTC 1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:2</td><td>3</td></tr>
+    <tr><td class="rank">3.</td><td>SK Bundeskanzleramt 1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:2</td><td>3</td></tr>
+    <tr><td class="rank">4.</td><td>Otto Wagner Areal 2</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:4</td><td>3</td></tr>
+    <tr><td class="rank">4.</td><td>SK Bundesrechenzentrum 2</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:3</td><td>3</td></tr>
+    <tr><td class="rank">—</td><td>ESV FJB 2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+    <tr class="doeb-row"><td>7.</td><td>DÖBı1</td><td>3</td><td>1</td><td>0</td><td>2</td><td>13:18</td><td>3</td></tr>
+    <tr><td class="rank">8.</td><td>KSV Wiener Linien 4</td><td>1</td><td>0</td><td>0</td><td>1</td><td>3:6</td><td>0</td></tr>
+    <tr><td class="rank">9.</td><td>SK Handelsministerium 1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>2:6</td><td>0</td></tr>
+    <tr><td class="rank">10.</td><td>ORF· 1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1:6</td><td>0</td></tr>
+    <tr><td class="rank">—</td><td>WTTC Landstraße 1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0:0</td><td>0</td></tr>
+  </table>
+</div>
+
+<!-- 08 SPIELERSTATISTIKEN -->
+<div class="sec-label">08 — Spielerstatistiken · Saison 2026/27</div>
+<div class="card">
+  <table>
+    <tr><th>Rang</th><th>Name</th><th>Pass</th><th>Sp</th><th>S/N (Einzel)</th><th>CRS</th></tr>
+    <tr class="doeb-row"><td>—</td><td>Fuchs Georg</td><td>3151</td><td>1</td><td>3:0</td><td>—</td></tr>
+    <tr class="doeb-row"><td>8.</td><td>Kohlmann Richard</td><td>3672</td><td>1</td><td>1:1</td><td>13822</td></tr>
+    <tr class="doeb-row"><td>16.</td><td>Wintersteller Max</td><td>3983</td><td>1</td><td>1:2</td><td>12750*</td></tr>
+    <tr class="doeb-row"><td>19.</td><td>Ramadan Bary</td><td>3790</td><td>2</td><td>0:4</td><td>12688</td></tr>
+    <tr class="doeb-row"><td>—</td><td>Micheluzzi Hubert</td><td>3095</td><td>1</td><td>0:3</td><td>—</td></tr>
+  </table>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:8px;">* CRS vom MuBA · Fuchs und Micheluzzi noch nicht in Rangliste (unter 51% Einsätze)</div>
+</div>
+
+<!-- 09 DOPPELSTATISTIK -->
+<div class="sec-label">09 — Doppelstatistik</div>
+<div class="card">
+  <table>
+    <tr><th>Rang</th><th>Paar</th><th>Sp</th><th>S/N</th></tr>
+    <tr class="doeb-row"><td>8.</td><td>Wintersteller / Kohlmann</td><td>1</td><td>0:1</td></tr>
+    <tr class="doeb-row"><td>—</td><td>Micheluzzi / Fuchs</td><td>1</td><td>1:0</td></tr>
+  </table>
+</div>
+
+<!-- 10 ALLE ERGEBNISSE -->
+<div class="sec-label">10 — Alle Ergebnisse · Saison 2026/27</div>
+<div class="card">
+  <table>
+    <tr><th>DG</th><th>R.</th><th>Datum</th><th>Begegnung</th><th>Erg.</th><th>H/A</th></tr>
+    <tr class="doeb-row"><td>1</td><td>1</td><td>10.09.2026</td><td>BKAı1 – DÖBı1</td><td style="color:var(--red)">2:6 ✗</td><td>A</td></tr>
+    <tr class="doeb-row"><td>1</td><td>2</td><td>17.09.2026</td><td>DÖBı1 – LANDı1</td><td style="color:var(--acc)">7:0 k.a. ✓</td><td>H</td></tr>
+    <tr class="doeb-row"><td>1</td><td>3</td><td>23.09.2026</td><td>OWAı2 – DÖBı1</td><td style="color:var(--red)">4:6 ✗</td><td>A</td></tr>
+  </table>
+</div>
+
+<!-- 11 OFFENE SPIELE -->
+<div class="sec-label">11 — Offene Spiele</div>
+<div class="card">
+  <table>
+    <tr><th>DG</th><th>R.</th><th>Datum</th><th>Begegnung</th><th>H/A</th></tr>
+    <tr><td>1</td><td>4</td><td>Mi 07.10.2026</td><td>SKHı1 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>5</td><td>Do 15.10.2026</td><td>DÖBı1 – ORFı1</td><td>H</td></tr>
+    <tr><td>1</td><td>6</td><td>Do 22.10.2026</td><td>WILIı4 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>8</td><td>Mi 11.11.2026</td><td>BTTCı1 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>9</td><td>Do 19.11.2026</td><td>DÖBı1 – FJBı2</td><td>H</td></tr>
+    <tr><td>1</td><td>10</td><td>Mo 23.11.2026</td><td>BRZı2 – DÖBı1</td><td>A</td></tr>
+    <tr><td>1</td><td>11</td><td>Do 10.12.2026</td><td>DÖBı1 – WNı1</td><td>H</td></tr>
+    <tr><td>2</td><td>1–11</td><td>Jan–Apr 2027</td><td>Rückrunde</td><td>—</td></tr>
+  </table>
+</div>
+
 </body>
 </html>
