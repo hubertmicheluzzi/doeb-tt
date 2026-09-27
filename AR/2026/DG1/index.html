@@ -3,135 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DOEBAna – TT-Übersicht</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<title>DOEB Archiv · MSJ 2026</title>
 <style>
-  :root {
-    --bg:#0d0f14; --bg2:#13161e; --border:#2a3040;
-    --text:#e2e8f0; --dim:#7a8899; --bright:#ffffff;
-    --w1:#a78bfa; --w2:#f472b6; --v1:#34d399; --v2:#60a5fa;
-    --ar:#94a3b8; --re:#fbbf24;
-    --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; }
-
-  #header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 10px 20px 0; position: relative; }
-  .header-top { display: flex; align-items: center; gap: 12px; padding-bottom: 10px; }
-  .header-title-main { font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--bright); }
-  .header-title-main .stand { font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--dim); margin-left: 10px; }
-  .live-tag { margin-left: auto; font-family: var(--mono); font-size: 11px; color: #34d399; display: flex; align-items: center; gap: 5px; }
-  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-  .tabs { display: flex; gap: 4px; }
-  .tab {
-    font-family: var(--mono); font-size: 10px; font-weight: 600;
-    letter-spacing: 0; padding: 5px 6px 6px;
-    border: 1px solid var(--border); border-bottom: none;
-    border-radius: 4px 4px 0 0; cursor: pointer;
-    color: var(--dim); background: transparent; transition: all .15s;
-    white-space: nowrap;
-  }
-  .tab:hover { color: var(--bright); }
-  .tab.active { background: var(--bg); color: var(--bright); border-color: var(--border); }
-  .tab[data-id="w1"] { border-top: 2px solid var(--w1); }
-  .tab[data-id="w2"] { border-top: 2px solid var(--w2); }
-  .tab[data-id="v1"] { border-top: 2px solid var(--v1); }
-  .tab[data-id="v2"] { border-top: 2px solid var(--v2); }
-  .tab[data-id="ar"] { border-top: 2px solid var(--ar); }
-  .tab[data-id="re"] { border-top: 2px solid var(--re); }
-  .tab.active[data-id="w1"] { color: var(--w1); }
-  .tab.active[data-id="w2"] { color: var(--w2); }
-  .tab.active[data-id="v1"] { color: var(--v1); }
-  .tab.active[data-id="v2"] { color: var(--v2); }
-  .tab.active[data-id="ar"] { color: var(--ar); }
-  .tab.active[data-id="re"] { color: var(--re); }
-
-  .subtitle { font-family: var(--mono); font-size: 11px; color: var(--dim); padding: 5px 0; border-top: 1px solid var(--border); }
-
-  #content { position: relative; height: calc(100vh - 90px); }
-  .pane { position: absolute; inset: 0; display: none; width: 100%; height: 100%; border: none; }
-  .pane.active { display: block; }
-  .pane[data-id="ar"], .pane[data-id="re"] { overflow-y: auto; background: var(--bg); }
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap');
+  :root { --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040; --text:#e2e8f0; --dim:#7a8899; --bright:#fff; --acc:#fbbf24; --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh;}
+  .header{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;}
+  .back-btn{font-family:var(--mono);font-size:11px;color:var(--dim);text-decoration:none;border:1px solid var(--border);padding:5px 12px;border-radius:3px;transition:all .15s;}
+  .back-btn:hover{color:var(--bright);border-color:var(--dim);}
+  .header-title{font-family:var(--sans);font-size:18px;font-weight:700;color:var(--bright);}
+  .header-title .sub{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--dim);margin-left:10px;}
+  .container{max-width:600px;margin:0 auto;padding:40px 24px;}
+  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  .dg-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .dg-card{background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--acc);border-radius:6px;padding:24px;text-decoration:none;display:block;transition:all .15s;}
+  .dg-card:hover{background:var(--bg3);border-color:rgba(251,191,36,.4);}
+  .dg-title{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--acc);margin-bottom:6px;}
+  .dg-sub{font-family:var(--mono);font-size:11px;color:var(--dim);line-height:1.6;}
 </style>
 </head>
 <body>
-
-<div id="header">
-  <div class="header-top">
-    <span class="header-title-main">DOEB TT-Übersicht<span class="stand"> · Stand: <span id="today-date"></span></span></span>
-    <span class="live-tag"><span class="live-dot"></span>Live</span>
-  </div>
-  <div class="tabs">
-    <div class="tab" data-id="w1">W1·3.Kl.B</div>
-    <div class="tab" data-id="w2">W2·Gr.VIb</div>
-    <div class="tab active" data-id="v1">V1·1.Kl.B</div>
-    <div class="tab" data-id="v2">V2·4.Kl</div>
-    <div class="tab" data-id="ar">Archiv</div>
-    <div class="tab" data-id="re">Regeln</div>
-  </div>
-  <div class="subtitle" id="subtitle"></div>
+<div class="header">
+  <a class="back-btn" href="/doeb-tt/index.html#archiv">← Archiv</a>
+  <span class="header-title">MSJ 2026<span class="sub">· Sep 2026 – Jun 2027</span></span>
 </div>
-
-<div id="content">
-  <iframe class="pane" data-id="w1" src="LIVE/DOEBAna_W1.html"></iframe>
-  <iframe class="pane" data-id="w2" src="LIVE/DOEBAna_W2.html"></iframe>
-  <iframe class="pane active" data-id="v1" src="LIVE/DOEBAna_V1.html"></iframe>
-  <iframe class="pane" data-id="v2" src="LIVE/DOEBAna_V2.html"></iframe>
-  <iframe class="pane" data-id="ar" src="archiv.html"></iframe>
-  <div class="pane" data-id="re" style="display:none;align-items:center;justify-content:center;">
-    <div style="text-align:center;">
-      <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:16px;">Regelwerk öffnet in einem neuen Tab</div>
-      <a href="REAna.html" target="_blank" style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--re);background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);padding:12px 24px;border-radius:5px;text-decoration:none;">⚙ REAna · Regelwerk öffnen ↗</a>
-    </div>
+<div class="container">
+  <div class="section-label">Durchgänge</div>
+  <div class="dg-grid">
+    <a class="dg-card" href="DG1/index.html">
+      <div class="dg-title">DG1</div>
+      <div class="dg-sub">Herbst 2026<br>Sep – Dez 2026<br>R1 – R11</div>
+    </a>
+    <a class="dg-card" href="DG2/index.html">
+      <div class="dg-title">DG2</div>
+      <div class="dg-sub">Frühjahr 2027<br>Jan – Jun 2027<br>R1 – R11</div>
+    </a>
   </div>
 </div>
-
-<script>
-  const subtitles = {
-    w1: 'WTTV · 3. Klasse B · DOEB3 · —',
-    w2: 'WTTV · Gruppe VIb · DOEB6 · —',
-    v1: 'VÖB · 1. Klasse B · DÖBı1 · —',
-    v2: 'VÖB · 4. Klasse · DÖBı2 · —',
-    ar: 'Archiv · Mannschaftssaisons 2026',
-    re: 'Regelwerk · ITTF / ÖTTV · Gastspielregel-Checker'
-  };
-
-  // Aktiviere Tab via URL-Hash (z.B. #archiv)
-  const hash = window.location.hash.replace('#', '');
-  if (hash && document.querySelector(`.tab[data-id="${hash}"]`)) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.pane').forEach(p => { p.classList.remove('active'); if (p.dataset.id === 're') p.style.display = 'none'; });
-    const hashTab = document.querySelector(`.tab[data-id="${hash}"]`);
-    const hashPane = document.querySelector(`.pane[data-id="${hash}"]`);
-    if (hashTab) hashTab.classList.add('active');
-    if (hashPane) { hashPane.classList.add('active'); if (hash === 're') hashPane.style.display = 'flex'; }
-    if (document.getElementById('subtitle')) document.getElementById('subtitle').textContent = subtitles[hash] || '';
-  }
-
-  document.getElementById('today-date').textContent =
-    new Date().toLocaleDateString('de-AT', {day:'2-digit',month:'2-digit',year:'numeric'});
-  document.getElementById('subtitle').textContent = subtitles['v1'];
-
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const id = tab.dataset.id;
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('subtitle').textContent = subtitles[id] || '';
-      document.querySelectorAll('.pane').forEach(p => {
-        p.classList.remove('active');
-        if (p.dataset.id === 're') p.style.display = 'none';
-      });
-      const pane = document.querySelector(`.pane[data-id="${id}"]`);
-      if (pane) {
-        pane.classList.add('active');
-        if (id === 're') pane.style.display = 'flex';
-      }
-    });
-  });
-</script>
 </body>
 </html>
