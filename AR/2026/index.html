@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEB Archiv · MSJ 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap');
+  :root { --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040; --text:#e2e8f0; --dim:#7a8899; --bright:#fff; --acc:#fbbf24; --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh;}
+  .header{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;}
+  .back-btn{font-family:var(--mono);font-size:11px;color:var(--dim);text-decoration:none;border:1px solid var(--border);padding:5px 12px;border-radius:3px;transition:all .15s;}
+  .back-btn:hover{color:var(--bright);border-color:var(--dim);}
+  .header-title{font-family:var(--sans);font-size:18px;font-weight:700;color:var(--bright);}
+  .header-title .sub{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--dim);margin-left:10px;}
+  .container{max-width:600px;margin:0 auto;padding:40px 24px;}
+  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  .dg-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .dg-card{background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--acc);border-radius:6px;padding:24px;text-decoration:none;display:block;transition:all .15s;}
+  .dg-card:hover{background:var(--bg3);border-color:rgba(251,191,36,.4);}
+  .dg-title{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--acc);margin-bottom:6px;}
+  .dg-sub{font-family:var(--mono);font-size:11px;color:var(--dim);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="header">
+  <a class="back-btn" href="/doeb-tt/index.html#archiv">← Archiv</a>
+  <span class="header-title">MSJ 2026<span class="sub">· Sep 2026 – Jun 2027</span></span>
+</div>
+<div class="container">
+  <div class="section-label">Durchgänge</div>
+  <div class="dg-grid">
+    <a class="dg-card" href="DG1/index.html">
+      <div class="dg-title">DG1</div>
+      <div class="dg-sub">Herbst 2026<br>Sep – Dez 2026<br>R1 – R11</div>
+    </a>
+    <a class="dg-card" href="DG2/index.html">
+      <div class="dg-title">DG2</div>
+      <div class="dg-sub">Frühjahr 2027<br>Jan – Jun 2027<br>R1 – R11</div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
