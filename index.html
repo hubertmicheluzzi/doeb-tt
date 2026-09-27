@@ -99,18 +99,6 @@
     re: 'Regelwerk · ITTF / ÖTTV · Gastspielregel-Checker'
   };
 
-  // Aktiviere Tab via URL-Hash (z.B. #archiv)
-  const hash = window.location.hash.replace('#', '');
-  if (hash && document.querySelector(`.tab[data-id="${hash}"]`)) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.pane').forEach(p => { p.classList.remove('active'); if (p.dataset.id === 're') p.style.display = 'none'; });
-    const hashTab = document.querySelector(`.tab[data-id="${hash}"]`);
-    const hashPane = document.querySelector(`.pane[data-id="${hash}"]`);
-    if (hashTab) hashTab.classList.add('active');
-    if (hashPane) { hashPane.classList.add('active'); if (hash === 're') hashPane.style.display = 'flex'; }
-    if (document.getElementById('subtitle')) document.getElementById('subtitle').textContent = subtitles[hash] || '';
-  }
-
   document.getElementById('today-date').textContent =
     new Date().toLocaleDateString('de-AT', {day:'2-digit',month:'2-digit',year:'numeric'});
   document.getElementById('subtitle').textContent = subtitles['v1'];
