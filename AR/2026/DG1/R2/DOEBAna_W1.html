@@ -1,7 +1,186 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8"><title>NOCH NICHT GESPIELT</title>
-<style>body{background:#0d0f14;color:#7a8899;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-size:13px;}</style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEBAna W1 – DG1 R2 Archiv</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040;
+  --text:#e2e8f0; --dim:#7a8899; --bright:#fff;
+  --acc:#f59e0b; --red:#f87171; --yellow:#fbbf24;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;padding-top:44px;}
+.back-bar{position:fixed;top:0;left:0;right:0;height:40px;background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;gap:16px;z-index:100;font-family:var(--mono);font-size:11px;}
+.back-bar a{color:var(--acc);text-decoration:none;}
+.back-bar a:hover{text-decoration:underline;}
+.back-bar span{color:var(--dim);}
+.back-bar .archive-badge{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:3px;padding:2px 7px;font-size:10px;color:var(--acc);}
+.inner{padding:20px;}
+.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:12px;}
+.card-top{border-top:2px solid var(--acc);}
+.big-score{display:flex;align-items:center;justify-content:center;gap:24px;padding:28px 0;}
+.team-name{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--dim);text-align:center;}
+.team-name.doeb{color:var(--acc);}
+.score-num{font-family:var(--mono);font-size:52px;font-weight:600;}
+.score-num.win{color:var(--acc);}
+.score-num.lose{color:var(--red);}
+.score-sep{font-family:var(--mono);font-size:36px;color:var(--dim);}
+.score-meta{text-align:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:4px;}
+.kpi-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.kpi{flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:12px;text-align:center;}
+.kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:6px;}
+.kpi-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--bright);}
+.kpi-val.red{color:var(--red);}
+.kpi-val.green{color:var(--acc);}
+.alert{border-radius:5px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:10px;}
+.alert-info{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);}
+.alert-warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);}
+.good{color:var(--acc);}
+.bad{color:var(--red);}
+.neutral{color:var(--yellow);}
+.player-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.pcard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:14px;}
+.pcard-name{font-weight:600;font-size:13px;color:var(--bright);margin-bottom:2px;}
+.pcard-pos{font-family:var(--mono);font-size:10px;color:var(--dim);margin-bottom:10px;}
+.pstat-row{display:flex;justify-content:space-between;margin-bottom:5px;}
+.pstat-label{font-family:var(--mono);font-size:10px;color:var(--dim);}
+.pstat-val{font-family:var(--mono);font-size:13px;font-weight:600;}
+.pbar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;}
+.pbar-fill{height:100%;border-radius:2px;background:var(--acc);}
+.pbar-fill.red{background:var(--red);}
+.match-detail{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:8px;line-height:1.8;}
+.match-detail .w{color:var(--acc);}
+.match-detail .l{color:var(--red);}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;}
+th{color:var(--dim);font-weight:400;text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);}
+td{padding:6px 8px;border-bottom:1px solid rgba(42,48,64,.5);}
+.rank{color:var(--dim);}
+</style>
 </head>
-<body>NOCH NICHT GESPIELT · DÖB · DG1 · R2 · W1</body>
+<body>
+
+<div class="back-bar">
+  <a href="/doeb-tt/AR/2026/DG1/index.html">← Zurück</a>
+  <span class="archive-badge">ARCHIV</span>
+  <span>WTTV · 3. Klasse B · DOEB3 · Stand: DG1 R2 · 02.10.2026</span>
+</div>
+
+<div class="inner">
+
+<!-- 01 ERGEBNIS -->
+<div class="sec-label">01 — Ergebnis · DG1 R2</div>
+<div class="card card-top">
+  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px;">DG1 · Runde 2 · Fr 02.10.2026 · Auswärts</div>
+  <div class="big-score">
+    <div>
+      <div class="team-name">SGWF8</div>
+      <div class="score-num win">6</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Heim</div>
+    </div>
+    <div class="score-sep">:</div>
+    <div>
+      <div class="team-name doeb">DOEB3</div>
+      <div class="score-num lose">1</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Gast</div>
+    </div>
+  </div>
+  <div class="score-meta">NIEDERLAGE · 0 Punkte</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Mannschaftspunkte</div><div class="kpi-val red">0</div></div>
+    <div class="kpi"><div class="kpi-label">DOEB Gesamtpunkte</div><div class="kpi-val">1</div></div>
+    <div class="kpi"><div class="kpi-label">Saisonpunkte gesamt</div><div class="kpi-val red">0</div></div>
+  </div>
+  <div style="margin-top:14px;" class="alert alert-warn">
+    Auswärtsniederlage bei SGWF8. <span class="good">Kohlmann 1/2 ✓</span> — einziger Punktesammler. Ramadan und Wintersteller ohne Punkt. 1:6 — nach zwei Runden 0 Mannschaftspunkte.
+  </div>
+</div>
+
+<!-- 02 SPIELERLEISTUNG -->
+<div class="sec-label">02 — Spielerleistung · DG1 R2 vs SGWF8</div>
+<div class="player-grid">
+
+  <div class="pcard">
+    <div class="pcard-name">Bary Ramadan</div>
+    <div class="pcard-pos">DG1 R2 · Position A · Einzel 0/2 · kein Doppel</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelniederlagen</span><span class="pstat-val">2</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      <span class="l">(I) 1:3 vs Stoskovic ✗</span><br>
+      <span class="l">(IV) 0:3 vs Zivotic ✗</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-name">Max Wintersteller</div>
+    <div class="pcard-pos">DG1 R2 · Position B · Einzel 0/2 · Doppel 0/1</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      <span class="l">(II) 0:3 vs Zivotic ✗</span><br>
+      <span class="l">(VI) 1:3 vs Wachmann ✗</span><br>
+      <span class="l">(IIIA) Doppel: 1:3 vs Wachmann/Zivotic</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-name">Richard Kohlmann</div>
+    <div class="pcard-pos">DG1 R2 · Position C · Einzel 1/2 · Doppel 0/1</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val good">1</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pbar"><div class="pbar-fill" style="width:50%"></div></div>
+    <div class="match-detail">
+      <span class="l">(III) 2:3 vs Wachmann ✗</span><br>
+      <span class="w">(V) 3:1 vs Stoskovic ✓</span><br>
+      <span class="l">(IIIA) Doppel: 1:3 vs Wachmann/Zivotic</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- 03 EINZELPUNKTE-ANALYSE -->
+<div class="sec-label">03 — Einzelpunkte-Analyse · R2 Matchdetails</div>
+<div class="card">
+  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:10px;">SGWF8 – DOEB3 · Paarungen</div>
+  <table>
+    <thead><tr><th>Pos</th><th>DOEB3</th><th>SGWF8</th><th>Sätze</th><th>Ergebnis</th></tr></thead>
+    <tbody>
+      <tr><td>I</td><td>Ramadan</td><td>Stoskovic</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>II</td><td>Wintersteller</td><td>Zivotic</td><td>0:3</td><td class="bad">✗</td></tr>
+      <tr><td>III</td><td>Kohlmann</td><td>Wachmann</td><td>2:3</td><td class="bad">✗</td></tr>
+      <tr><td>IIIA</td><td>Wintersteller/Kohlmann</td><td>Wachmann/Zivotic</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>IV</td><td>Ramadan</td><td>Zivotic</td><td>0:3</td><td class="bad">✗</td></tr>
+      <tr><td>V</td><td>Kohlmann</td><td>Stoskovic</td><td>3:1</td><td class="good">✓</td></tr>
+      <tr><td>VI</td><td>Wintersteller</td><td>Wachmann</td><td>1:3</td><td class="bad">✗</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--dim);">
+    DOEB3: Kohlmann 1 = <strong style="color:var(--acc)">1:6</strong> · Ramadan/Wintersteller jeweils 0 Punkte
+  </div>
+</div>
+
+<!-- 04 STAND NACH R2 -->
+<div class="sec-label">04 — Saisonstand nach R2</div>
+<div class="card">
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Spiele</div><div class="kpi-val">2</div></div>
+    <div class="kpi"><div class="kpi-label">Siege</div><div class="kpi-val">0</div></div>
+    <div class="kpi"><div class="kpi-label">Unentschieden</div><div class="kpi-val">0</div></div>
+    <div class="kpi"><div class="kpi-label">Niederlagen</div><div class="kpi-val red">2</div></div>
+    <div class="kpi"><div class="kpi-label">Gesamtpunkte</div><div class="kpi-val red">0</div></div>
+    <div class="kpi"><div class="kpi-label">Spiel-Pkte</div><div class="kpi-val">2:12</div></div>
+  </div>
+</div>
+
+</div><!-- /inner -->
+</body>
 </html>

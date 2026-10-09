@@ -1,7 +1,347 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8"><title>DOEBAna W1</title>
-<style>body{background:#0d0f14;color:#7a8899;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-size:13px;}</style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEBAna W1 – WTTV 3. Klasse B</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040;
+  --text:#e2e8f0; --dim:#7a8899; --bright:#fff;
+  --acc:#f59e0b; --red:#f87171; --yellow:#fbbf24;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;padding-top:44px;}
+.back-bar{position:fixed;top:0;left:0;right:0;height:40px;background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;gap:16px;z-index:100;font-family:var(--mono);font-size:11px;}
+.back-bar a{color:var(--acc);text-decoration:none;}
+.back-bar a:hover{text-decoration:underline;}
+.back-bar span{color:var(--dim);}
+.inner{padding:20px;}
+.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:12px;}
+.card-top{border-top:2px solid var(--acc);}
+.big-score{display:flex;align-items:center;justify-content:center;gap:24px;padding:28px 0;}
+.team-name{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--dim);text-align:center;}
+.team-name.doeb{color:var(--acc);}
+.score-num{font-family:var(--mono);font-size:52px;font-weight:600;}
+.score-num.win{color:var(--acc);}
+.score-num.lose{color:var(--red);}
+.score-num.draw{color:var(--yellow);}
+.score-sep{font-family:var(--mono);font-size:36px;color:var(--dim);}
+.score-meta{text-align:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:4px;}
+.kpi-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.kpi{flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:12px;text-align:center;}
+.kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:6px;}
+.kpi-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--bright);}
+.kpi-val.red{color:var(--red);}
+.kpi-val.green{color:var(--acc);}
+.alert{border-radius:5px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:10px;}
+.alert-info{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);}
+.alert-warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);}
+.good{color:var(--acc);}
+.bad{color:var(--red);}
+.neutral{color:var(--yellow);}
+.player-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.pcard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:14px;}
+.pcard-name{font-weight:600;font-size:13px;color:var(--bright);margin-bottom:2px;}
+.pcard-pos{font-family:var(--mono);font-size:10px;color:var(--dim);margin-bottom:10px;}
+.pstat-row{display:flex;justify-content:space-between;margin-bottom:5px;}
+.pstat-label{font-family:var(--mono);font-size:10px;color:var(--dim);}
+.pstat-val{font-family:var(--mono);font-size:13px;font-weight:600;}
+.pbar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;}
+.pbar-fill{height:100%;border-radius:2px;background:var(--acc);}
+.pbar-fill.red{background:var(--red);}
+.match-detail{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:8px;line-height:1.8;}
+.match-detail .w{color:var(--acc);}
+.match-detail .l{color:var(--red);}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;}
+th{color:var(--dim);font-weight:400;text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);}
+td{padding:6px 8px;border-bottom:1px solid rgba(42,48,64,.5);}
+tr.doeb-row td{background:rgba(245,158,11,.06);color:var(--bright);}
+tr.doeb-row td:first-child{color:var(--acc);font-weight:600;}
+.rank{color:var(--dim);}
+.next-card{background:var(--bg3);border:1px solid rgba(245,158,11,.3);border-radius:6px;padding:18px;}
+.next-title{font-family:var(--mono);font-size:11px;color:var(--acc);letter-spacing:.1em;margin-bottom:10px;}
+.next-match{font-size:16px;font-weight:700;color:var(--bright);margin-bottom:6px;}
+.next-meta{font-family:var(--mono);font-size:11px;color:var(--dim);line-height:1.8;}
+.matrix-wrap{overflow-x:auto;}
+.matrix{border-collapse:collapse;font-family:var(--mono);font-size:11px;}
+.matrix th,.matrix td{padding:6px 10px;border:1px solid var(--border);white-space:nowrap;}
+.matrix th{background:var(--bg3);color:var(--dim);}
+.matrix .win{color:var(--acc);}
+.matrix .loss{color:var(--red);}
+.matrix .draw{color:var(--yellow);}
+.matrix .header-doeb{color:var(--acc);}
+</style>
 </head>
-<body>DOEBAna · W1 · wird beim ersten DOEBANA_update befüllt</body>
+<body>
+
+<div class="back-bar">
+  <a href="/doeb-tt/AR/2026/DG1/index.html">← Zurück</a>
+  <span>WTTV · 3. Klasse B · DOEB3 · Stand: DG1 R2 · 02.10.2026</span>
+</div>
+
+<div class="inner">
+
+<!-- 01 AKTUELLES ERGEBNIS -->
+<div class="sec-label">01 — Aktuelles Ergebnis</div>
+<div class="card card-top">
+  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px;">DG1 · Runde 2 · Fr 02.10.2026 · Auswärts</div>
+  <div class="big-score">
+    <div>
+      <div class="team-name">SGWF8</div>
+      <div class="score-num win">6</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Heim</div>
+    </div>
+    <div class="score-sep">:</div>
+    <div>
+      <div class="team-name doeb">DOEB3</div>
+      <div class="score-num lose">1</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Gast</div>
+    </div>
+  </div>
+  <div class="score-meta">NIEDERLAGE · 0 Punkte</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Mannschaftspunkte</div><div class="kpi-val red">0</div></div>
+    <div class="kpi"><div class="kpi-label">DOEB Gesamtpunkte</div><div class="kpi-val">1</div></div>
+    <div class="kpi"><div class="kpi-label">DOEB Rang</div><div class="kpi-val">– / –</div></div>
+  </div>
+  <div style="margin-top:14px;" class="alert alert-info">
+    <strong style="color:var(--acc)">WTTV-Punktesystem:</strong> Sieg = 2 Punkte · Unentschieden = 1 Punkt · Niederlage = 0 Punkte
+  </div>
+  <div class="alert alert-warn">
+    Auswärtsniederlage bei SGWF8 — nach Auftaktniederlage (1:6) erneute deutliche Niederlage. <span class="good">Kohlmann 1/2 ✓</span> — einziger Punktesammler. Ramadan und Wintersteller punktlos. Start der Saison schwierig — 0 Punkte nach 2 Runden.
+  </div>
+</div>
+
+<!-- 02 SPIELERLEISTUNG -->
+<div class="sec-label">02 — Spielerleistung · DG1 R2 vs SGWF8</div>
+<div class="player-grid">
+
+  <div class="pcard">
+    <div class="pcard-name">Bary Ramadan</div>
+    <div class="pcard-pos">DG1 R2 · Position A · Einzel 0/2 · kein Doppel</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelniederlagen</span><span class="pstat-val">2</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      <span class="l">(I) 1:3 vs Stoskovic</span><br>
+      <span class="l">(IV) 0:3 vs Zivotic</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-name">Max Wintersteller</div>
+    <div class="pcard-pos">DG1 R2 · Position B · Einzel 0/2 · Doppel 0/1</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      <span class="l">(II) 0:3 vs Zivotic</span><br>
+      <span class="l">(VI) 1:3 vs Wachmann</span><br>
+      <span class="l">(IIIA) Doppel: 1:3 vs Wachmann/Zivotic</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-name">Richard Kohlmann</div>
+    <div class="pcard-pos">DG1 R2 · Position C · Einzel 1/2 · Doppel 0/1</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val good">1</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pbar"><div class="pbar-fill" style="width:50%"></div></div>
+    <div class="match-detail">
+      <span class="l">(III) 2:3 vs Wachmann</span><br>
+      <span class="w">(V) 3:1 vs Stoskovic ✓</span><br>
+      <span class="l">(IIIA) Doppel: 1:3 vs Wachmann/Zivotic</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- 03 SAISONVERLAUF W1 -->
+<div class="sec-label">03 — Saisonverlauf DG1 · WTTV 3. Klasse B</div>
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Runde</th><th>Datum</th><th>H/A</th><th>Gegner</th><th>Ergebnis</th><th>Punkte</th><th>Gesamt</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>R1</td><td>25.09.2026</td><td>H</td><td>NFS7</td>
+        <td class="bad">1:6 ✗</td><td>0</td><td>0</td>
+      </tr>
+      <tr style="background:rgba(245,158,11,.06);">
+        <td style="color:var(--acc);font-weight:600;">R2</td><td>02.10.2026</td><td>A</td><td>SGWF8</td>
+        <td class="bad">1:6 ✗</td><td>0</td><td><strong style="color:var(--acc)">0</strong></td>
+      </tr>
+      <tr style="color:var(--dim)">
+        <td>R3</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 04 KUMULIERTE SPIELERSTATISTIK -->
+<div class="sec-label">04 — Kumulierte Spielerstatistik · DG1 R1–R2</div>
+<div class="player-grid">
+
+  <div class="pcard">
+    <div class="pcard-name">Bary Ramadan</div>
+    <div class="pcard-pos">Saison DG1 · Position A</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelbilanz</span><span class="pstat-val">1/4</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelquote</span><span class="pstat-val bad">25%</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:25%"></div></div>
+    <div class="match-detail">
+      R1: <span class="w">1/2</span> · R2: <span class="bad">0/2</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-name">Max Wintersteller</div>
+    <div class="pcard-pos">Saison DG1 · Position B</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelbilanz</span><span class="pstat-val">0/4</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppelbilanz</span><span class="pstat-val bad">0/2</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelquote</span><span class="pstat-val bad">0%</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      R1: <span class="bad">0/2+D</span> · R2: <span class="bad">0/2+D</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-name">Richard Kohlmann</div>
+    <div class="pcard-pos">Saison DG1 · Position C</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelbilanz</span><span class="pstat-val">1/4</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppelbilanz</span><span class="pstat-val bad">0/2</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelquote</span><span class="pstat-val bad">25%</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:25%"></div></div>
+    <div class="match-detail">
+      R1: <span class="bad">0/2+D</span> · R2: <span class="w">1/2+D</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- 05 TABELLE -->
+<div class="sec-label">05 — Tabelle · WTTV 3. Klasse B (Stand nach R2)</div>
+<div class="card">
+  <table>
+    <thead>
+      <tr><th>#</th><th>Mannschaft</th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>Pkt</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="rank">1</td><td>–</td><td>2</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+      <tr><td class="rank">…</td><td colspan="6" style="color:var(--dim);font-size:11px;">Vollständige Tabelle auf oettv.xttv.at</td></tr>
+      <tr class="doeb-row"><td>–</td><td>DOEB3</td><td>2</td><td>0</td><td>0</td><td>2</td><td>0</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--dim);">
+    ⚠ XTTV-Tabelle wird dynamisch geladen — vollständige Rangliste unter
+    <a href="https://oettv.xttv.at/ed/index.php?lid=8957" style="color:var(--acc)">oettv.xttv.at</a>
+  </div>
+</div>
+
+<!-- 06 NÄCHSTE PARTIE -->
+<div class="sec-label">06 — Nächste Partie</div>
+<div class="next-card">
+  <div class="next-title">▶ NÄCHSTES SPIEL · DG1 R3</div>
+  <div class="next-match">DOEB3 – ? · –</div>
+  <div class="next-meta">
+    Datum: – (Termin auf oettv.xttv.at)<br>
+    Liga: WTTV · 3. Klasse B<br>
+    Aktueller Stand: 2Sp · 0S · 0U · 2N · 0P
+  </div>
+</div>
+
+<!-- 07 ERGEBNISMATRIX -->
+<div class="sec-label">07 — Ergebnismatrix · DG1</div>
+<div class="card">
+  <div class="matrix-wrap">
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>Runde</th><th>Gegner</th><th>H/A</th><th>Ergebnis</th><th>Pkt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>R1</td><td>NFS7</td><td>H</td><td class="loss">1:6</td><td>0</td></tr>
+        <tr><td>R2</td><td>SGWF8</td><td>A</td><td class="loss">1:6</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 08 EINZELPUNKTE-ANALYSE -->
+<div class="sec-label">08 — Einzelpunkte-Analyse · R2 Matchdetails</div>
+<div class="card">
+  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:10px;">SGWF8 – DOEB3 · Paarungen</div>
+  <table>
+    <thead><tr><th>Pos</th><th>DOEB3</th><th>SGWF8</th><th>Sätze</th><th>Ergebnis</th></tr></thead>
+    <tbody>
+      <tr><td>I</td><td>Ramadan</td><td>Stoskovic</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>II</td><td>Wintersteller</td><td>Zivotic</td><td>0:3</td><td class="bad">✗</td></tr>
+      <tr><td>III</td><td>Kohlmann</td><td>Wachmann</td><td>2:3</td><td class="bad">✗</td></tr>
+      <tr><td>IIIA</td><td>Wintersteller/Kohlmann</td><td>Wachmann/Zivotic</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>IV</td><td>Ramadan</td><td>Zivotic</td><td>0:3</td><td class="bad">✗</td></tr>
+      <tr><td>V</td><td>Kohlmann</td><td>Stoskovic</td><td>3:1</td><td class="good">✓</td></tr>
+      <tr><td>VI</td><td>Wintersteller</td><td>Wachmann</td><td>1:3</td><td class="bad">✗</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--dim);">
+    DOEB3: Kohlmann 1 = <strong style="color:var(--acc)">1:6</strong> · Ramadan/Wintersteller jeweils 0 Punkte
+  </div>
+</div>
+
+<!-- 09 GEGNERPROFILE -->
+<div class="sec-label">09 — Gegnerprofile · DG1</div>
+<div class="card">
+  <table>
+    <thead><tr><th>Gegner</th><th>Ergebnis</th><th>Bemerkung</th></tr></thead>
+    <tbody>
+      <tr><td>NFS7</td><td class="bad">1:6 ✗</td><td style="color:var(--dim);font-size:12px;">Heimniederlage zum Auftakt</td></tr>
+      <tr><td>SGWF8</td><td class="bad">1:6 ✗</td><td style="color:var(--dim);font-size:12px;">Deutliche Auswärtsniederlage</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 10 SAISONKENNZAHLEN -->
+<div class="sec-label">10 — Saisonkennzahlen · DG1 gesamt</div>
+<div class="card">
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Spiele</div><div class="kpi-val">2</div></div>
+    <div class="kpi"><div class="kpi-label">Siege</div><div class="kpi-val">0</div></div>
+    <div class="kpi"><div class="kpi-label">Unentschieden</div><div class="kpi-val">0</div></div>
+    <div class="kpi"><div class="kpi-label">Niederlagen</div><div class="kpi-val red">2</div></div>
+    <div class="kpi"><div class="kpi-label">Gesamtpunkte</div><div class="kpi-val red">0</div></div>
+    <div class="kpi"><div class="kpi-label">Spiel-Pkte</div><div class="kpi-val">2:12</div></div>
+  </div>
+</div>
+
+<!-- 11 ARCHIV -->
+<div class="sec-label">11 — Archiv · Alle Rundenberichte</div>
+<div class="card">
+  <table>
+    <thead><tr><th>Runde</th><th>Datum</th><th>Ergebnis</th><th>Archiv</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>R1</td><td>25.09.2026</td><td class="bad">1:6 ✗</td>
+        <td><a href="/doeb-tt/AR/2026/DG1/R1/DOEBAna_W1.html" style="color:var(--acc);font-family:var(--mono);font-size:11px;">→ R1 Archiv</a></td>
+      </tr>
+      <tr style="background:rgba(245,158,11,.06);">
+        <td style="color:var(--acc);font-weight:600;">R2</td><td>02.10.2026</td><td class="bad">1:6 ✗</td>
+        <td><a href="/doeb-tt/AR/2026/DG1/R2/DOEBAna_W1.html" style="color:var(--acc);font-family:var(--mono);font-size:11px;">→ R2 Archiv</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- /inner -->
+</body>
 </html>

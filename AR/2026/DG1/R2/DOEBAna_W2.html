@@ -1,7 +1,193 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8"><title>NOCH NICHT GESPIELT</title>
-<style>body{background:#0d0f14;color:#7a8899;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-size:13px;}</style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEBAna W2 – DG1 R2 Archiv</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040;
+  --text:#e2e8f0; --dim:#7a8899; --bright:#fff;
+  --acc:#a78bfa; --red:#f87171; --yellow:#fbbf24;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;padding-top:44px;}
+.back-bar{position:fixed;top:0;left:0;right:0;height:40px;background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;gap:16px;z-index:100;font-family:var(--mono);font-size:11px;}
+.back-bar a{color:var(--acc);text-decoration:none;}
+.back-bar a:hover{text-decoration:underline;}
+.back-bar span{color:var(--dim);}
+.back-bar .archive-badge{background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);border-radius:3px;padding:2px 7px;font-size:10px;color:var(--acc);}
+.inner{padding:20px;}
+.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:12px;}
+.card-top{border-top:2px solid var(--acc);}
+.big-score{display:flex;align-items:center;justify-content:center;gap:24px;padding:28px 0;}
+.team-name{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--dim);text-align:center;}
+.team-name.doeb{color:var(--acc);}
+.score-num{font-family:var(--mono);font-size:52px;font-weight:600;}
+.score-num.win{color:var(--acc);}
+.score-num.lose{color:var(--red);}
+.score-num.draw{color:var(--yellow);}
+.score-sep{font-family:var(--mono);font-size:36px;color:var(--dim);}
+.score-meta{text-align:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:4px;}
+.kpi-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.kpi{flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:12px;text-align:center;}
+.kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:6px;}
+.kpi-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--bright);}
+.kpi-val.red{color:var(--red);}
+.kpi-val.green{color:var(--acc);}
+.alert{border-radius:5px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:10px;}
+.alert-info{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);}
+.alert-warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);}
+.good{color:var(--acc);}
+.bad{color:var(--red);}
+.neutral{color:var(--yellow);}
+.player-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.pcard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:14px;}
+.pcard-name{font-weight:600;font-size:13px;color:var(--bright);margin-bottom:2px;}
+.pcard-pos{font-family:var(--mono);font-size:10px;color:var(--dim);margin-bottom:10px;}
+.pstat-row{display:flex;justify-content:space-between;margin-bottom:5px;}
+.pstat-label{font-family:var(--mono);font-size:10px;color:var(--dim);}
+.pstat-val{font-family:var(--mono);font-size:13px;font-weight:600;}
+.pbar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;}
+.pbar-fill{height:100%;border-radius:2px;background:var(--acc);}
+.pbar-fill.red{background:var(--red);}
+.match-detail{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:8px;line-height:1.8;}
+.match-detail .w{color:var(--acc);}
+.match-detail .l{color:var(--red);}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;}
+th{color:var(--dim);font-weight:400;text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);}
+td{padding:6px 8px;border-bottom:1px solid rgba(42,48,64,.5);}
+.rank{color:var(--dim);}
+</style>
 </head>
-<body>NOCH NICHT GESPIELT · DÖB · DG1 · R2 · W2</body>
+<body>
+
+<div class="back-bar">
+  <a href="/doeb-tt/AR/2026/DG1/index.html">← Zurück</a>
+  <span class="archive-badge">ARCHIV</span>
+  <span>WTTV · Gruppe VIb · DOEB6 · Stand: DG1 R2 · 06.10.2026</span>
+</div>
+
+<div class="inner">
+
+<!-- 01 ERGEBNIS -->
+<div class="sec-label">01 — Ergebnis · DG1 R2</div>
+<div class="card card-top">
+  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px;">DG1 · Runde 2 · Di 06.10.2026 · Auswärts</div>
+  <div class="big-score">
+    <div>
+      <div class="team-name">GEB2</div>
+      <div class="score-num draw">5</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Heim</div>
+    </div>
+    <div class="score-sep">:</div>
+    <div>
+      <div class="team-name doeb">DOEB6</div>
+      <div class="score-num draw">5</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Gast</div>
+    </div>
+  </div>
+  <div class="score-meta">UNENTSCHIEDEN · +1 Punkt</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Mannschaftspunkte</div><div class="kpi-val green">+1</div></div>
+    <div class="kpi"><div class="kpi-label">DOEB Gesamtpunkte</div><div class="kpi-val">5</div></div>
+    <div class="kpi"><div class="kpi-label">Saisonpunkte gesamt</div><div class="kpi-val">1</div></div>
+  </div>
+  <div style="margin-top:14px;" class="alert alert-info">
+    Auswärtsunentschieden bei GEB2 — starke Leistung nach Auftaktniederlage! <span class="good">Dick 3/3 ⭐</span> und <span class="good">Steinrigl 2/3 ✓</span>. Schwödianer ohne Punkt (0/3). 5:5 — erster Punkt der Saison.
+  </div>
+</div>
+
+<!-- 02 SPIELERLEISTUNG -->
+<div class="sec-label">02 — Spielerleistung · DG1 R2 vs GEB2</div>
+<div class="player-grid">
+
+  <div class="pcard">
+    <div class="pcard-name">Thomas Dick</div>
+    <div class="pcard-pos">DG1 R2 · Position A · Einzel 3/3 ⭐ · kein Doppel</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val good">3</span></div>
+    <div class="pstat-row"><span class="pstat-label">Einzelniederlagen</span><span class="pstat-val">0</span></div>
+    <div class="pbar"><div class="pbar-fill" style="width:100%"></div></div>
+    <div class="match-detail">
+      <span class="w">(I) 3:2 vs Friedl ✓</span><br>
+      <span class="w">(V) 3:2 vs Simig ✓</span><br>
+      <span class="w">(IX) 3:2 vs Pareiss ✓</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-name">Adi Steinrigl</div>
+    <div class="pcard-pos">DG1 R2 · Position B · Einzel 2/3 · Doppel 0/1</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val good">2</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pbar"><div class="pbar-fill" style="width:67%"></div></div>
+    <div class="match-detail">
+      <span class="w">(II) 3:0 vs Pareiss ✓</span><br>
+      <span class="w">(IV) 3:0 vs Friedl ✓</span><br>
+      <span class="l">(VII) 1:3 vs Simig ✗</span><br>
+      <span class="l">(IIIA) Doppel: 1:3 vs Simig/Friedl</span>
+    </div>
+  </div>
+
+  <div class="pcard">
+    <div class="pcard-name">Leopold Schwödianer</div>
+    <div class="pcard-pos">DG1 R2 · Position C · Einzel 0/3 · Doppel 0/1</div>
+    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pstat-row"><span class="pstat-label">Doppelsiege</span><span class="pstat-val bad">0</span></div>
+    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
+    <div class="match-detail">
+      <span class="l">(III) 1:3 vs Simig ✗</span><br>
+      <span class="l">(VI) 1:3 vs Pareiss ✗</span><br>
+      <span class="l">(VIII) 1:3 vs Friedl ✗</span><br>
+      <span class="l">(IIIA) Doppel: 1:3 vs Simig/Friedl</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- 03 EINZELPUNKTE-ANALYSE -->
+<div class="sec-label">03 — Einzelpunkte-Analyse · R2 Matchdetails</div>
+<div class="card">
+  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:10px;">GEB2 – DOEB6 · Paarungen</div>
+  <table>
+    <thead><tr><th>Pos</th><th>DOEB6</th><th>GEB2</th><th>Sätze</th><th>Ergebnis</th></tr></thead>
+    <tbody>
+      <tr><td>I</td><td>Dick</td><td>Friedl</td><td>3:2</td><td class="good">✓</td></tr>
+      <tr><td>II</td><td>Steinrigl</td><td>Pareiss</td><td>3:0</td><td class="good">✓</td></tr>
+      <tr><td>III</td><td>Schwödianer</td><td>Simig</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>IIIA</td><td>Steinrigl/Dick</td><td>Simig/Friedl</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>IV</td><td>Steinrigl</td><td>Friedl</td><td>3:0</td><td class="good">✓</td></tr>
+      <tr><td>V</td><td>Dick</td><td>Simig</td><td>3:2</td><td class="good">✓</td></tr>
+      <tr><td>VI</td><td>Schwödianer</td><td>Pareiss</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>VII</td><td>Steinrigl</td><td>Simig</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>VIII</td><td>Schwödianer</td><td>Friedl</td><td>1:3</td><td class="bad">✗</td></tr>
+      <tr><td>IX</td><td>Dick</td><td>Pareiss</td><td>3:2</td><td class="good">✓</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--dim);">
+    DOEB6: Dick 3 + Steinrigl 2 = <strong style="color:var(--acc)">5:5</strong> · Schwödianer ohne Punkt · Dick Matchwinner mit 3/3 ⭐
+  </div>
+</div>
+
+<!-- 04 STAND NACH R2 -->
+<div class="sec-label">04 — Saisonstand nach R2</div>
+<div class="card">
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Spiele</div><div class="kpi-val">2</div></div>
+    <div class="kpi"><div class="kpi-label">Siege</div><div class="kpi-val">0</div></div>
+    <div class="kpi"><div class="kpi-label">Unentschieden</div><div class="kpi-val green">1</div></div>
+    <div class="kpi"><div class="kpi-label">Niederlagen</div><div class="kpi-val red">1</div></div>
+    <div class="kpi"><div class="kpi-label">Gesamtpunkte</div><div class="kpi-val">1</div></div>
+    <div class="kpi"><div class="kpi-label">Spiel-Pkte</div><div class="kpi-val">7:11</div></div>
+  </div>
+</div>
+
+</div><!-- /inner -->
+</body>
 </html>
