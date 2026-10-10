@@ -13,7 +13,7 @@ body {
   color: #c9d1d9;
   font-size: 14px;
   line-height: 1.5;
-  padding-top: 88px;
+  padding-top: 110px;
 }
 
 :root {
@@ -35,7 +35,10 @@ body {
   background: #161b22;
   border-bottom: 1px solid var(--border);
   padding: 6px 10px;
-  display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
 }
 #bar1::-webkit-scrollbar { display: none; }
 .title { font-weight: 700; font-size: 13px; color: #c9d1d9; white-space: nowrap; }
@@ -59,7 +62,7 @@ body {
 
 /* LEISTE 2 */
 #bar2 {
-  position: fixed; top: 40px; left: 0; right: 0; z-index: 99;
+  position: fixed; top: 62px; left: 0; right: 0; z-index: 99;
   background: #161b22;
   border-bottom: 2px solid var(--archiv);
   padding: 4px 10px;
@@ -149,7 +152,7 @@ body {
   <span class="title">DOEB TT-Übersicht</span>
   <span class="sep">·</span>
   <span style="font-size:11px;color:var(--text-dim)">Archiv 2026</span>
-  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-left:4px">
+  <div style="display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;">
     <a href="LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
     <a href="LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
     <a href="LIVE/DOEBAna_V1.html" class="team-btn btn-v1">V1·1.Kl.B</a>

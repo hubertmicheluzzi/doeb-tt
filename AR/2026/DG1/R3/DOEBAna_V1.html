@@ -7,7 +7,7 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #c9d1d9; font-size: 14px; line-height: 1.5; padding-top: 88px; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #c9d1d9; font-size: 14px; line-height: 1.5; padding-top: 110px; }
 :root {
   --voeb-1: #e65100; --voeb-2: #f57c00; --wttv-1: #1565c0; --wttv-2: #1976d2;
   --archiv: #546e7a; --regeln: #c62828; --active: var(--voeb-1);
@@ -15,7 +15,10 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #
   --green: #2ea043; --red: #da3633; --yellow: #d29922;
 }
 #bar1::-webkit-scrollbar{display:none;}
-#bar1 { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #161b22; border-bottom: 1px solid var(--border); padding: 6px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+#bar1 { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #161b22; border-bottom: 1px solid var(--border); padding: 6px 10px; display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px; }
 #bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
 #bar1 .sep { color: var(--text-dim); }
 .team-btn { padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; text-decoration: none; border: 1px solid transparent; white-space: nowrap; }
@@ -25,7 +28,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #
 .btn-v2 { background: transparent; color: #ffa726; border-color: var(--voeb-2); }
 .btn-arc { background: transparent; color: #90a4ae; border-color: var(--archiv); }
 .btn-reg { background: transparent; color: #ef9a9a; border-color: var(--regeln); }
-#bar2 { position: fixed; top: 40px; left: 0; right: 0; z-index: 99; background: #0d1117; border-bottom: 2px solid var(--voeb-1); padding: 5px 10px; display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+#bar2 { position: fixed; top: 62px; left: 0; right: 0; z-index: 99; background: #0d1117; border-bottom: 2px solid var(--voeb-1); padding: 5px 10px; display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; }
 #bar2::-webkit-scrollbar { display: none; }
 .sec-btn { padding: 3px 9px; border-radius: 3px; font-size: 11px; font-weight: 500; text-decoration: none; color: var(--text-muted); border: 1px solid var(--border); white-space: nowrap; flex-shrink: 0; }
 .sec-btn.active { background: var(--voeb-1); color: #fff; border-color: var(--voeb-1); }
@@ -67,7 +70,7 @@ tr:hover td { background: #1a2030; }
   <span class="title">DOEB TT-Übersicht</span>
   <span class="sep">·</span>
   <span style="font-size:11px;color:var(--text-dim)">Stand: 25.09.2026</span>
-  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-left:4px">
+  <div style="display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;">
     <a href="../../../../LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
     <a href="../../../../LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
     <a href="../../../../LIVE/DOEBAna_V1.html" class="team-btn btn-v1">V1·1.Kl.B</a>

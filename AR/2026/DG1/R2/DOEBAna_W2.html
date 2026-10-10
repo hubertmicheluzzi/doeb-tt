@@ -13,7 +13,7 @@ body {
   color: #c9d1d9;
   font-size: 14px;
   line-height: 1.5;
-  padding-top: 88px;
+  padding-top: 110px;
 }
 :root {
   --wttv-1: #1565c0;
@@ -35,7 +35,10 @@ body {
 #bar1 {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: #161b22; border-bottom: 1px solid var(--border);
-  padding: 6px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+  padding: 6px 10px; display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
 }
 #bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
 #bar1 .sep { color: var(--text-dim); }
@@ -50,7 +53,7 @@ body {
 .btn-arc { background: transparent; color: #90a4ae; border-color: var(--archiv); }
 .btn-reg { background: transparent; color: #ef9a9a; border-color: var(--regeln); }
 #bar2 {
-  position: fixed; top: 40px; left: 0; right: 0; z-index: 99;
+  position: fixed; top: 62px; left: 0; right: 0; z-index: 99;
   background: #0d1117; border-bottom: 2px solid var(--wttv-2);
   padding: 5px 10px; display: flex; align-items: center; gap: 4px;
   overflow-x: auto; scrollbar-width: none;
@@ -105,7 +108,7 @@ tr:hover td { background: #1a2030; }
   <span class="title">DOEB TT-Übersicht</span>
   <span class="sep">·</span>
   <span style="font-size:11px;color:var(--text-dim)">Stand: 02.10.2026</span>
-  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-left:4px">
+  <div style="display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;">
     <a href="../../../../LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
     <a href="../../../../LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
     <a href="../../../../LIVE/DOEBAna_V1.html" class="team-btn btn-v1">V1·1.Kl.B</a>
