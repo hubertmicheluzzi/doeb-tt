@@ -31,10 +31,11 @@ body {
   --red: #da3633;
   --yellow: #d29922;
 }
+#bar1::-webkit-scrollbar{display:none;}
 #bar1 {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: #161b22; border-bottom: 1px solid var(--border);
-  padding: 6px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 6px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
 }
 #bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
 #bar1 .sep { color: var(--text-dim); }

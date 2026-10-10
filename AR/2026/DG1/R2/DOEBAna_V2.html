@@ -14,7 +14,8 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #
   --border: #30363d; --bg-card: #161b22; --text-muted: #8b949e; --text-dim: #6e7681;
   --green: #2ea043; --red: #da3633; --yellow: #d29922;
 }
-#bar1 { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #161b22; border-bottom: 1px solid var(--border); padding: 6px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+#bar1::-webkit-scrollbar{display:none;}
+#bar1 { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #161b22; border-bottom: 1px solid var(--border); padding: 6px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
 #bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
 #bar1 .sep { color: var(--text-dim); }
 .team-btn { padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; text-decoration: none; border: 1px solid transparent; white-space: nowrap; }

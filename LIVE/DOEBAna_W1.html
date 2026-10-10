@@ -37,6 +37,7 @@ body {
 }
 
 /* ===== KOPFLEISTE 1 ===== */
+#bar1::-webkit-scrollbar{display:none;}
 #bar1 {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -47,7 +48,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
 }
 #bar1 .title {
   font-size: 13px;
