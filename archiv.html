@@ -35,8 +35,9 @@ body {
   background: #161b22;
   border-bottom: 1px solid var(--border);
   padding: 6px 10px;
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
 }
+#bar1::-webkit-scrollbar { display: none; }
 .title { font-weight: 700; font-size: 13px; color: #c9d1d9; white-space: nowrap; }
 .sep { color: var(--text-dim); }
 .team-btn {
