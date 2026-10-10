@@ -3,307 +3,286 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DOEBAna V2 – VÖB 4. Klasse</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>DOEBAna · V2 · 4.Kl · DG1 R2 · 18.09.2026</title>
 <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #c9d1d9; font-size: 14px; line-height: 1.5; padding-top: 88px; }
 :root {
-  --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040;
-  --text:#e2e8f0; --dim:#7a8899; --bright:#fff;
-  --acc:#60a5fa; --red:#f87171; --yellow:#fbbf24;
-  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+  --voeb-2: #f57c00; --voeb-1: #e65100; --wttv-1: #1565c0; --wttv-2: #1976d2;
+  --archiv: #546e7a; --regeln: #c62828;
+  --border: #30363d; --bg-card: #161b22; --text-muted: #8b949e; --text-dim: #6e7681;
+  --green: #2ea043; --red: #da3633; --yellow: #d29922;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;padding:20px;}
-.sec-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
-.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:12px;}
-.card-top{border-top:2px solid var(--acc);}
-.big-score{display:flex;align-items:center;justify-content:center;gap:24px;padding:28px 0;}
-.team-name{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--dim);text-align:center;}
-.team-name.doeb{color:var(--acc);}
-.score-num{font-family:var(--mono);font-size:52px;font-weight:600;}
-.score-num.lose{color:var(--red);}
-.score-sep{font-family:var(--mono);font-size:36px;color:var(--dim);}
-.score-meta{text-align:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:4px;}
-.kpi-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
-.kpi{flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:12px;text-align:center;}
-.kpi-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:6px;}
-.kpi-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--bright);}
-.kpi-val.red{color:var(--red);}
-.alert{border-radius:5px;padding:12px 16px;font-size:13px;line-height:1.6;margin-bottom:10px;}
-.alert-info{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);}
-.alert-warn{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);}
-.good{color:var(--acc);}
-.bad{color:var(--red);}
-.neutral{color:var(--yellow);}
-.player-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
-.pcard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:14px;}
-.pcard-name{font-weight:600;font-size:13px;color:var(--bright);margin-bottom:2px;}
-.pcard-pos{font-family:var(--mono);font-size:10px;color:var(--dim);margin-bottom:10px;}
-.pstat-row{display:flex;justify-content:space-between;margin-bottom:5px;}
-.pstat-label{font-family:var(--mono);font-size:10px;color:var(--dim);}
-.pstat-val{font-family:var(--mono);font-size:13px;font-weight:600;}
-.pbar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;}
-.pbar-fill{height:100%;border-radius:2px;background:var(--acc);}
-.pbar-fill.red{background:var(--red);}
-.match-detail{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:8px;line-height:1.8;}
-.match-detail .w{color:var(--acc);}
-.match-detail .l{color:var(--red);}
-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;}
-th{color:var(--dim);font-weight:400;text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);}
-td{padding:6px 8px;border-bottom:1px solid rgba(42,48,64,.5);}
-tr.doeb-row td{background:rgba(96,165,250,.06);color:var(--bright);}
-tr.doeb-row td:first-child{color:var(--acc);font-weight:600;}
-.rank{color:var(--dim);}
-.next-card{background:var(--bg3);border:1px solid rgba(96,165,250,.3);border-radius:6px;padding:18px;}
-.next-title{font-family:var(--mono);font-size:11px;color:var(--acc);letter-spacing:.1em;margin-bottom:10px;}
-.next-match{font-size:16px;font-weight:700;color:var(--bright);margin-bottom:6px;}
-.next-meta{font-family:var(--mono);font-size:11px;color:var(--dim);line-height:1.8;}
-.matrix-wrap{overflow-x:auto;}
-.matrix{border-collapse:collapse;font-family:var(--mono);font-size:11px;}
-.matrix th,.matrix td{padding:6px 10px;border:1px solid var(--border);white-space:nowrap;}
-.matrix th{background:var(--bg3);color:var(--dim);}
-.matrix .win{color:var(--acc);}
-.matrix .loss{color:var(--red);}
-.matrix .header-doeb{color:var(--acc);}
+#bar1 { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #161b22; border-bottom: 1px solid var(--border); padding: 6px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+#bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
+#bar1 .sep { color: var(--text-dim); }
+.team-btn { padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; text-decoration: none; border: 1px solid transparent; white-space: nowrap; }
+.btn-w1 { background: transparent; color: #64b5f6; border-color: #1565c0; }
+.btn-w2 { background: transparent; color: #90caf9; border-color: #1976d2; }
+.btn-v1 { background: transparent; color: #ffb74d; border-color: var(--voeb-1); }
+.btn-v2 { background: var(--voeb-2); color: #fff; border-color: var(--voeb-2); border-top: 2px solid #ffe082; padding-top: 3px; }
+.btn-arc { background: transparent; color: #90a4ae; border-color: var(--archiv); }
+.btn-reg { background: transparent; color: #ef9a9a; border-color: var(--regeln); }
+#bar2 { position: fixed; top: 40px; left: 0; right: 0; z-index: 99; background: #0d1117; border-bottom: 2px solid var(--voeb-2); padding: 5px 10px; display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+#bar2::-webkit-scrollbar { display: none; }
+.sec-btn { padding: 3px 9px; border-radius: 3px; font-size: 11px; font-weight: 500; text-decoration: none; color: var(--text-muted); border: 1px solid var(--border); white-space: nowrap; flex-shrink: 0; }
+.sec-btn.active { background: var(--voeb-2); color: #fff; border-color: var(--voeb-2); }
+
+.section { border-bottom: 1px solid var(--border); padding: 16px 12px; scroll-margin-top: 96px; }
+.section:last-child { border-bottom: none; }
+.sec-header { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 4px; border-bottom: 1px solid var(--border); color: #ffa726; }
+table { width: 100%; border-collapse: collapse; }
+th { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); padding: 4px 8px; text-align: left; }
+td { padding: 5px 8px; border-bottom: 1px solid #1f2937; font-size: 13px; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #1a2030; }
+.c { text-align: center; } .num { font-variant-numeric: tabular-nums; }
+.highlight-row td { background: #2a1500; }
+.highlight-row:hover td { background: #351a00; }
+.win { color: #2ea043; font-weight: 600; } .loss { color: #da3633; } .draw { color: #d29922; }
+.badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; vertical-align: middle; }
+.badge-win  { background: #0d3521; color: #3fb950; border: 1px solid #2ea043; }
+.badge-loss { background: #3d1010; color: #f85149; border: 1px solid #da3633; }
+.badge-draw { background: #3d2c00; color: #e3b341; border: 1px solid #d29922; }
+.result-score { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; color: #e6edf3; }
+.result-meta { font-size: 12px; color: var(--text-muted); }
+.pos-badge { display: inline-block; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700; text-align: center; line-height: 22px; background: var(--border); color: var(--text-muted); }
+.pos-badge.top3 { background: #3a1a00; color: #ffa726; }
+.next-match { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; }
+.next-match-title { font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+.next-match-info  { font-size: 14px; font-weight: 600; color: #e6edf3; }
+.next-match-sub   { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.winner { color: #3fb950; font-weight: 600; }
+.arc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
+.arc-link { display: block; padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.arc-link:hover { background: #2a1500; color: #e6edf3; }
 </style>
 </head>
 <body>
-<div style="position:sticky;top:0;z-index:999;background:#13161e;border-bottom:1px solid #2a3040;padding:8px 16px;display:flex;align-items:center;gap:12px;">
-  <a href="../index.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7a8899;text-decoration:none;border:1px solid #2a3040;padding:4px 10px;border-radius:3px;">← Zurück</a>
-  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7a8899;">Archiv-Ansicht</span>
+
+<div id="bar1">
+  <span class="title">DOEB TT-Übersicht</span>
+  <span class="sep">·</span>
+  <span style="font-size:11px;color:var(--text-dim)">Stand: 18.09.2026</span>
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-left:4px">
+    <a href="../../../../LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
+    <a href="../../../../LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
+    <a href="../../../../LIVE/DOEBAna_V1.html" class="team-btn btn-v1">V1·1.Kl.B</a>
+    <a href="../../../../LIVE/DOEBAna_V2.html" class="team-btn btn-v2">V2·4.Kl</a>
+    <a href="../../../../archiv.html"     class="team-btn btn-arc">Archiv</a>
+    <a href="../../../../REAna.html"      class="team-btn btn-reg">Regeln</a>
+  </div>
 </div>
 
+<div id="bar2">
+  <a href="#s01" class="sec-btn">LEIS</a>
+  <a href="#s02" class="sec-btn">VERL</a>
+  <a href="#s03" class="sec-btn">STAT</a>
+  <a href="#s04" class="sec-btn">TAB</a>
+  <a href="#s05" class="sec-btn">DEMN</a>
+  <a href="#s06" class="sec-btn">MTX</a>
+  <a href="#s07" class="sec-btn">ANA</a>
+  <a href="#s08" class="sec-btn">GEG</a>
+  <a href="#s09" class="sec-btn">KEN</a>
+  <a href="#s10" class="sec-btn">ARC</a>
+</div>
 
-
-<!-- 01 AKTUELLES ERGEBNIS -->
-<div class="sec-label">01 — Aktuelles Ergebnis</div>
-<div class="card card-top">
-  <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px;">DG1 · Runde 2 · Di 16.09.2026 · Auswärts</div>
-  <div class="big-score">
+<!-- S01 -->
+<section id="s01" class="section">
+  <div class="sec-header">V2 · VÖB 4. Klasse · DG1 R2 · 18.09.2026</div>
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;flex-wrap:wrap">
     <div>
-      <div class="team-name">ATTWı4</div>
-      <div class="score-num">6</div>
-      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Heim · Rang 1</div>
-    </div>
-    <div class="score-sep">:</div>
-    <div>
-      <div class="team-name doeb">DÖBı2</div>
-      <div class="score-num lose">4</div>
-      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;">Gast</div>
+      <div class="result-meta">Heimspiel · vs. FSF 3</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+        <span class="result-score">5 : 5</span>
+        <span class="badge badge-draw">U</span>
+      </div>
+      <div class="result-meta" style="margin-top:3px">DÖB 2 · Do. 08.10.2026 · noch nicht bestätigt</div>
     </div>
   </div>
-  <div class="score-meta">Niederlage · +0 Punkte</div>
-  <div class="kpi-row">
-    <div class="kpi"><div class="kpi-label">Mannschaftspunkte</div><div class="kpi-val red">+0</div></div>
-    <div class="kpi"><div class="kpi-label">DOEB Gesamtpunkte</div><div class="kpi-val">0</div></div>
-    <div class="kpi"><div class="kpi-label">DOEB Rang</div><div class="kpi-val red">10 / 12</div></div>
-  </div>
-  <div style="margin-top:14px;" class="alert alert-info">
-    <strong style="color:var(--acc)">VÖB-Punktesystem:</strong> Sieg = 3 Punkte · Remis = 1 Punkt · Niederlage = 0 Punkte
-  </div>
-  <div class="alert alert-warn">
-    4:6 Auswärtsniederlage gegen Tabellenführer ATTWı4. <span class="good">Deutliche Steigerung gegenüber R1 (1:6)!</span> <span class="good">Ishak holte 2 Einzelsiege, Doppel Ishak/Steinrigl gewonnen.</span> <span class="bad">Auvillain 0:2</span> bleibt die schwächste Stelle, Steinrigl mit 1:3 verbesserungsfähig.
-  </div>
-</div>
+  <p style="font-size:13px;color:#c9d1d9;line-height:1.6">
+    Heimunentschieden gegen FSF 3 — Ergebnis noch nicht vom Gegner bestätigt.
+    Nach zuvor 2 Siegen (vs. ATTW4 und LAND2) und einer Niederlage (vs. BKA3) steht DÖB 2
+    bei 2S-1U-1N und 4 Punkten auf Rang 8. Der Anschluss ans obere Mittelfeld ist möglich,
+    wenn der Sieg-Rhythmus aus R2 und R3 wieder gefunden wird.
+  </p>
+</section>
 
-<!-- 02 SPIELERLEISTUNG -->
-<div class="sec-label">02 — Unsere Spielerleistung · DG1 R2 vs ATTWı4</div>
-<div class="player-grid">
-  <div class="pcard">
-    <div class="pcard-name">Cyril Auvillain</div>
-    <div class="pcard-pos">DG1 R2 · Position A · Einzel 0/2 · kein Doppel</div>
-    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--red)">0</span></div>
-    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val" style="color:var(--red)">2</span></div>
-    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--dim)">—</span></div>
-    <div class="pbar"><div class="pbar-fill red" style="width:0%"></div></div>
-    <div class="match-detail">
-      <span class="l">I vs Feuereis 1:3 ✗</span><br>
-      <span class="l">IV vs Kiendlhofer 1:3 ✗</span>
-    </div>
-  </div>
-  <div class="pcard">
-    <div class="pcard-name">Johannes Ishak</div>
-    <div class="pcard-pos">DG1 R2 · Position B · Einzel 2/3 · Doppel: Sieg</div>
-    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--acc)">2</span></div>
-    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val" style="color:var(--red)">1</span></div>
-    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--acc)">✓</span></div>
-    <div class="pbar"><div class="pbar-fill" style="width:67%"></div></div>
-    <div class="match-detail">
-      <span class="l">IX vs Feuereis 1:3 ✗</span><br>
-      <span class="w">II vs Kiendlhofer 3:0 ✓</span><br>
-      <span class="w">VI vs Einzinger 3:1 ✓</span><br>
-      <span class="w">IIIA Doppel I/S 3:1 ✓</span>
-    </div>
-  </div>
-  <div class="pcard">
-    <div class="pcard-name">Adi Steinrigl</div>
-    <div class="pcard-pos">DG1 R2 · Position C · Einzel 1/3 · Doppel: Sieg</div>
-    <div class="pstat-row"><span class="pstat-label">Einzelsiege</span><span class="pstat-val" style="color:var(--yellow)">1</span></div>
-    <div class="pstat-row"><span class="pstat-label">Einzelnied.</span><span class="pstat-val" style="color:var(--red)">2</span></div>
-    <div class="pstat-row"><span class="pstat-label">Doppel</span><span class="pstat-val" style="color:var(--acc)">✓</span></div>
-    <div class="pbar"><div class="pbar-fill" style="width:33%"></div></div>
-    <div class="match-detail">
-      <span class="l">V vs Feuereis 2:3 ✗</span><br>
-      <span class="l">VII vs Kiendlhofer 0:3 ✗</span><br>
-      <span class="w">III vs Einzinger 3:2 ✓</span><br>
-      <span class="w">IIIA Doppel I/S 3:1 ✓</span>
-    </div>
-  </div>
-</div>
+<!-- S02 -->
+<section id="s02" class="section">
+  <div class="sec-header">LEIS · Spielerleistung · DG1 R4</div>
+  
+  <table>
+    <thead><tr><th>Spieler</th><th class="c">Ges</th><th>Bemerkung</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="font-size:12px;color:var(--text-dim);text-align:center;padding:10px">Einzelpaarungen aus XTTV noch nicht verfügbar</td></tr>
+    </tbody>
+  </table>
+</section>
 
-<!-- 03 DER GEGNER -->
-<div class="sec-label">03 — Der Gegner · ASKÖ Tischtennis Wien 14 4</div>
-<div class="card">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
-    <div>
-      <div style="font-family:var(--mono);font-size:16px;font-weight:600;color:var(--bright);margin-bottom:4px;">ATTWı4 · ASKÖ TT Wien 14 4</div>
-      <div style="font-family:var(--mono);font-size:11px;color:var(--dim);">VÖB 4. Klasse · Rang 1/12 · 4 Punkte · 11:6 Sp-V</div>
-    </div>
-    <div style="font-family:var(--mono);font-size:22px;font-weight:600;color:var(--yellow);">Rang 1</div>
-  </div>
-  <div style="margin-top:14px;" class="alert alert-info">
-    Tabellenführer mit 4 Punkten aus 2 Spielen. Stärkstes Trio: <strong>Feuereis Paul</strong> (CRS 7441, 5:0 Einzel), <strong>Kiendlhofer Alois</strong> (CRS 8145, 4:1) und <strong>Einzinger Kurt</strong> (CRS 6644, 1:4 — schwächste Stelle!). Direktbilanz: 0:1 (Hinspiel 4:6 verloren). Rückspiel DG2 R2 (Heim, Do 21.01.2027).
-  </div>
-</div>
+<!-- S03 -->
+<section id="s03" class="section">
+  <div class="sec-header">VERL · Saisonverlauf</div>
+  <table>
+    <thead><tr><th>Rd</th><th>Datum</th><th>H/A</th><th>Gegner</th><th class="c">Erg</th><th class="c">MP</th><th class="c">P</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>R1</td><td>10.09.</td><td>A</td><td>BKA 3</td>
+        <td class="c"><span class="badge badge-loss">1:6</span></td>
+        <td class="c loss">N</td><td class="c num">0</td>
+      </tr>
+      <tr>
+        <td>R2</td><td>16.09.</td><td>A</td><td>ATTW 4</td>
+        <td class="c"><span class="badge badge-win">6:4</span></td>
+        <td class="c win">S</td><td class="c num">3</td>
+      </tr>
+      <tr>
+        <td>R3</td><td>24.09.</td><td>H</td><td>LAND 2</td>
+        <td class="c"><span class="badge badge-win">6:4</span></td>
+        <td class="c win">S</td><td class="c num">6</td>
+      </tr>
+      <tr>
+        <td>R4</td><td>08.10.</td><td>H</td><td>FSF 3</td>
+        <td class="c"><span class="badge badge-draw">5:5</span></td>
+        <td class="c draw">U <span style="font-size:9px;color:var(--text-dim)">(unbet.)</span></td>
+        <td class="c num">7</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Sp 4 · S 2 · U 1 · N 1 · P 7 · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
+</section>
 
-<!-- 04 KREUZMATRIX -->
-<div class="sec-label">04 — Spiel-Details Kreuzmatrix</div>
-<div class="card">
-  <div class="matrix-wrap">
-    <table class="matrix">
-      <tr>
-        <th></th>
-        <th class="header-doeb">A: Auvillain (DOEB)</th>
-        <th class="header-doeb">B: Ishak (DOEB)</th>
-        <th class="header-doeb">C: Steinrigl (DOEB)</th>
-        <th class="header-doeb">Doppel I/S</th>
-      </tr>
-      <tr>
-        <th>1: Feuereis (ATTW)</th>
-        <td class="loss">(I) 1:3 ✗</td>
-        <td class="loss">(IX) 1:3 ✗</td>
-        <td class="loss">(V) 2:3 ✗</td>
-        <td></td>
-      </tr>
-      <tr>
-        <th>2: Kiendlhofer (ATTW)</th>
-        <td class="loss">(IV) 1:3 ✗</td>
-        <td class="win">(II) 3:0 ✓</td>
-        <td class="loss">(VII) 0:3 ✗</td>
-        <td></td>
-      </tr>
-      <tr>
-        <th>3: Einzinger (ATTW)</th>
-        <td></td>
-        <td class="win">(VI) 3:1 ✓</td>
-        <td class="win">(III) 3:2 ✓</td>
-        <td></td>
-      </tr>
-      <tr>
-        <th>Doppel K/H (ATTW)</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="win">(IIIA) 3:1 ✓</td>
-      </tr>
+<!-- S04 -->
+<section id="s04" class="section">
+  <div class="sec-header">STAT · Spielerstatistik kumuliert</div>
+  <p style="font-size:12px;color:var(--text-dim)">Einzelstatistiken folgen nach vollständiger Erfassung aller Spielpaarungen aus XTTV</p>
+</section>
+
+<!-- S05 -->
+<section id="s05" class="section">
+  <div class="sec-header">TAB · VÖB 4. Klasse · Stand 10.10.2026</div>
+  <table>
+    <thead><tr><th class="c">#</th><th>Mannschaft</th><th class="c">Sp</th><th class="c">S</th><th class="c">U</th><th class="c">N</th><th class="c">P</th></tr></thead>
+    <tbody>
+      <tr><td class="c"><span class="pos-badge top3">1</span></td><td>ATUS Langenzersdorf 2</td><td class="c">4</td><td class="c win">4</td><td class="c">0</td><td class="c">0</td><td class="c num">12</td></tr>
+      <tr><td class="c"><span class="pos-badge top3">2</span></td><td>TTC KÖST 1</td><td class="c">4</td><td class="c win">3</td><td class="c draw">1</td><td class="c">0</td><td class="c num">10</td></tr>
+      <tr><td class="c"><span class="pos-badge top3">3</span></td><td>ASKÖ TT Wien 14 4</td><td class="c">5</td><td class="c win">3</td><td class="c draw">1</td><td class="c">1</td><td class="c num">10</td></tr>
+      <tr><td class="c"><span class="pos-badge">4</span></td><td>TTC Olympic 4</td><td class="c">4</td><td class="c win">3</td><td class="c">0</td><td class="c">1</td><td class="c num">9</td></tr>
+      <tr><td class="c"><span class="pos-badge">5</span></td><td>SK Bundeskanzleramt 3</td><td class="c">4</td><td class="c win">3</td><td class="c">0</td><td class="c">1</td><td class="c num">9</td></tr>
+      <tr><td class="c"><span class="pos-badge">6</span></td><td>KSV Unterrichtsministerium 3</td><td class="c">4</td><td class="c win">2</td><td class="c">0</td><td class="c">2</td><td class="c num">6</td></tr>
+      <tr><td class="c"><span class="pos-badge">7</span></td><td>KSV Hauptgruppe I 3</td><td class="c">4</td><td class="c win">1</td><td class="c draw">1</td><td class="c">2</td><td class="c num">4</td></tr>
+      <tr class="highlight-row"><td class="c"><span class="pos-badge">8</span></td><td><strong>Union Döbling 2</strong></td><td class="c">4</td><td class="c win">1</td><td class="c draw">1</td><td class="c">2</td><td class="c num"><strong>4</strong></td></tr>
+      <tr><td class="c"><span class="pos-badge">9</span></td><td>WTTC Landstraße 2</td><td class="c">4</td><td class="c win">1</td><td class="c">0</td><td class="c loss">3</td><td class="c num">3</td></tr>
+      <tr><td class="c"><span class="pos-badge">10</span></td><td>SV Post Wien 4</td><td class="c">4</td><td class="c">0</td><td class="c draw">2</td><td class="c">2</td><td class="c num">2</td></tr>
+      <tr><td class="c"><span class="pos-badge">11</span></td><td>Freizeit Sport Finanz 3</td><td class="c">4</td><td class="c">0</td><td class="c draw">1</td><td class="c loss">3</td><td class="c num">1</td></tr>
+      <tr><td class="c"><span class="pos-badge">12</span></td><td>ASKÖ TT Wien 14 5</td><td class="c">5</td><td class="c">0</td><td class="c draw">1</td><td class="c loss">4</td><td class="c num">1</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Quelle: voeb.xttv.at · R4-Unentschieden DÖB2 noch nicht bestätigt → P ggf. angepasst</div>
+</section>
+
+<!-- S06 -->
+<section id="s06" class="section">
+  <div class="sec-header">DEMN · Nächste Partie & Gegnereinschätzung</div>
+  <div class="next-match">
+    <div class="next-match-title">Nächstes Spiel</div>
+    <div class="next-match-info">OLY 4 – DÖB 2 · So. 12.10.2026</div>
+    <div class="next-match-sub">Auswärts · TTC Olympic</div>
+  </div>
+  <div style="margin-bottom:8px">
+    <strong style="font-size:13px;color:#e6edf3">TTC Olympic 4</strong>
+    <span style="font-size:11px;color:var(--text-dim);margin-left:6px">Rang 4 · 4 Sp · 9 Pkte</span>
+  </div>
+  <p style="font-size:13px;line-height:1.6">
+    Olympic 4 ist mit 9 Punkten aus 4 Spielen (3S-1N) ein klarer Favorit in dieser Begegnung.
+    Rang 4 in der Tabelle, deutlich vor DÖB 2. Das wird eine schwierige Auswärtsaufgabe —
+    ein Punkt wäre schon ein gutes Ergebnis. Ziel: kompaktes Auftreten, Doppel nutzen.
+  </p>
+</section>
+
+<!-- S07 (MTX) -->
+<section id="s07" class="section">
+  <div class="sec-header">MTX · Ergebnismatrix</div>
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr><th>Team</th><th class="c">BKA3</th><th class="c">ATTW4</th><th class="c">LAND2</th><th class="c">FSF3</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>DÖB2</strong></td>
+          <td class="c"><span class="badge badge-loss">1:6</span></td>
+          <td class="c"><span class="badge badge-win">6:4</span></td>
+          <td class="c"><span class="badge badge-win">6:4</span></td>
+          <td class="c"><span class="badge badge-draw">5:5</span></td>
+          <td class="c num" style="color:var(--text-dim)">7P</td>
+        </tr>
+      </tbody>
     </table>
   </div>
-</div>
+</section>
 
-<!-- 05 GESAMTANALYSE -->
-<div class="sec-label">05 — Gesamtanalyse · Saison 2026/27</div>
-<div class="card">
-  <div class="alert alert-warn" style="margin-bottom:10px;">
-    <strong style="color:var(--yellow)">Nach 2 Spielen: 0 Siege · 0 Punkte · Rang 10/12</strong><br>
-    R1: 1:6 Heim vs BKAı3 — R2: 4:6 Auswärts vs ATTWı4 (Tabellenführer).<br>
-    <span class="good">Positive Tendenz: Von 1:6 auf 4:6 — deutliche Steigerung!</span> <span class="good">Ishak (2E+D) und Doppel Ishak/Steinrigl sind die Stärken.</span> <span class="bad">Auvillain bleibt mit 0:4 Einzelen das Problem.</span>
+<!-- S08 (ANA) — letzte eingetragene Runde mit Einzelergebnissen = R3 -->
+<section id="s08" class="section">
+  <div class="sec-header">ANA · Einzelpunkte-Analyse · DG1 R3 · 24.09.2026</div>
+  <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">DÖB 2 (Heim) – LAND 2 (Gast) &nbsp;·&nbsp; <strong>6:4</strong></div>
+  <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px">Einzelpaarungen R3 und R4 aus XTTV noch nicht detailliert verfügbar — wird ergänzt nach Bestätigung.</p>
+  <div style="font-size:11px;color:var(--text-dim)">E = Einzel · D = Doppel</div>
+</section>
+
+<!-- S09 (GEG) -->
+<section id="s09" class="section">
+  <div class="sec-header">GEG · Gegnerprofile</div>
+  <table>
+    <thead><tr><th>Kürzel</th><th>Mannschaft</th><th class="c">R</th><th class="c">H/A</th><th class="c">Erg</th><th>Bemerkung</th></tr></thead>
+    <tbody>
+      <tr><td>BKA3</td><td>SK Bundeskanzleramt 3</td><td class="c">R1</td><td class="c">A</td><td class="c"><span class="badge badge-loss">1:6</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 5 · 9 Pkte · klar stärker</td></tr>
+      <tr><td>ATTW4</td><td>ASKÖ TT Wien 14 4</td><td class="c">R2</td><td class="c">A</td><td class="c"><span class="badge badge-win">6:4</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 3 · Auswärtssieg überraschend gut</td></tr>
+      <tr><td>LAND2</td><td>WTTC Landstraße 2</td><td class="c">R3</td><td class="c">H</td><td class="c"><span class="badge badge-win">6:4</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 9 · 3 Pkte · Heimsieg verdient</td></tr>
+      <tr><td>FSF3</td><td>Freizeit Sport Finanz 3</td><td class="c">R4</td><td class="c">H</td><td class="c"><span class="badge badge-draw">5:5</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 11 · 1 Pkt · Unentschieden (unbet.)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- S10 (KEN) -->
+<section id="s10" class="section">
+  <div class="sec-header">KEN · Saisonkennzahlen</div>
+  <table>
+    <thead><tr><th>Kennzahl</th><th class="c">Wert</th><th>Kennzahl</th><th class="c">Wert</th></tr></thead>
+    <tbody>
+      <tr><td>Spiele gesamt</td><td class="c num">4</td><td>Mannschaftspunkte</td><td class="c num">7*</td></tr>
+      <tr><td>Siege</td><td class="c win">2</td><td>Spielpunkte</td><td class="c num">18:19</td></tr>
+      <tr><td>Unentschieden</td><td class="c draw">1</td><td>Tabellenplatz</td><td class="c num">8/12</td></tr>
+      <tr><td>Niederlagen</td><td class="c loss">1</td><td>Runden gespielt</td><td class="c num">4/22</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">* R4-Ergebnis noch unbestätigt · Spielpunkte geschätzt</div>
+</section>
+
+<!-- S11 (ARC) -->
+<section class="section">
+  <div class="sec-header">ARC · Archiv</div>
+  <div class="arc-grid">
+    <a href="../AR/2026/DG1/R1/DOEBAna_V2.html" class="arc-link">DG1 R1 · 10.09.2026</a>
+    <a href="../AR/2026/DG1/R2/DOEBAna_V2.html" class="arc-link">DG1 R2 · 16.09.2026</a>
+    <a href="../AR/2026/DG1/R3/DOEBAna_V2.html" class="arc-link">DG1 R3 · 24.09.2026</a>
+    <a href="../AR/2026/DG1/R4/DOEBAna_V2.html" class="arc-link">DG1 R2 · 18.09.2026</a>
   </div>
-  <div class="alert alert-info">
-    <strong>Saisonbilanz:</strong> Ishak gesamt 3:4 (43%), Steinrigl 1:5 (17%), Auvillain 0:4 (0%). Doppel Ishak/Steinrigl 1:1 (50%). Nächste Runde Do 24.09. Heim gegen LANDı2 — erste echte Siegchance!
-  </div>
-</div>
+  <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">→ <a href="../../../../archiv.html" style="color:var(--text-muted)">Vollständiges Archiv aller Teams</a></div>
+</section>
 
-<!-- 06 NÄCHSTES SPIEL -->
-<div class="sec-label">06 — Nächstes Spiel</div>
-<div class="next-card">
-  <div class="next-title">▶ NÄCHSTES SPIEL · DG1 R3</div>
-  <div class="next-match">DÖBı2 – LANDı2</div>
-  <div class="next-meta">
-    Do 24.09.2026 · 18:00 · Heim<br>
-    WTTC Landstraße 2 · aktuell: Rang 12 · 0 Punkte · 1:6 Sp-V<br>
-    <span style="color:var(--acc)">Erste echte Siegchance der Saison!</span>
-  </div>
-</div>
-
-<!-- 07 TABELLENSTAND -->
-<div class="sec-label">07 — Tabellenstand · VÖB 4. Klasse 2026/27</div>
-<div class="card">
-  <table>
-    <tr><th>Rang</th><th>Mannschaft</th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>Sp-V</th><th>P</th></tr>
-    <tr><td class="rank">1.</td><td>ASKö TT Wien 14 4</td><td>2</td><td>1</td><td>1</td><td>0</td><td>11:6</td><td>4</td></tr>
-    <tr><td class="rank">2.</td><td>ATUS Langenzersdorf 2</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:1</td><td>3</td></tr>
-    <tr><td class="rank">3.</td><td>SK Bundeskanzleramt 3</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:1</td><td>3</td></tr>
-    <tr><td class="rank">4.</td><td>KSV HG I 3</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:4</td><td>3</td></tr>
-    <tr><td class="rank">5.</td><td>KSV Unterrichtsmin. 3</td><td>1</td><td>1</td><td>0</td><td>0</td><td>6:4</td><td>3</td></tr>
-    <tr><td class="rank">6.</td><td>TTC KÖST 1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>5:5</td><td>1</td></tr>
-    <tr><td class="rank">7.</td><td>SV Post Wien 4</td><td>1</td><td>0</td><td>1</td><td>0</td><td>5:5</td><td>1</td></tr>
-    <tr><td class="rank">8.</td><td>ASKö TT Wien 14 5</td><td>2</td><td>0</td><td>1</td><td>1</td><td>9:11</td><td>1</td></tr>
-    <tr><td class="rank">9.</td><td>Freizeit Sport Finanz 3</td><td>1</td><td>0</td><td>0</td><td>1</td><td>4:6</td><td>0</td></tr>
-    <tr class="doeb-row"><td>10.</td><td>DÖBı2</td><td>2</td><td>0</td><td>0</td><td>2</td><td>5:12</td><td>0</td></tr>
-    <tr><td class="rank">11.</td><td>TTC Olympic 4</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1:6</td><td>0</td></tr>
-    <tr><td class="rank">12.</td><td>WTTC Landstraße 2</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1:6</td><td>0</td></tr>
-  </table>
-</div>
-
-<!-- 08 SPIELERSTATISTIKEN -->
-<div class="sec-label">08 — Spielerstatistiken · Saison 2026/27</div>
-<div class="card">
-  <table>
-    <tr><th>Rang</th><th>Name</th><th>Pass</th><th>Sp</th><th>S/N (Einzel)</th><th>CRS</th></tr>
-    <tr class="doeb-row"><td>17.</td><td>Ishak Johannes</td><td>3709</td><td>2</td><td>3:4</td><td>7369</td></tr>
-    <tr class="doeb-row"><td>22.</td><td>Steinrigl Adi</td><td>3788</td><td>2</td><td>1:5</td><td>7356</td></tr>
-    <tr class="doeb-row"><td>29.</td><td>Auvillain Cyril</td><td>3789</td><td>2</td><td>0:4</td><td>7017</td></tr>
-  </table>
-</div>
-
-<!-- 09 DOPPELSTATISTIK -->
-<div class="sec-label">09 — Doppelstatistik</div>
-<div class="card">
-  <table>
-    <tr><th>Rang</th><th>Paar</th><th>Sp</th><th>S/N</th></tr>
-    <tr class="doeb-row"><td>8.</td><td>Ishak / Steinrigl</td><td>2</td><td>1:1</td></tr>
-  </table>
-</div>
-
-<!-- 10 ALLE ERGEBNISSE -->
-<div class="sec-label">10 — Alle Ergebnisse · Saison 2026/27</div>
-<div class="card">
-  <table>
-    <tr><th>DG</th><th>R.</th><th>Datum</th><th>Begegnung</th><th>Erg.</th><th>H/A</th></tr>
-    <tr class="doeb-row"><td>1</td><td>1</td><td>10.09.2026</td><td>DÖBı2 – BKAı3</td><td style="color:var(--red)">1:6 ✗</td><td>H</td></tr>
-    <tr class="doeb-row"><td>1</td><td>2</td><td>16.09.2026</td><td>ATTWı4 – DÖBı2</td><td style="color:var(--red)">4:6 ✗</td><td>A</td></tr>
-  </table>
-</div>
-
-<!-- 11 OFFENE SPIELE -->
-<div class="sec-label">11 — Offene Spiele</div>
-<div class="card">
-  <table>
-    <tr><th>DG</th><th>R.</th><th>Datum</th><th>Begegnung</th><th>H/A</th></tr>
-    <tr><td>1</td><td>3</td><td>Do 24.09.2026</td><td>DÖBı2 – LANDı2</td><td style="color:var(--acc)">H ★</td></tr>
-    <tr><td>1</td><td>4</td><td>Do 08.10.2026</td><td>DÖBı2 – FSFı3</td><td>H</td></tr>
-    <tr><td>1</td><td>5</td><td>Mo 12.10.2026</td><td>OLYı4 – DÖBı2</td><td>A</td></tr>
-    <tr><td>1</td><td>6</td><td>Do 22.10.2026</td><td>DÖBı2 – POSTı4</td><td>H</td></tr>
-    <tr><td>1</td><td>7</td><td>Do 05.11.2026</td><td>KSVUWı3 – DÖBı2</td><td>A</td></tr>
-    <tr><td>1</td><td>8</td><td>Do 12.11.2026</td><td>DÖBı2 – ATTWı5</td><td>H</td></tr>
-    <tr><td>1</td><td>9</td><td>Mo 16.11.2026</td><td>KÖSTı1 – DÖBı2</td><td>A</td></tr>
-    <tr><td>1</td><td>10</td><td>Do 26.11.2026</td><td>DÖBı2 – LENZı2</td><td>H</td></tr>
-    <tr><td>1</td><td>11</td><td>Mi 09.12.2026</td><td>HGıIı3 – DÖBı2</td><td>A</td></tr>
-    <tr><td>2</td><td>1–11</td><td>Jan–Apr 2027</td><td>Rückrunde</td><td>—</td></tr>
-  </table>
-  <div style="font-family:var(--mono);font-size:10px;color:var(--acc);margin-top:8px;">★ Erste echte Siegchance</div>
-</div>
-
+<script>
+const sections = document.querySelectorAll('.section[id]');
+const secBtns  = document.querySelectorAll('#bar2 .sec-btn');
+const secIds   = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10'];
+function updateActive() {
+  let current = 'none';
+  sections.forEach(sec => { if (sec.getBoundingClientRect().top <= 100) current = sec.id; });
+  secBtns.forEach((btn, i) => btn.classList.toggle('active', secIds[i] === current));
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+</script>
 </body>
 </html>

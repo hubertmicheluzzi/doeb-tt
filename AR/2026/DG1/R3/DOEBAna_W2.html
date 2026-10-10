@@ -1,7 +1,366 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8"><title>NOCH NICHT GESPIELT</title>
-<style>body{background:#0d0f14;color:#7a8899;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;font-size:13px;}</style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEBAna · W2 · Gr.VIb · DG1 R3 · 06.10.2026</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-size: 14px;
+  line-height: 1.5;
+  padding-top: 88px;
+}
+:root {
+  --wttv-1: #1565c0;
+  --wttv-2: #1976d2;
+  --voeb-1: #e65100;
+  --voeb-2: #f57c00;
+  --archiv: #546e7a;
+  --regeln: #c62828;
+  --active-team: var(--wttv-2);
+  --border: #30363d;
+  --bg-card: #161b22;
+  --text-muted: #8b949e;
+  --text-dim: #6e7681;
+  --green: #2ea043;
+  --red: #da3633;
+  --yellow: #d29922;
+}
+#bar1 {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: #161b22; border-bottom: 1px solid var(--border);
+  padding: 6px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+#bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
+#bar1 .sep { color: var(--text-dim); }
+.team-btn {
+  padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600;
+  text-decoration: none; border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+}
+.btn-w1 { background: transparent; color: #64b5f6; border-color: #1565c0; }
+.btn-w2 { background: var(--wttv-2); color: #fff; border-color: var(--wttv-2); border-top: 2px solid #90caf9; padding-top: 3px; }
+.btn-v1 { background: transparent; color: #ffb74d; border-color: var(--voeb-1); }
+.btn-v2 { background: transparent; color: #ffa726; border-color: var(--voeb-2); }
+.btn-arc { background: transparent; color: #90a4ae; border-color: var(--archiv); }
+.btn-reg { background: transparent; color: #ef9a9a; border-color: var(--regeln); }
+#bar2 {
+  position: fixed; top: 40px; left: 0; right: 0; z-index: 99;
+  background: #0d1117; border-bottom: 2px solid var(--wttv-2);
+  padding: 5px 10px; display: flex; align-items: center; gap: 4px;
+  overflow-x: auto; scrollbar-width: none;
+}
+#bar2::-webkit-scrollbar { display: none; }
+.sec-btn {
+  padding: 3px 9px; border-radius: 3px; font-size: 11px; font-weight: 500;
+  text-decoration: none; color: var(--text-muted); border: 1px solid var(--border);
+  white-space: nowrap; flex-shrink: 0;
+}
+.sec-btn.active { background: var(--wttv-2); color: #fff; border-color: var(--wttv-2); }
+
+.section { border-bottom: 1px solid var(--border); padding: 16px 12px; scroll-margin-top: 96px; }
+.section:last-child { border-bottom: none; }
+.sec-header {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 10px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+  color: #90caf9;
+}
+table { width: 100%; border-collapse: collapse; }
+th { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); padding: 4px 8px; text-align: left; }
+td { padding: 5px 8px; border-bottom: 1px solid #1f2937; font-size: 13px; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #1a2030; }
+.c { text-align: center; } .r { text-align: right; } .num { font-variant-numeric: tabular-nums; }
+.highlight-row td { background: #0d2545; }
+.highlight-row:hover td { background: #102d55; }
+.win { color: #2ea043; font-weight: 600; } .loss { color: #da3633; } .draw { color: #d29922; }
+.badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; vertical-align: middle; }
+.badge-win  { background: #0d3521; color: #3fb950; border: 1px solid #2ea043; }
+.badge-loss { background: #3d1010; color: #f85149; border: 1px solid #da3633; }
+.badge-draw { background: #3d2c00; color: #e3b341; border: 1px solid #d29922; }
+.result-big { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+.result-score { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; color: #e6edf3; }
+.result-meta { font-size: 12px; color: var(--text-muted); }
+.result-comment { font-size: 13px; color: #c9d1d9; line-height: 1.6; }
+.pos-badge { display: inline-block; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700; text-align: center; line-height: 22px; background: var(--border); color: var(--text-muted); }
+.pos-badge.top3 { background: #1a3a6e; color: #64b5f6; }
+.next-match { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; }
+.next-match-title { font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+.next-match-info  { font-size: 14px; font-weight: 600; color: #e6edf3; }
+.next-match-sub   { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.winner { color: #3fb950; font-weight: 600; }
+.arc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
+.arc-link { display: block; padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.arc-link:hover { background: #1f2d40; color: #e6edf3; }
+</style>
 </head>
-<body>NOCH NICHT GESPIELT · DÖB · DG1 · R3 · W2</body>
+<body>
+
+<div id="bar1">
+  <span class="title">DOEB TT-Übersicht</span>
+  <span class="sep">·</span>
+  <span style="font-size:11px;color:var(--text-dim)">Stand: 06.10.2026</span>
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-left:4px">
+    <a href="../../../../LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
+    <a href="../../../../LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
+    <a href="../../../../LIVE/DOEBAna_V1.html" class="team-btn btn-v1">V1·1.Kl.B</a>
+    <a href="../../../../LIVE/DOEBAna_V2.html" class="team-btn btn-v2">V2·4.Kl</a>
+    <a href="../../../../archiv.html"     class="team-btn btn-arc">Archiv</a>
+    <a href="../../../../REAna.html"      class="team-btn btn-reg">Regeln</a>
+  </div>
+</div>
+
+<div id="bar2">
+  <a href="#s01" class="sec-btn">LEIS</a>
+  <a href="#s02" class="sec-btn">VERL</a>
+  <a href="#s03" class="sec-btn">STAT</a>
+  <a href="#s04" class="sec-btn">TAB</a>
+  <a href="#s05" class="sec-btn">DEMN</a>
+  <a href="#s06" class="sec-btn">MTX</a>
+  <a href="#s07" class="sec-btn">ANA</a>
+  <a href="#s08" class="sec-btn">GEG</a>
+  <a href="#s09" class="sec-btn">KEN</a>
+  <a href="#s10" class="sec-btn">ARC</a>
+</div>
+
+<!-- S01 -->
+<section id="s01" class="section">
+  <div class="sec-header">W2 · WTTV Gruppe VIb · DG1 R3 · 06.10.2026</div>
+  <div class="result-big">
+    <div>
+      <div class="result-meta">Auswärts · Österr. Gesundheitskasse Wien</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+        <span class="result-score">5 : 5</span>
+        <span class="badge badge-draw">U</span>
+      </div>
+      <div class="result-meta" style="margin-top:3px">GEB2</div>
+    </div>
+  </div>
+  <p class="result-comment">
+    Auswärtsunentschieden gegen GEB2 — ein wichtiger Punkt nach der Niederlage in Runde 2.
+    Thomas und Adi holten je 2 Einzelpunkte, Leopold punktete einmal. Das Doppel war der Schwachpunkt (0:3).
+    Nach drei Runden (R1 noch nicht eingetragen): 1 Punkt, Rang 7 — knapper Anschluss ans Mittelfeld.
+  </p>
+</section>
+
+<!-- S02 -->
+<section id="s02" class="section">
+  <div class="sec-header">LEIS · Spielerleistung · DG1 R3</div>
+  <table>
+    <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">D</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Thomas</td>
+        <td class="c win">2</td><td class="c loss">1</td><td class="c loss">0</td>
+        <td style="font-size:11px;color:var(--text-muted)">3:2 gg. Friedl · 3:2 gg. Simig · 3:2 gg. Pareiss (D: 1:3)</td>
+      </tr>
+      <tr>
+        <td>Adi</td>
+        <td class="c win">2</td><td class="c loss">1</td><td class="c loss">0</td>
+        <td style="font-size:11px;color:var(--text-muted)">3:0 gg. Pareiss · 3:0 gg. Friedl · 1:3 gg. Simig (D: 1:3)</td>
+      </tr>
+      <tr>
+        <td>Leopold</td>
+        <td class="c win">1</td><td class="c loss">2</td><td class="c">–</td>
+        <td style="font-size:11px;color:var(--text-muted)">1:3 gg. Simig · 1:3 gg. Pareiss · 3:1 gg. Friedl</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">VÖB-Modus: 8 oder 10 Einzel + 2 Doppel je nach Spielerzahl</div>
+</section>
+
+<!-- S03 -->
+<section id="s03" class="section">
+  <div class="sec-header">VERL · Saisonverlauf</div>
+  <table>
+    <thead><tr><th>Rd</th><th>Datum</th><th>H/A</th><th>Gegner</th><th class="c">Erg</th><th class="c">MP</th><th class="c">P</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>R2</td><td>02.10.</td><td>H</td><td>NFS14</td>
+        <td class="c"><span class="badge badge-loss">2:6</span></td>
+        <td class="c loss">N</td><td class="c num">0</td>
+      </tr>
+      <tr>
+        <td>R3</td><td>06.10.</td><td>A</td><td>GEB2</td>
+        <td class="c"><span class="badge badge-draw">5:5</span></td>
+        <td class="c draw">U</td><td class="c num">1</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">R1 noch nicht eingetragen · Sp 2 (eingetragen) · S 0 · U 1 · N 1 · P 1 · WTTV: Sieg=2, U=1, N=0</div>
+</section>
+
+<!-- S04 -->
+<section id="s04" class="section">
+  <div class="sec-header">STAT · Spielerstatistik kumuliert</div>
+  <table>
+    <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">E-%</th><th class="c">D-S</th><th class="c">D-N</th><th class="c">Ges</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Thomas</td>
+        <td class="c win">3</td><td class="c loss">2</td><td class="c">60%</td>
+        <td class="c loss">0</td><td class="c">1</td><td class="c num">3/6</td>
+      </tr>
+      <tr>
+        <td>Adi</td>
+        <td class="c win">4</td><td class="c loss">2</td><td class="c">67%</td>
+        <td class="c loss">0</td><td class="c">1</td><td class="c num">4/7</td>
+      </tr>
+      <tr>
+        <td>Leopold</td>
+        <td class="c win">1</td><td class="c loss">4</td><td class="c">20%</td>
+        <td class="c">–</td><td class="c">–</td><td class="c num">1/5</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Inkl. R2 und R3 · R1 noch nicht eingetragen</div>
+</section>
+
+<!-- S05 -->
+<section id="s05" class="section">
+  <div class="sec-header">TAB · WTTV Gruppe VIb · Stand 10.10.2026</div>
+  <table>
+    <thead><tr><th class="c">#</th><th>Mannschaft</th><th class="c">Sp</th><th class="c">S</th><th class="c">U</th><th class="c">N</th><th class="c">Sp-V</th><th class="c">P</th></tr></thead>
+    <tbody>
+      <tr><td class="c"><span class="pos-badge top3">1</span></td><td>Naturfreunde Stadlau 14</td><td class="c">3</td><td class="c win">3</td><td class="c">0</td><td class="c">0</td><td class="c">18:6</td><td class="c num">6</td></tr>
+      <tr><td class="c"><span class="pos-badge top3">2</span></td><td>SG Post-Floridsdorf 13</td><td class="c">3</td><td class="c win">2</td><td class="c">0</td><td class="c">1</td><td class="c">16:12</td><td class="c num">4</td></tr>
+      <tr><td class="c"><span class="pos-badge top3">3</span></td><td>UKJ Tyrolia 1</td><td class="c">3</td><td class="c win">2</td><td class="c">0</td><td class="c">1</td><td class="c">15:12</td><td class="c num">4</td></tr>
+      <tr><td class="c"><span class="pos-badge">4</span></td><td>Olympic 9</td><td class="c">2</td><td class="c win">1</td><td class="c">1</td><td class="c">0</td><td class="c">11:7</td><td class="c num">3</td></tr>
+      <tr><td class="c"><span class="pos-badge">5</span></td><td>Lehrersportverein 13</td><td class="c">3</td><td class="c win">1</td><td class="c">1</td><td class="c">1</td><td class="c">14:12</td><td class="c num">3</td></tr>
+      <tr><td class="c"><span class="pos-badge">6</span></td><td>SG Sportklub / Flötzersteig 21</td><td class="c">3</td><td class="c win">1</td><td class="c">0</td><td class="c">2</td><td class="c">11:16</td><td class="c num">2</td></tr>
+      <tr class="highlight-row"><td class="c"><span class="pos-badge">7</span></td><td><strong>Union Döbling 6</strong></td><td class="c">2</td><td class="c">0</td><td class="c draw">1</td><td class="c">1</td><td class="c">7:11</td><td class="c num"><strong>1</strong></td></tr>
+      <tr><td class="c"><span class="pos-badge">8</span></td><td>Österr. Gesundheitskasse Wien 2</td><td class="c">2</td><td class="c">0</td><td class="c draw">1</td><td class="c">1</td><td class="c">6:11</td><td class="c num">1</td></tr>
+      <tr><td class="c"><span class="pos-badge">9</span></td><td>TTK Eden 13</td><td class="c">3</td><td class="c">0</td><td class="c">0</td><td class="c loss">3</td><td class="c">7:18</td><td class="c num">0</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Quelle: oettv.xttv.at · Sp-V = Spielpunkte-Verhältnis (Einzel + Doppel)</div>
+</section>
+
+<!-- S06 -->
+<section id="s06" class="section">
+  <div class="sec-header">DEMN · Nächste Partie & Gegnereinschätzung</div>
+  <div class="next-match">
+    <div class="next-match-title">Nächstes Spiel</div>
+    <div class="next-match-info">DOEB6 – SKFL21</div>
+    <div class="next-match-sub">Heimspiel · Handelsministerium · 19:00</div>
+  </div>
+  <div style="margin-bottom:8px">
+    <strong style="font-size:13px;color:#e6edf3">SG Sportklub/Flötzersteig 21</strong>
+    <span style="font-size:11px;color:var(--text-dim);margin-left:6px">Rang 6 · 3 Sp · 2 Pkte</span>
+  </div>
+  <p style="font-size:13px;line-height:1.6">
+    SKFL21 liegt auf Rang 6 mit 2 Punkten aus 3 Spielen — ein Heimspiel für DOEB6 gegen einen direkt erreichbaren Gegner.
+    Flötzersteig hat 1 Sieg, aber schon 2 Niederlagen kassiert und das schlechteste Spielpunkt-Verhältnis der oberen Hälfte (11:16).
+    Heimvorteil und Auftreten aus dem Unentschieden gegen GEB2 sollten DOEB6 Selbstvertrauen geben — ein Sieg hier wäre ein großer Schritt nach vorne.
+  </p>
+</section>
+
+<!-- S07 (MTX) -->
+<section id="s07" class="section">
+  <div class="sec-header">MTX · Ergebnismatrix</div>
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Team</th><th class="c">NFS14</th><th class="c">GEB2</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>DOEB6</strong></td>
+          <td class="c"><span class="badge badge-loss">2:6</span></td>
+          <td class="c"><span class="badge badge-draw">5:5</span></td>
+          <td class="c num" style="color:var(--text-dim)">1P</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">R1 noch nicht eingetragen</div>
+</section>
+
+<!-- S08 (ANA) -->
+<section id="s08" class="section">
+  <div class="sec-header">ANA · Einzelpunkte-Analyse · DG1 R3 · 06.10.2026</div>
+  <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">GEB2 (Heim) – DOEB6 (Gast) &nbsp;·&nbsp; <strong>5:5</strong></div>
+  <table>
+    <thead><tr><th>Heim</th><th class="c">Ergebnis</th><th>Gast</th><th class="c">Art</th></tr></thead>
+    <tbody>
+      <tr><td>Friedl</td><td class="c"><span class="badge badge-loss">2:3</span></td><td class="winner">Thomas</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Pareiss</td><td class="c"><span class="badge badge-win">0:3</span></td><td></td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td></td><td class="c" style="font-size:11px;color:var(--text-dim)">Pareiss 0:3 gg. Adi</td><td class="winner">Adi</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Simig</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Leopold</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Simig/Friedl</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Adi/Thomas</td><td class="c" style="font-size:11px;color:var(--text-dim)">D</td></tr>
+      <tr><td>Friedl</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Adi</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>Simig</td><td class="c"><span class="badge badge-loss">2:3</span></td><td class="winner">Thomas</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Pareiss</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Leopold</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Simig</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Adi</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>Friedl</td><td class="c"><span class="badge badge-loss">3:1</span></td><td class="winner">Leopold</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>Pareiss</td><td class="c"><span class="badge badge-loss">2:3</span></td><td class="winner">Thomas</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Ergebnisse aus Sicht der Heimmannschaft (GEB2) · D = Doppel</div>
+</section>
+
+<!-- S09 (GEG) -->
+<section id="s09" class="section">
+  <div class="sec-header">GEG · Gegnerprofile</div>
+  <table>
+    <thead><tr><th>Kürzel</th><th>Mannschaft</th><th class="c">R</th><th class="c">H/A</th><th class="c">Erg</th><th>Bemerkung</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>NFS14</td><td>Naturfreunde Stadlau 14</td><td class="c">R2</td><td class="c">H</td>
+        <td class="c"><span class="badge badge-loss">2:6</span></td>
+        <td style="font-size:11px;color:var(--text-muted)">Rang 1 · 6 Pkte · Tabellenführer, klare Klasse</td>
+      </tr>
+      <tr>
+        <td>GEB2</td><td>Österr. Gesundheitskasse Wien 2</td><td class="c">R3</td><td class="c">A</td>
+        <td class="c"><span class="badge badge-draw">5:5</span></td>
+        <td style="font-size:11px;color:var(--text-muted)">Rang 8 · 1 Pkt · Unentschieden, Rang-Konkurrent</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- S10 (KEN) -->
+<section id="s10" class="section">
+  <div class="sec-header">KEN · Saisonkennzahlen</div>
+  <table>
+    <thead><tr><th>Kennzahl</th><th class="c">Wert</th><th>Kennzahl</th><th class="c">Wert</th></tr></thead>
+    <tbody>
+      <tr><td>Spiele eingetragen</td><td class="c num">2</td><td>Mannschaftspunkte</td><td class="c num">1</td></tr>
+      <tr><td>Siege</td><td class="c win">0</td><td>Spielpunkte</td><td class="c num">7:11</td></tr>
+      <tr><td>Unentschieden</td><td class="c draw">1</td><td>Einzel-Gewinnquote</td><td class="c num">47%</td></tr>
+      <tr><td>Niederlagen</td><td class="c loss">1</td><td>Doppel-Gewinnquote</td><td class="c num">0%</td></tr>
+      <tr><td>Tabellenplatz</td><td class="c num">7/9</td><td>Runden gespielt</td><td class="c num">3/18</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- S11 (ARC) -->
+<section class="section">
+  <div class="sec-header">ARC · Archiv</div>
+  <div class="arc-grid">
+    <a href="../AR/2026/DG1/R2/DOEBAna_W2.html" class="arc-link">DG1 R2 · 02.10.2026</a>
+    <a href="../AR/2026/DG1/R3/DOEBAna_W2.html" class="arc-link">DG1 R3 · 06.10.2026</a>
+  </div>
+  <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">→ <a href="../../../../archiv.html" style="color:var(--text-muted)">Vollständiges Archiv aller Teams</a></div>
+</section>
+
+<script>
+const sections = document.querySelectorAll('.section[id]');
+const secBtns  = document.querySelectorAll('#bar2 .sec-btn');
+const secIds   = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10'];
+function updateActive() {
+  let current = 'none';
+  sections.forEach(sec => { if (sec.getBoundingClientRect().top <= 100) current = sec.id; });
+  secBtns.forEach((btn, i) => btn.classList.toggle('active', secIds[i] === current));
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+</script>
+</body>
 </html>

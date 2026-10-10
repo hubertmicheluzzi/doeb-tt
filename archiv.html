@@ -3,40 +3,307 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DOEB Archiv</title>
+<title>DOEBAna · Archiv · 2026</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap');
-  :root { --bg:#0d0f14; --bg2:#13161e; --bg3:#1a1f2b; --border:#2a3040; --text:#e2e8f0; --dim:#7a8899; --bright:#fff; --acc:#fbbf24; --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif; }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh;padding:32px 24px;}
-  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
-  .msj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:40px;}
-  .msj-card{background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--acc);border-radius:6px;padding:20px;}
-  .msj-title{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--acc);margin-bottom:4px;}
-  .msj-sub{font-size:11px;color:var(--dim);margin-bottom:16px;}
-  .dg-btn{display:block;width:100%;font-family:var(--mono);font-size:11px;font-weight:600;padding:8px 12px;border-radius:4px;text-decoration:none;border:1px solid var(--border);background:var(--bg3);color:var(--dim);margin-bottom:8px;transition:all .15s;text-align:center;}
-  .dg-btn.available{color:var(--bright);border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.07);}
-  .dg-btn.available:hover{background:rgba(251,191,36,.15);}
-  .dg-btn.empty{opacity:.4;cursor:default;pointer-events:none;}
-  .note{font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px 16px;line-height:1.7;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-size: 14px;
+  line-height: 1.5;
+  padding-top: 88px;
+}
+
+:root {
+  --wttv-1: #1565c0;
+  --wttv-2: #1976d2;
+  --voeb-1: #e65100;
+  --voeb-2: #f57c00;
+  --archiv: #546e7a;
+  --regeln: #c62828;
+  --border: #30363d;
+  --bg-card: #161b22;
+  --text-muted: #8b949e;
+  --text-dim: #6e7681;
+}
+
+/* LEISTE 1 */
+#bar1 {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: #161b22;
+  border-bottom: 1px solid var(--border);
+  padding: 6px 10px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.title { font-weight: 700; font-size: 13px; color: #c9d1d9; white-space: nowrap; }
+.sep { color: var(--text-dim); }
+.team-btn {
+  display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px;
+  font-weight: 600; text-decoration: none; white-space: nowrap;
+  border: 1px solid transparent; color: #c9d1d9;
+}
+.btn-w1 { border-color: var(--wttv-1); color: #90caf9; }
+.btn-w1:hover { background: var(--wttv-1); color: #fff; }
+.btn-w2 { border-color: var(--wttv-2); color: #90caf9; }
+.btn-w2:hover { background: var(--wttv-2); color: #fff; }
+.btn-v1 { border-color: var(--voeb-1); color: #ffcc80; }
+.btn-v1:hover { background: var(--voeb-1); color: #fff; }
+.btn-v2 { border-color: var(--voeb-2); color: #ffcc80; }
+.btn-v2:hover { background: var(--voeb-2); color: #fff; }
+.btn-arc { background: var(--archiv); border-color: var(--archiv); color: #fff; border-top: 2px solid #90a4ae; }
+.btn-reg { border-color: var(--regeln); color: #ef9a9a; }
+.btn-reg:hover { background: var(--regeln); color: #fff; }
+
+/* LEISTE 2 */
+#bar2 {
+  position: fixed; top: 40px; left: 0; right: 0; z-index: 99;
+  background: #161b22;
+  border-bottom: 2px solid var(--archiv);
+  padding: 4px 10px;
+  display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; overflow-x: auto;
+}
+.dg-btn {
+  display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px;
+  font-weight: 600; text-decoration: none; white-space: nowrap;
+  border: 1px solid var(--archiv); color: #90a4ae; cursor: pointer;
+}
+.dg-btn.active { background: var(--archiv); color: #fff; border-top: 2px solid #cfd8dc; }
+
+/* CONTAINER */
+.container { max-width: 900px; margin: 0 auto; padding: 16px 12px 40px; }
+.page-title {
+  font-size: 18px; font-weight: 700; color: #c9d1d9;
+  margin-bottom: 4px;
+}
+.page-sub { font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
+
+/* DG-Sektion */
+.dg-section { display: none; }
+.dg-section.active { display: block; }
+.dg-label {
+  font-size: 13px; font-weight: 700; color: #90a4ae;
+  margin-bottom: 12px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Archiv-Tabelle */
+.arc-table {
+  width: 100%; border-collapse: collapse; font-size: 12px;
+}
+.arc-table th {
+  background: #1a2030; color: var(--text-muted);
+  padding: 6px 8px; text-align: left; font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+.arc-table td {
+  padding: 7px 8px; border-bottom: 1px solid #1e2530;
+  vertical-align: middle;
+}
+.arc-table tr:last-child td { border-bottom: none; }
+.arc-table tr:hover td { background: #1a2030; }
+
+.runde-cell { color: var(--text-muted); font-weight: 600; width: 60px; }
+.datum-cell { color: var(--text-dim); width: 90px; }
+
+.arc-link {
+  display: inline-block; padding: 2px 8px; border-radius: 3px;
+  font-size: 11px; font-weight: 600; text-decoration: none;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.arc-link.w1 { border-color: var(--wttv-1); color: #90caf9; }
+.arc-link.w1:hover { background: var(--wttv-1); color: #fff; }
+.arc-link.w2 { border-color: var(--wttv-2); color: #90caf9; }
+.arc-link.w2:hover { background: var(--wttv-2); color: #fff; }
+.arc-link.v1 { border-color: var(--voeb-1); color: #ffcc80; }
+.arc-link.v1:hover { background: var(--voeb-1); color: #fff; }
+.arc-link.v2 { border-color: var(--voeb-2); color: #ffcc80; }
+.arc-link.v2:hover { background: var(--voeb-2); color: #fff; }
+.arc-link.missing { color: var(--text-dim); border-color: #30363d; cursor: default; opacity: 0.5; }
+
+.result-badge {
+  display: inline-block; padding: 1px 5px; border-radius: 3px;
+  font-size: 10px; font-weight: 700; margin-left: 4px;
+}
+.badge-s { background: #0d3320; color: #3fb950; }
+.badge-u { background: #2d2300; color: #d29922; }
+.badge-n { background: #3d0f0f; color: #f85149; }
+.badge-kl { background: #1a1f2e; color: #90caf9; font-size: 9px; }
+
+.team-header { font-size: 11px; color: var(--text-dim); font-weight: 600; }
+
+/* Info-Box */
+.info-box {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 6px; padding: 10px 14px; margin-bottom: 16px;
+  font-size: 12px; color: var(--text-muted);
+}
 </style>
 </head>
 <body>
-  <div class="section-label">Mannschaftssaisons (MSJ)</div>
-  <div class="msj-grid">
-    <div class="msj-card">
-      <div class="msj-title">MSJ 2026</div>
-      <div class="msj-sub">Sep 2026 – Jun 2027 · <strong style="color:var(--acc)">laufend</strong></div>
-      <a class="dg-btn available" href="AR/2026/DG1/index.html">DG1 · Herbst 2026</a>
-      <a class="dg-btn empty" href="#">DG2 · Frühjahr 2027</a>
+
+<!-- LEISTE 1 -->
+<div id="bar1">
+  <span class="title">DOEB TT-Übersicht</span>
+  <span class="sep">·</span>
+  <span style="font-size:11px;color:var(--text-dim)">Archiv 2026</span>
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-left:4px">
+    <a href="LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
+    <a href="LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
+    <a href="LIVE/DOEBAna_V1.html" class="team-btn btn-v1">V1·1.Kl.B</a>
+    <a href="LIVE/DOEBAna_V2.html" class="team-btn btn-v2">V2·4.Kl</a>
+    <a href="archiv.html"     class="team-btn btn-arc active">Archiv</a>
+    <a href="REAna.html"      class="team-btn btn-reg">Regeln</a>
+  </div>
+</div>
+
+<!-- LEISTE 2: Durchgänge -->
+<div id="bar2">
+  <a class="dg-btn active" onclick="showDG('dg1')">DG1</a>
+  <a class="dg-btn"        onclick="showDG('dg2')">DG2</a>
+  <a class="dg-btn"        onclick="showDG('dg3')">DG3</a>
+</div>
+
+<div class="container">
+  <div class="page-title">📦 Archiv · Saison 2026/27</div>
+  <div class="page-sub">Snapshots nach jeder gespielten Runde · Links öffnen den Tabellenstand vom jeweiligen Spieltag</div>
+
+  <!-- DG1 -->
+  <div id="dg1" class="dg-section active">
+    <div class="dg-label">Durchgang 1 · Sept–Okt 2026</div>
+
+    <table class="arc-table">
+      <thead>
+        <tr>
+          <th class="runde-cell">Runde</th>
+          <th class="datum-cell">Datum</th>
+          <th><span class="team-header" style="color:#90caf9">W1</span> · 3.Kl.B</th>
+          <th><span class="team-header" style="color:#90caf9">W2</span> · Gr.VIb</th>
+          <th><span class="team-header" style="color:#ffcc80">V1</span> · 1.Kl.B</th>
+          <th><span class="team-header" style="color:#ffcc80">V2</span> · 4.Kl.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="runde-cell">R1</td>
+          <td class="datum-cell">11.–25.09.</td>
+          <td>
+            <a href="AR/2026/DG1/R1/DOEBAna_W1.html" class="arc-link w1">W1</a>
+            <span class="result-badge badge-n">1:6</span>
+            <span style="font-size:10px;color:var(--text-dim)"> NFS7</span>
+          </td>
+          <td>
+            <span class="arc-link missing">W2 ¹</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R1/DOEBAna_V1.html" class="arc-link v1">V1</a>
+            <span class="result-badge badge-n">2:6</span>
+            <span style="font-size:10px;color:var(--text-dim)"> BKA1</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R1/DOEBAna_V2.html" class="arc-link v2">V2</a>
+            <span class="result-badge badge-n">1:6</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="runde-cell">R2</td>
+          <td class="datum-cell">02.10.</td>
+          <td>
+            <a href="AR/2026/DG1/R2/DOEBAna_W1.html" class="arc-link w1">W1</a>
+            <span class="result-badge badge-n">1:6</span>
+            <span style="font-size:10px;color:var(--text-dim)"> SGWF8</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R2/DOEBAna_W2.html" class="arc-link w2">W2</a>
+            <span class="result-badge badge-n">2:6</span>
+            <span style="font-size:10px;color:var(--text-dim)"> NFS14</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R2/DOEBAna_V1.html" class="arc-link v1">V1</a>
+            <span class="result-badge badge-kl">kamp.</span>
+            <span style="font-size:10px;color:var(--text-dim)"> 7:0 LAND1</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R2/DOEBAna_V2.html" class="arc-link v2">V2</a>
+            <span class="result-badge badge-s">6:4</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="runde-cell">R3</td>
+          <td class="datum-cell">25.09.–06.10.</td>
+          <td>
+            <span class="arc-link missing" title="noch nicht gespielt">–</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R3/DOEBAna_W2.html" class="arc-link w2">W2</a>
+            <span class="result-badge badge-u">5:5</span>
+            <span style="font-size:10px;color:var(--text-dim)"> GEB2</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R3/DOEBAna_V1.html" class="arc-link v1">V1</a>
+            <span class="result-badge badge-n">4:6</span>
+            <span style="font-size:10px;color:var(--text-dim)"> OWA2</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R3/DOEBAna_V2.html" class="arc-link v2">V2</a>
+            <span class="result-badge badge-s">6:4</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="runde-cell">R4</td>
+          <td class="datum-cell">07.–08.10.</td>
+          <td>
+            <span class="arc-link missing" title="noch nicht gespielt">–</span>
+          </td>
+          <td>
+            <span class="arc-link missing" title="noch nicht gespielt">–</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R4/DOEBAna_V1.html" class="arc-link v1">V1</a>
+            <span class="result-badge badge-s">6:2</span>
+            <span style="font-size:10px;color:var(--text-dim)"> SKH1</span>
+          </td>
+          <td>
+            <a href="AR/2026/DG1/R4/DOEBAna_V2.html" class="arc-link v2">V2</a>
+            <span class="result-badge badge-u">5:5</span>
+            <span style="font-size:10px;color:var(--text-dim)"> (unbet.)</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="runde-cell" style="color:var(--text-dim)">R5–R14</td>
+          <td class="datum-cell" style="color:var(--text-dim)">offen</td>
+          <td colspan="4" style="color:var(--text-dim);font-size:11px;">noch ausstehend</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box" style="margin-top:12px">
+      ¹ W2 R1 noch nicht in XTTV eingetragen (Stand: 10.10.2026)
     </div>
   </div>
-  <div class="note">
-    <strong>Legende:</strong><br>
-    MSJ = Mannschaftssaison-Jahr · beginnt September des Jahres x, endet Juni des Jahres x+1<br>
-    DG1 = Durchgang 1 Herbst · DG2 = Durchgang 2 Frühjahr<br>
-    Ausgegraut = noch keine Daten archiviert
+
+  <!-- DG2 -->
+  <div id="dg2" class="dg-section">
+    <div class="dg-label">Durchgang 2 · geplant</div>
+    <div class="info-box">DG2 beginnt voraussichtlich Jänner 2027. Hier erscheinen nach Spieltagen die Archiv-Links.</div>
   </div>
+
+  <!-- DG3 -->
+  <div id="dg3" class="dg-section">
+    <div class="dg-label">Durchgang 3 · geplant</div>
+    <div class="info-box">DG3 beginnt voraussichtlich März/April 2027. Hier erscheinen nach Spieltagen die Archiv-Links.</div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+function showDG(id) {
+  document.querySelectorAll('.dg-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.dg-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
 </body>
 </html>
