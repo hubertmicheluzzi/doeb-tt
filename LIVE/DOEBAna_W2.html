@@ -33,12 +33,16 @@ body {
 }
 #bar1::-webkit-scrollbar{display:none;}
 #bar1 {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: #161b22; border-bottom: 1px solid var(--border);
-  padding: 6px 10px; display: flex;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: #161b22;
+  border-bottom: 1px solid var(--border);
+  padding: 5px 10px;
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
+  align-items: stretch;
+  gap: 4px;
 }
 #bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
 #bar1 .sep { color: var(--text-dim); }
@@ -105,9 +109,7 @@ tr:hover td { background: #1a2030; }
 <body>
 
 <div id="bar1">
-  <span class="title">DOEB TT-Übersicht</span>
-  <span class="sep">·</span>
-  <span style="font-size:11px;color:var(--text-dim)">Stand: 10.10.2026</span>
+  <div style="display:flex;align-items:center;gap:6px;"><span class="title">DOEB TT-Übersicht</span><span class="sep">·</span><span style="font-size:11px;color:var(--text-dim)">Stand: 10.10.2026</span></div>
   <div style="display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;">
     <a href="DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
     <a href="DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>

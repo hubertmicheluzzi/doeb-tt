@@ -15,10 +15,18 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #
   --green: #2ea043; --red: #da3633; --yellow: #d29922;
 }
 #bar1::-webkit-scrollbar{display:none;}
-#bar1 { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #161b22; border-bottom: 1px solid var(--border); padding: 6px 10px; display: flex;
+#bar1 {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: #161b22;
+  border-bottom: 1px solid var(--border);
+  padding: 5px 10px;
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 5px; }
+  align-items: stretch;
+  gap: 4px;
+}
 #bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
 #bar1 .sep { color: var(--text-dim); }
 .team-btn { padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; text-decoration: none; border: 1px solid transparent; white-space: nowrap; }
@@ -67,9 +75,7 @@ tr:hover td { background: #1a2030; }
 <body>
 
 <div id="bar1">
-  <span class="title">DOEB TT-Übersicht</span>
-  <span class="sep">·</span>
-  <span style="font-size:11px;color:var(--text-dim)">Stand: 11.09.2026</span>
+  <div style="display:flex;align-items:center;gap:6px;"><span class="title">DOEB TT-Übersicht</span><span class="sep">·</span><span style="font-size:11px;color:var(--text-dim)">Stand: 11.09.2026</span></div>
   <div style="display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;">
     <a href="../../../../LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
     <a href="../../../../LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
