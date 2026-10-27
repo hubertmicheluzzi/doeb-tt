@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-doeb_gen_v0.03.py — DoebAna-Generator (LIVE-Seiten W1, W2, V1, V2)
+doeb_gen_v0.04.py — DoebAna-Generator (LIVE-Seiten, neue Archivseiten, archiv.html)
 
 Liest NUR die öffentlichen Dateien aus doeb-termine:
   data/termine.json   (Format doeb-termine/1)
@@ -10,10 +10,15 @@ Vorlage (Kopfleiste, CSS) und als Quelle für die Analyse-Texte
 (Kommentar Sektion 01, Gegnereinschätzung Sektion 06, Bemerkungen Sektion 09).
 
 Aufruf:
-  python3 tools/doeb_gen_v0.03.py --data <ordner mit termine.json/tabellen.json> [--team w1|w2|v1|v2|alle] [--ziel live|test]
+  python3 tools/doeb_gen_v0.04.py --data <ordner mit termine.json/tabellen.json> [--team w1|w2|v1|v2|alle] [--ziel live|test]
 Ausgabe:
   --ziel live (Standard): LIVE/DOEBAna_<TEAM>.html
   --ziel test:            test/DOEBAna_<TEAM>_gen.html
+Bei --ziel live zusätzlich:
+  - fehlende Archivseiten AR/2026/DG1/R<n>/DOEBAna_<TEAM>.html anlegen
+    (bestehende Archivseiten sind eingefroren und werden NIE überschrieben;
+     nur Platzhalter wie „NOCH NICHT GESPIELT" werden ersetzt)
+  - die Übersicht in archiv.html (Durchgang 1) neu aufbauen
 
 Regeln: unsere Spieler = Rufname, Gegner = Vorname (so wie in den Dateien),
 Ergebnisse immer aus DOEB-Sicht. DoebAna schreibt nie in doeb-termine.
@@ -62,7 +67,7 @@ def inner_text(s, sid, pattern):
 
 KURZ = {'w1': '3.Kl.B', 'w2': 'Gr.VIb', 'v1': '1.Kl.B', 'v2': '4.Kl'}
 
-def build(team, termine, tabellen, vorlage, ziel='live'):
+def build(team, termine, tabellen, vorlage, ziel='live', runde=None):
     b = termine['bewerbe'][team]
     tb = tabellen['bewerbe'][team]
     T = b['label']
@@ -76,8 +81,15 @@ def build(team, termine, tabellen, vorlage, ziel='live'):
                     key=lambda g: g['runde'])
     gespielt = [g for g in spiele if g['status'] == 'past' and g.get('punkteEigen') is not None]
     kommend = [g for g in spiele if g['status'] == 'upcoming']
-    letzte = max(gespielt, key=lambda g: g['datum'])
+    neueste = max(gespielt, key=lambda g: g['datum'])
+    letzte = neueste
+    if runde is not None:  # Momentaufnahme nach dieser Runde (Archiv)
+        letzte = next(g for g in gespielt if g['runde'] == runde)
+        gespielt = [g for g in gespielt if g['datum'] <= letzte['datum']]
+        kommend = [g for g in spiele if g not in gespielt and g['datum'] > letzte['datum']]
     n = letzte['runde']
+    ar = ziel == 'ar'
+    aktuell = letzte is neueste   # nur dann passt die heutige Tabelle
 
     # --- Kumulierte Werte ---
     pts = 0; sp = [0, 0]; cnt = {'S': 0, 'U': 0, 'N': 0}; st = {}; dbl = [0, 0]
@@ -125,8 +137,15 @@ def build(team, termine, tabellen, vorlage, ziel='live'):
     test = ziel == 'test'
     titel = f'TEST · {rd}' if test else f'{KURZ.get(team, "")} · {rd}'
     s = re.sub(r'<title>[^<]*</title>', f'<title>DOEBAna · {T} · {titel}</title>', s, count=1)
-    s = re.sub(r'Stand: \d\d\.\d\d\.\d{4}[^<]*</span></div>',
-               f'Stand: {dmy(tabellen["stand"][:10])}{" · Generator-Test" if test else ""}</span></div>', s, count=1)
+    stand = f'Stand nach Runde {n}' if ar else f'Stand: {dmy(tabellen["stand"][:10])}{" · Generator-Test" if test else ""}'
+    s = re.sub(r'(Stand: \d\d\.\d\d\.\d{4}|Stand nach Runde \d+)[^<]*</span></div>', stand + '</span></div>', s, count=1)
+    if ar:  # Navigation aus AR/2026/DG1/Rn/ zurück; automatische ANA-Logik entfernen (Archiv ist eingefroren)
+        for t in ['W1', 'W2', 'V1', 'V2']:
+            s = s.replace(f'<a href="DOEBAna_{t}.html"', f'<a href="../../../../LIVE/DOEBAna_{t}.html"')
+        s = s.replace('href="../archiv.html"', 'href="../../../../archiv.html"').replace('href="../REAna.html"', 'href="../../../../REAna.html"')
+        a0 = s.find('<script>\n/* ANA (S08)')
+        if a0 >= 0:
+            s = s[:a0] + s[s.index('</script>', a0) + len('</script>\n'):]
     if test:  # Navigation aus test/ zurück nach LIVE/
         for t in ['W1', 'W2', 'V1', 'V2']:
             s = s.replace(f'<a href="DOEBAna_{t}.html"', f'<a href="../LIVE/DOEBAna_{t}.html"')
@@ -219,7 +238,12 @@ def build(team, termine, tabellen, vorlage, ziel='live'):
             top = ' top3' if r['platz'] <= 3 else ''
             tr += (f'      <tr><td class="c"><span class="pos-badge{top}">{r["platz"]}</span></td>'
                    f'<td>{e(r["mannschaft"])}</td>{cells}<td class="c num">{r["punkte"]}</td></tr>\n')
-    s = section(s, 's05', f'''<section id="s05" class="section">
+    if ar and not aktuell:
+        s05 = (f'<section id="s05" class="section">\n  <div class="sec-header">TAB · {liga} · Stand nach R{n}</div>\n'
+               f'  <p style="font-size:12px;color:var(--text-dim)">Ligatabelle zum Stand nach R{n} nicht archiviert — aktuelle Tabelle siehe LIVE.</p>\n</section>')
+    else:
+        s05 = None
+    s = section(s, 's05', s05 or f'''<section id="s05" class="section">
   <div class="sec-header">TAB · {liga} · Stand {dmy(tb["stand"])}</div>
   <table>
     <thead><tr><th class="c">#</th><th>Mannschaft</th><th class="c">Sp</th><th class="c">S</th><th class="c">U</th><th class="c">N</th><th class="c">Spiele</th><th class="c">P</th></tr></thead>
@@ -239,6 +263,8 @@ def build(team, termine, tabellen, vorlage, ziel='live'):
         alt_info = inner_text(vorlage, 's06', r'<div class="next-match-info">([^<]*)</div>') or ''
         txt = inner_text(vorlage, 's06', r'<p[^>]*>(.*?)</p>') if nx['gegner'].replace(' ', '') in alt_info.replace(' ', '') else None
         txt = txt or '<span style="color:var(--text-dim)">(Gegnereinschätzung folgt)</span>'
+        if ar and not aktuell:
+            stat = ''; txt = ''
         s06 = f'''<section id="s06" class="section">
   <div class="sec-header">DEMN · Nächste Partie & Gegnereinschätzung</div>
   <div class="next-match">
@@ -246,12 +272,12 @@ def build(team, termine, tabellen, vorlage, ziel='live'):
     <div class="next-match-info">{e(info)}</div>
     <div class="next-match-sub">{wtag(nx["datum"])} {dmy(nx["datum"])} · {e(nx.get("zeit"))} · {"Heimspiel" if nx["ha"] == "H" else "Auswärtsspiel"}{" · " + e(hinweis(nx["hinweis"])) if nx.get("hinweis") else ""}</div>
   </div>
-  <div style="margin-bottom:8px">
+{"" if ar and not aktuell else f'''  <div style="margin-bottom:8px">
     <strong style="font-size:13px;color:#e6edf3">{e(nx["gegner"])}</strong>
     <span style="font-size:11px;color:var(--text-dim);margin-left:6px">{stat}</span>
   </div>
   <p style="font-size:13px;line-height:1.6">{txt}</p>
-</section>'''
+'''}</section>'''
     else:
         s06 = '<section id="s06" class="section">\n  <div class="sec-header">DEMN · Nächste Partie & Gegnereinschätzung</div>\n  <p style="font-size:12px;color:var(--text-dim)">Kein weiteres Spiel im Durchgang 1.</p>\n</section>'
     s = section(s, 's06', s06)
@@ -275,7 +301,18 @@ def build(team, termine, tabellen, vorlage, ziel='live'):
                 f'<td class="c"><span class="badge {"badge-win" if w else "badge-loss"}">{z["saetze"]}</span></td>'
                 f'<td{"" if w else " class=\"winner\""}>{e(z["gegner"].replace(" / ", "/"))}</td>{DIM}{"D" if z["art"] == "Doppel" else "E"}</td></tr>\n')
     hh = f'{wir} (Heim) – {letzte["gegner"]} (Gast)' if letzte['ha'] == 'H' else f'{letzte["gegner"]} (Heim) – {wir} (Gast)'
-    s = section(s, 's08', f'''<section id="s08" class="section">
+    statisch = f'''    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">{e(hh)} &nbsp;·&nbsp; aus DOEB-Sicht <strong>{a}:{c2}</strong> &nbsp;·&nbsp; Aufstellung: {e(letzte.get("spieler"))}</div>
+    <table>
+      <thead><tr><th>{e(wir)}</th><th class="c">Ergebnis</th><th>{e(letzte["gegner"])}</th><th class="c">Art</th></tr></thead>
+      <tbody>
+{trs}      </tbody>
+    </table>
+    <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel</div>
+'''
+    if ar:
+        s = section(s, 's08', f'<section id="s08" class="section">\n  <div class="sec-header">ANA · Einzelpunkte-Analyse · {rd}</div>\n{statisch}</section>')
+    else:
+      s = section(s, 's08', f'''<section id="s08" class="section">
   <div class="sec-header" id="ana-head">ANA · Einzelpunkte-Analyse · {rd}</div>
   <div id="ana-static">
     <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">{e(hh)} &nbsp;·&nbsp; aus DOEB-Sicht <strong>{a}:{c2}</strong> &nbsp;·&nbsp; Aufstellung: {e(letzte.get("spieler"))}</div>
@@ -319,19 +356,56 @@ def build(team, termine, tabellen, vorlage, ziel='live'):
       <tr><td>Siege</td><td class="c win">{cnt["S"]}</td><td>Spielpunkte</td><td class="c num">{sp[0]}:{sp[1]}</td></tr>
       <tr><td>Unentschieden</td><td class="c draw">{cnt["U"]}</td><td>Einzel-Gewinnquote</td><td class="c num">{round(100 * es / (es + en)) if es + en else 0}%</td></tr>
       <tr><td>Niederlagen</td><td class="c loss">{cnt["N"]}</td><td>Doppel-Gewinnquote</td><td class="c num">{round(100 * dbl[0] / sum(dbl)) if sum(dbl) else 0}%</td></tr>
-      <tr><td>Tabellenplatz</td><td class="c num">{eig["platz"]}/{len(tb["tabelle"])}</td><td>Runden gespielt</td><td class="c num">{len(gespielt)}/{MAXR.get(team, "?")}</td></tr>
+      {f'<tr><td>Tabellenplatz</td><td class="c num">{eig["platz"]}/{len(tb["tabelle"])}</td>' if aktuell else '<tr><td></td><td></td>'}<td>Runden gespielt</td><td class="c num">{len(gespielt)}/{MAXR.get(team, "?")}</td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Einzel {es}:{en} · Doppel {dbl[0]}:{dbl[1]} · Kontrolle Tabelle: {eig["einzel"]} / {eig["punkte"]} P</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Einzel {es}:{en} · Doppel {dbl[0]}:{dbl[1]}{f' · Kontrolle Tabelle: {eig["einzel"]} / {eig["punkte"]} P' if aktuell else ''}</div>
 </section>''')
 
     # S11 — Archiv-Links (test/ und LIVE/ liegen gleich tief)
-    links = ''.join(f'    <a href="../AR/2026/DG1/R{g["runde"]}/DOEBAna_{T}.html" class="arc-link">DG1 R{g["runde"]} · {dmy(g["datum"])}</a>\n'
-                    for g in gespielt)
+    pre = '../' if ar else '../AR/2026/DG1/'
+    links = ''.join(f'    <a href="{pre}R{g["runde"]}/DOEBAna_{T}.html" class="arc-link">DG1 R{g["runde"]} · {dmy(g["datum"])}</a>\n'
+                    for g in sorted(gespielt, key=lambda g: g['datum']))
     i = s.index('<div class="arc-grid">'); j = s.index('</div>', i)
     s = s[:i] + '<div class="arc-grid">\n' + links + '  ' + s[j:]
     return s, dict(team=T, runde=n, punkte=pts, spielpunkte=f'{sp[0]}:{sp[1]}', tabelle=f'{eig["einzel"]} / {eig["punkte"]} P',
                    spieler={k: v for k, v in st.items()})
+
+def ist_platzhalter(pfad):
+    if not os.path.exists(pfad):
+        return True
+    t = open(pfad, encoding='utf-8').read()
+    return len(t) < 2000 and ('NOCH NICHT GESPIELT' in t or '<section' not in t)
+
+def archiv_tabelle(termine):
+    """Baut die Runden×Teams-Tabelle für Durchgang 1 in archiv.html."""
+    teams = ['w1', 'w2', 'v1', 'v2']
+    farbe = {'w1': '#90caf9', 'w2': '#90caf9', 'v1': '#ffcc80', 'v2': '#ffcc80'}
+    sp = {t: {g['runde']: g for g in termine['bewerbe'][t]['spiele'] if g.get('durchgang') == 1} for t in teams}
+    gespielt = lambda g: g['status'] == 'past' and g.get('punkteEigen') is not None
+    max_r = max([r for t in teams for r, g in sp[t].items() if gespielt(g) or g.get('hinweis')] or [1])
+    def zelle(t, r):
+        T = termine['bewerbe'][t]['label']
+        g = sp[t].get(r)
+        if g is None:
+            if r < max(sp[t]):
+                return '          <td><span class="arc-link missing" title="spielfrei">–</span> <span style="font-size:10px;color:var(--text-dim)">spielfrei</span></td>\n'
+            return '          <td><span class="arc-link missing" title="noch nicht gespielt">–</span></td>\n'
+        if gespielt(g):
+            a, b = g['punkteEigen'], g['punkteGegner']
+            cls = 'badge-s' if a > b else ('badge-u' if a == b else 'badge-n')
+            return (f'          <td>\n            <a href="AR/2026/DG1/R{r}/DOEBAna_{T}.html" class="arc-link {t}">{dmy(g["datum"], True)}</a>\n'
+                    f'            <span class="result-badge {cls}">{a}:{b}</span>\n'
+                    f'            <span style="font-size:10px;color:var(--text-dim)"> {e(g["gegner"])}</span>\n          </td>\n')
+        if g.get('hinweis'):
+            return (f'          <td><span class="arc-link missing" title="{e(hinweis(g["hinweis"]))}">–</span> '
+                    f'<span style="font-size:10px;color:var(--text-dim)">{e(hinweis(g["hinweis"]))} · {dmy(g["datum"], True)}</span></td>\n')
+        return '          <td><span class="arc-link missing" title="noch nicht gespielt">–</span></td>\n'
+    kopf = ''.join(f'          <th><span class="team-header" style="color:{farbe[t]}">{termine["bewerbe"][t]["label"]}</span> · {KURZ[t]}</th>\n' for t in teams)
+    rows = ''.join(f'        <tr>\n          <td class="runde-cell">R{r}</td>\n' + ''.join(zelle(t, r) for t in teams) + '        </tr>\n'
+                   for r in range(1, max_r + 1))
+    return ('<table class="arc-table">\n      <thead>\n        <tr>\n          <th class="runde-cell">Runde</th>\n' + kopf +
+            '        </tr>\n      </thead>\n      <tbody>\n' + rows + '      </tbody>\n    ')
 
 def main():
     ap = argparse.ArgumentParser()
@@ -357,6 +431,28 @@ def main():
         open(out, 'w', encoding='utf-8').write(s)
         print('geschrieben:', os.path.relpath(out, ROOT), '·', info['team'], 'R' + str(info['runde']),
               info['punkte'], 'P', info['spielpunkte'], '· Tabelle', info['tabelle'])
+        if a.ziel != 'live':
+            continue
+        # neue Archivseiten (nur wo noch keine echte Momentaufnahme existiert)
+        for g in termine['bewerbe'][team]['spiele']:
+            if g.get('durchgang') != 1 or g['status'] != 'past' or g.get('punkteEigen') is None:
+                continue
+            pfad = os.path.join(ROOT, 'AR', '2026', 'DG1', f'R{g["runde"]}', f'DOEBAna_{T}.html')
+            if not ist_platzhalter(pfad):
+                continue
+            arch, _ = build(team, termine, tabellen, s, 'ar', g['runde'])
+            os.makedirs(os.path.dirname(pfad), exist_ok=True)
+            open(pfad, 'w', encoding='utf-8').write(arch)
+            print('  neue Archivseite:', os.path.relpath(pfad, ROOT))
+    if a.ziel == 'live':
+        p = os.path.join(ROOT, 'archiv.html')
+        h = open(p, encoding='utf-8').read()
+        i = h.index('<table class="arc-table">'); j = h.index('</table>', i)
+        h2 = h[:i] + archiv_tabelle(termine) + h[j:]
+        h2 = re.sub(r'Stand: \d\d\.\d\d\.\d{4}</span></div>', f'Stand: {dmy(tabellen["stand"][:10])}</span></div>', h2, count=1)
+        if h2 != h:
+            open(p, 'w', encoding='utf-8').write(h2)
+            print('archiv.html aktualisiert')
 
 if __name__ == '__main__':
     main()
