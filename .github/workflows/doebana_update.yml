@@ -1,6 +1,6 @@
 # DoebAna automatisch aktualisieren
 # Liest NUR die öffentlichen Dateien aus doeb-termine (termine.json, tabellen.json),
-# baut damit die LIVE-Seiten, neue Archivseiten und archiv.html (tools/doeb_gen_v0.04.py)
+# baut damit die LIVE-Seiten, neue Archivseiten und archiv.html (tools/doeb_gen_v0.05.py)
 # und pusht nur, wenn sich etwas geändert hat. In doeb-termine wird nie geschrieben.
 
 name: DoebAna-Update
@@ -33,7 +33,7 @@ jobs:
           persist-credentials: false
 
       - name: Seiten bauen
-        run: python3 tools/doeb_gen_v0.04.py --data _quelle/data
+        run: python3 tools/doeb_gen_v0.05.py --data _quelle/data
 
       - name: Änderungen pushen (nur wenn nötig)
         run: |

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-doeb_gen_v0.04.py — DoebAna-Generator (LIVE-Seiten, neue Archivseiten, archiv.html)
+doeb_gen_v0.05.py — DoebAna-Generator (LIVE-Seiten, neue Archivseiten, archiv.html, automatische Analyse-Texte)
 
 Liest NUR die öffentlichen Dateien aus doeb-termine:
   data/termine.json   (Format doeb-termine/1)
@@ -10,7 +10,7 @@ Vorlage (Kopfleiste, CSS) und als Quelle für die Analyse-Texte
 (Kommentar Sektion 01, Gegnereinschätzung Sektion 06, Bemerkungen Sektion 09).
 
 Aufruf:
-  python3 tools/doeb_gen_v0.04.py --data <ordner mit termine.json/tabellen.json> [--team w1|w2|v1|v2|alle] [--ziel live|test]
+  python3 tools/doeb_gen_v0.05.py --data <ordner mit termine.json/tabellen.json> [--team w1|w2|v1|v2|alle] [--ziel live|test]
 Ausgabe:
   --ziel live (Standard): LIVE/DOEBAna_<TEAM>.html
   --ziel test:            test/DOEBAna_<TEAM>_gen.html
@@ -19,6 +19,9 @@ Bei --ziel live zusätzlich:
     (bestehende Archivseiten sind eingefroren und werden NIE überschrieben;
      nur Platzhalter wie „NOCH NICHT GESPIELT" werden ersetzt)
   - die Übersicht in archiv.html (Durchgang 1) neu aufbauen
+Analyse-Texte: Steht schon ein (von Hand oder von Claude geschriebener) Text für diese
+Runde in der Seite, bleibt er. Sonst schreibt der Generator einen regelbasierten Text
+aus den Zahlen (Kommentar Sektion 01, Gegnereinschätzung 06, Bemerkung 09).
 
 Regeln: unsere Spieler = Rufname, Gegner = Vorname (so wie in den Dateien),
 Ergebnisse immer aus DOEB-Sicht. DoebAna schreibt nie in doeb-termine.
@@ -66,6 +69,116 @@ def inner_text(s, sid, pattern):
     return m.group(1).strip() if m else None
 
 KURZ = {'w1': '3.Kl.B', 'w2': 'Gr.VIb', 'v1': '1.Kl.B', 'v2': '4.Kl'}
+ZAHL = {1: 'ein', 2: 'zwei', 3: 'drei', 4: 'vier', 5: 'fünf', 6: 'sechs', 7: 'sieben', 8: 'acht', 9: 'neun', 10: 'zehn'}
+ORD = {2: 'zweite', 3: 'dritte', 4: 'vierte', 5: 'fünfte', 6: 'sechste', 7: 'siebte', 8: 'achte'}
+
+def liste(namen):
+    namen = list(namen)
+    return namen[0] if len(namen) == 1 else ', '.join(namen[:-1]) + ' und ' + namen[-1]
+
+def bester_gegner(g):
+    """Gegner-Spieler mit den meisten Siegen gegen uns (nur Einzel)."""
+    st = {}
+    for z in g.get('einzel') or []:
+        if z['art'] == 'Einzel':
+            v = st.setdefault(z['gegner'], [0, 0]); v[0 if not z['sieg'] else 1] += 1
+    if not st:
+        return None
+    name, (w, l) = max(st.items(), key=lambda kv: (kv[1][0], -kv[1][1]))
+    return (name, w, l) if w >= 2 else None
+
+def auto_kommentar(g, verlauf, pkt_stand, cnt, rang):
+    a, b = g['punkteEigen'], g['punkteGegner']
+    x = res(a, b); heim = g['ha'] == 'H'
+    art = {'S': 'sieg', 'U': 'remis', 'N': 'niederlage'}[x]
+    kopf = ('Heim' if heim else 'Auswärts') + art
+    gg = ('gegen ' if heim else 'bei ') + g['gegner']
+    if not g.get('einzel'):
+        return f'{kopf.capitalize()} {a}:{b} {gg} — kampflos, der Gegner ist nicht angetreten. Die Spielerstatistik bleibt unverändert.'
+    # Serie
+    serie = 1
+    for vg in reversed(verlauf[:-1]):
+        if res(vg['punkteEigen'], vg['punkteGegner']) == x: serie += 1
+        else: break
+    wort = {'S': 'Sieg', 'U': 'Unentschieden', 'N': 'Niederlage'}[x]
+    if len(verlauf) == 1:
+        zusatz = ' zum Saisonstart'
+    elif serie >= 2:
+        zusatz = f', {"der" if x == "S" else "das" if x == "U" else "die"} {ORD.get(serie, str(serie) + ".")} {wort} in Folge'
+    elif x == 'S' and len(verlauf) >= 2:
+        zusatz = ' nach zuletzt ' + {'N': 'einer Niederlage', 'U': 'einem Unentschieden'}.get(res(verlauf[-2]['punkteEigen'], verlauf[-2]['punkteGegner']), 'einem Sieg')
+    else:
+        zusatz = ''
+    saetze = [f'{kopf} {a}:{b} {gg}{zusatz}.']
+    # Spieler
+    st = {}
+    for z in g['einzel']:
+        if z['art'] == 'Einzel':
+            v = st.setdefault(z['spieler'], [0, 0]); v[0 if z['sieg'] else 1] += 1
+    alle = [p for p, (w, l) in st.items() if l == 0 and w >= 2]
+    ohne = [p for p, (w, l) in st.items() if w == 0]
+    sonst = [(p, w) for p, (w, l) in st.items() if p not in alle and w > 0]
+    if alle:
+        saetze.append(f'{liste(alle)} {"gewann" if len(alle) == 1 else "gewannen"} alle Einzel.')
+    if sonst:
+        anz = lambda w: 'einen Punkt' if w == 1 else f'{ZAHL.get(w, w)} Punkte'
+        namen = [p for p, w in sonst]
+        dz = ' dazu' if alle else ''
+        if len(set(w for p, w in sonst)) == 1:          # alle gleich viele Punkte
+            w = sonst[0][1]
+            if len(namen) == 1:
+                satz = f'{namen[0]} holte{dz} {anz(w)}'
+            else:
+                satz = f'{liste(namen)} holten{dz} je {anz(w)}'
+        else:
+            satz = ', '.join(f'{p} {anz(w)}' for p, w in sonst[:-1]) + f' und {sonst[-1][0]} {anz(sonst[-1][1])}'
+            satz = f'Punkte holten{dz} ' + satz
+        saetze.append(satz + '.')
+    if ohne:
+        saetze.append(f'{liste(ohne)} {"blieb" if len(ohne) == 1 else "blieben"} ohne Einzelsieg.')
+    d = [z for z in g['einzel'] if z['art'] == 'Doppel']
+    if d:
+        z = d[0]
+        saetze.append(f'Das Doppel {z["spieler"].replace(" / ", "/")} {"gewann" if z["sieg"] else "verlor"} {z["saetze"]}.')
+    fuenf_n = sum(1 for z in g['einzel'] if not z['sieg'] and z['saetze'] == '2:3')
+    fuenf_s = sum(1 for z in g['einzel'] if z['sieg'] and z['saetze'] == '3:2')
+    if fuenf_n >= 2:
+        saetze.append(f'{ZAHL.get(fuenf_n, fuenf_n).capitalize()} Spiele gingen erst im fünften Satz verloren.')
+    elif fuenf_s >= 2:
+        saetze.append(f'{ZAHL.get(fuenf_s, fuenf_s).capitalize()} Spiele wurden im fünften Satz gewonnen.')
+    bg = bester_gegner(g)
+    if bg and bg[2] == 0:
+        saetze.append(f'Bei {g["gegner"]} blieb {bg[0]} ungeschlagen.')
+    stand = (f'Nach {len(verlauf)} Spiel{"en" if len(verlauf) > 1 else ""}: {cnt["S"]}S-{cnt["U"]}U-{cnt["N"]}N, '
+             f'{pkt_stand} Punkt{"" if pkt_stand == 1 else "e"}')
+    saetze.append(stand + (f', Rang {rang}.' if rang else '.'))
+    return ' '.join(saetze)
+
+def auto_einschaetzung(nx, ng, eig):
+    if not ng:
+        return ''
+    o = ng[0]
+    t = (f'{nx["gegner"]} steht auf Rang {o["platz"]} mit {o["punkte"]} Punkten aus {o["spiele"]} Spielen '
+         f'({o["siege"]}S-{o["unentschieden"]}U-{o["niederlagen"]}N, Spielverhältnis {o["einzel"]}).')
+    diff = eig['platz'] - o['platz']
+    if diff >= 3:
+        t += ' Ein klar höher platzierter Gegner — ein Punkt wäre ein Erfolg.'
+    elif diff <= -3:
+        t += f' {eig["mannschaft"]} liegt deutlich besser und geht als Favorit ins Spiel.'
+    else:
+        t += ' Ein Gegner auf Augenhöhe — das Spiel ist offen.'
+    if nx['ha'] == 'H':
+        t += ' Heimvorteil für DOEB.'
+    return t
+
+def auto_bemerkung(g):
+    if not g.get('einzel'):
+        return 'nicht angetreten (kampflos)'
+    bg = bester_gegner(g)
+    if not bg:
+        return ''
+    return f'{bg[0]} ungeschlagen ({bg[1]} Siege)' if bg[2] == 0 else f'{bg[0]} stärkster Spieler'
+
 
 def build(team, termine, tabellen, vorlage, ziel='live', runde=None):
     b = termine['bewerbe'][team]
@@ -123,7 +236,7 @@ def build(team, termine, tabellen, vorlage, ziel='live', runde=None):
         mtb += f'<td class="c"><span class="badge {BADGE[x]}">{a}:{c2}</span></td>'
         geg += (f'      <tr><td>{e(g["gegner"])}</td><td class="c">R{r}</td><td class="c">{g["ha"]}</td>'
                 f'<td class="c"><span class="badge {BADGE[x]}">{a}:{c2}</span></td>'
-                f'<td style="font-size:11px;color:var(--text-muted)">{alte_bem.get(g["gegner"], "")}</td></tr>\n')
+                f'<td style="font-size:11px;color:var(--text-muted)">{alte_bem.get(g["gegner"]) or auto_bemerkung(g)}</td></tr>\n')
         for z in g.get('einzel') or []:
             if z['art'] == 'Doppel':
                 dbl[0 if z['sieg'] else 1] += 1
@@ -154,7 +267,10 @@ def build(team, termine, tabellen, vorlage, ziel='live', runde=None):
     a, c2 = letzte['punkteEigen'], letzte['punkteGegner']; rr = res(a, c2)
     alt_hdr = inner_text(vorlage, 's01', r'<div class="sec-header">([^<]*)</div>') or ''
     kommentar = inner_text(vorlage, 's01', r'<p class="result-comment">(.*?)</p>') if f'R{n} ' in alt_hdr + ' ' else None
-    kommentar = kommentar or '<span style="color:var(--text-dim)">(Analyse-Text folgt)</span>'
+    if not kommentar or 'Analyse-Text folgt' in kommentar:
+        verlauf = sorted(gespielt, key=lambda g: g['datum'])
+        rang = eig['platz'] if aktuell else None
+        kommentar = html.escape(auto_kommentar(letzte, verlauf, pts, cnt, rang), quote=False)
     s = section(s, 's01', f'''<section id="s01" class="section">
   <div class="sec-header">{T} · {liga} · {rd}</div>
   <div class="result-big">
@@ -262,7 +378,8 @@ def build(team, termine, tabellen, vorlage, ziel='live', runde=None):
                 f' · {ng[0]["einzel"]} · {ng[0]["punkte"]} Pkte') if ng else ''
         alt_info = inner_text(vorlage, 's06', r'<div class="next-match-info">([^<]*)</div>') or ''
         txt = inner_text(vorlage, 's06', r'<p[^>]*>(.*?)</p>') if nx['gegner'].replace(' ', '') in alt_info.replace(' ', '') else None
-        txt = txt or '<span style="color:var(--text-dim)">(Gegnereinschätzung folgt)</span>'
+        if not txt or 'folgt)' in txt:
+            txt = html.escape(auto_einschaetzung(nx, ng, eig), quote=False)
         if ar and not aktuell:
             stat = ''; txt = ''
         s06 = f'''<section id="s06" class="section">
