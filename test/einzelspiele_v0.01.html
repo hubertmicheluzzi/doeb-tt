@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEBAna · Test Einzelspiele V1 · v0.01</title>
+<style>
+:root {
+  --bg:#0d1117; --card:#161b22; --border:#30363d; --text:#c9d1d9; --bright:#e6edf3;
+  --muted:#8b949e; --dim:#6e7681; --green:#3fb950; --red:#f85149; --v1:#6b4a1f; --v1-hell:#ffcc80;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:var(--text); font-size:14px; line-height:1.5; padding:16px; }
+.title { font-size:15px; font-weight:700; color:var(--bright); }
+.title a { color:inherit; text-decoration:none; }
+.sub { font-size:12px; color:var(--dim); margin:4px 0 14px; }
+.box { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:12px; margin-bottom:14px; }
+.box h2 { font-size:13px; color:var(--v1-hell); border-top:2px solid var(--v1); padding-top:6px; margin-bottom:8px; }
+.wrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; font-size:13px; }
+th, td { padding:5px 8px; border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; }
+th { color:var(--dim); font-weight:600; font-size:11px; }
+td.c, th.c { text-align:center; }
+.s { color:var(--green); font-weight:600; }
+.n { color:var(--red); font-weight:600; }
+.fehler { color:var(--red); }
+.kontrolle { font-size:12px; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="title"><a href="https://hubertmicheluzzi.github.io/doeb-termine/">DOEB TT-Übersicht</a> · Test: Einzelspiele V1 · v0.01</div>
+<div class="sub" id="stand">Lade Daten …</div>
+
+<div class="box">
+  <h2>Kontrolle</h2>
+  <div class="kontrolle" id="kontrolle">–</div>
+</div>
+
+<div class="box">
+  <h2>V1 · alle Einzelspiele (neueste zuerst)</h2>
+  <div class="wrap">
+    <table>
+      <thead><tr><th>Datum</th><th>Runde</th><th class="c">Nr</th><th>Spieler</th><th>Gegner</th><th>Gegner-Team</th><th class="c">Sätze</th><th class="c">S/N</th></tr></thead>
+      <tbody id="liste"><tr><td colspan="8">Lade …</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="sub">Quelle: doeb-termine/data/spieler.json (nur lesen) · Sätze aus DOEB-Sicht · Testseite, nicht verlinkt</div>
+
+<script>
+const QUELLE = 'https://hubertmicheluzzi.github.io/doeb-termine/data/spieler.json';
+const NR = ['I','II','III','IIIA','IV','V','VI','VII','VIII','IX','X'];
+
+function esc(t) {
+  return String(t == null ? '–' : t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+function datumDE(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
+  return m ? m[3] + '.' + m[2] + '.' + m[1] : esc(iso);
+}
+function rundeDE(r) {
+  const m = /^(\d+)\.(\d+)$/.exec(r || '');
+  return m ? 'DG' + m[1] + ' R' + m[2] : esc(r);
+}
+
+fetch(QUELLE + '?t=' + Date.now(), {cache:'no-store'})
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(daten => {
+    if (daten.format !== 'doeb-spieler/1') throw new Error('Unbekanntes Format: ' + daten.format);
+
+    const stand = daten.stand ? new Date(daten.stand) : null;
+    document.getElementById('stand').textContent =
+      'Datenstand: ' + (stand ? stand.toLocaleString('de-AT', {dateStyle:'medium', timeStyle:'short'}) : 'unbekannt');
+
+    const zeilen = [];
+    (daten.spieler || []).forEach(sp => {
+      (sp.spiele || []).forEach(g => {
+        if (g.bewerb === 'v1' && g.art === 'Einzel') zeilen.push(Object.assign({spieler: sp.name}, g));
+      });
+    });
+
+    zeilen.sort((a, b) =>
+      (b.datum || '').localeCompare(a.datum || '') ||
+      NR.indexOf(a.nr) - NR.indexOf(b.nr));
+
+    const siege = zeilen.filter(z => z.sieg).length;
+    const runden = new Set(zeilen.map(z => z.runde)).size;
+    document.getElementById('kontrolle').innerHTML =
+      esc(zeilen.length) + ' Einzelspiele in ' + runden + ' Runden · ' +
+      '<span class="s">' + siege + ' gewonnen</span> · ' +
+      '<span class="n">' + (zeilen.length - siege) + ' verloren</span>';
+
+    document.getElementById('liste').innerHTML = zeilen.length
+      ? zeilen.map(z => '<tr>' +
+          '<td>' + datumDE(z.datum) + '</td>' +
+          '<td>' + rundeDE(z.runde) + '</td>' +
+          '<td class="c">' + esc(z.nr) + '</td>' +
+          '<td>' + esc(z.spieler) + '</td>' +
+          '<td>' + esc(z.gegner) + '</td>' +
+          '<td>' + esc(z.gegnerTeam) + '</td>' +
+          '<td class="c">' + esc(z.saetze) + '</td>' +
+          '<td class="c ' + (z.sieg ? 's' : 'n') + '">' + (z.sieg ? 'S' : 'N') + '</td>' +
+        '</tr>').join('')
+      : '<tr><td colspan="8">Keine V1-Einzelspiele in der Datei gefunden.</td></tr>';
+  })
+  .catch(err => {
+    document.getElementById('stand').innerHTML = '<span class="fehler">Daten konnten nicht geladen werden: ' + esc(err.message) + '</span>';
+    document.getElementById('liste').innerHTML = '<tr><td colspan="8" class="fehler">Keine Daten.</td></tr>';
+  });
+</script>
+</body>
+</html>
