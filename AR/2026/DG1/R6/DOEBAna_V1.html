@@ -70,6 +70,8 @@ tr:hover td { background: #1a2030; }
 .arc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
 .arc-link { display: block; padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text-muted); text-decoration: none; }
 .arc-link:hover { background: #2a1500; color: #e6edf3; }
+.result-big { display:flex; align-items:center; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
+.result-comment { font-size:13px; color:#c9d1d9; line-height:1.6; }
 </style>
 </head>
 <body>
@@ -102,21 +104,19 @@ tr:hover td { background: #1a2030; }
 <!-- S01 -->
 <section id="s01" class="section">
   <div class="sec-header">V1 · VÖB 1. Klasse B · DG1 R6 · 22.10.2026</div>
-  <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;flex-wrap:wrap">
+  <div class="result-big">
     <div>
       <div class="result-meta">Auswärts · KSV Wiener Linien 4</div>
       <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
         <span class="result-score">6 : 3</span>
         <span class="badge badge-win">S</span>
       </div>
-      <div class="result-meta" style="margin-top:3px">WILI 4 · Do. 22.10.2026 · bestätigt</div>
+      <div class="result-meta" style="margin-top:3px">WILI 4 · 22.10.2026</div>
     </div>
   </div>
   <p class="result-comment">
-    Klarer Auswärtssieg beim Tabellenvorletzten. Erik gab bei seinem ersten Einsatz der Saison kein Spiel ab:
-    drei Einzelsiege und gemeinsam mit Hubert das Doppel. Bary holte zwei Einzelpunkte, verlor nur gegen Sasa.
-    Hubert blieb im Einzel ohne Sieg, hat aber nun alle drei Doppel der Saison gewonnen.
-    Nach 6 Runden: 3S-1U-2N, 10 Punkte — Sprung von Rang 5 auf Rang 4.
+    Klarer Auswärtssieg beim Tabellenvorletzten. Erik gab bei seinem ersten Einsatz der Saison kein Spiel ab: drei Einzelsiege und gemeinsam mit HM das Doppel. Bary holte zwei Einzelpunkte. HM blieb im Einzel ohne Sieg, hat aber alle drei Doppel der Saison gewonnen.
+    Nach 6 Spielen: 3S-1U-2N, 10 Punkte.
   </p>
 </section>
 
@@ -126,21 +126,9 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">D</th><th>Detail</th></tr></thead>
     <tbody>
-      <tr>
-        <td>Erik</td>
-        <td class="c win">3</td><td class="c loss">0</td><td class="c win">1:0</td>
-        <td style="font-size:11px;color:var(--text-muted)">3:0 gg. Jan · 3:1 gg. Robert · 3:1 gg. Sasa (D: 3:1)</td>
-      </tr>
-      <tr>
-        <td>Bary</td>
-        <td class="c win">2</td><td class="c loss">1</td><td class="c">–</td>
-        <td style="font-size:11px;color:var(--text-muted)">3:2 gg. Robert · 0:3 gg. Sasa · 3:1 gg. Jan</td>
-      </tr>
-      <tr>
-        <td>Hubert</td>
-        <td class="c win">0</td><td class="c loss">2</td><td class="c win">1:0</td>
-        <td style="font-size:11px;color:var(--text-muted)">1:3 gg. Sasa · 0:3 gg. Jan (D: 3:1)</td>
-      </tr>
+      <tr><td>Bary</td><td class="c win">2</td><td class="c loss">1</td><td class="c">–</td><td style="font-size:11px;color:var(--text-muted)">3:2 gg. Robert · 0:3 gg. Sasa · 3:1 gg. Jan</td></tr>
+      <tr><td>HM</td><td class="c win">0</td><td class="c loss">2</td><td class="c win">1:0</td><td style="font-size:11px;color:var(--text-muted)">1:3 gg. Sasa · 0:3 gg. Jan · (D: 3:1)</td></tr>
+      <tr><td>Erik</td><td class="c win">3</td><td class="c loss">0</td><td class="c win">1:0</td><td style="font-size:11px;color:var(--text-muted)">3:0 gg. Jan · 3:1 gg. Robert · 3:1 gg. Sasa · (D: 3:1)</td></tr>
     </tbody>
   </table>
   <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">E = Einzel · D = Doppel (Siege:Niederlagen) · alle Ergebnisse aus DOEB-Sicht</div>
@@ -152,39 +140,15 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Rd</th><th>Datum</th><th>H/A</th><th>Gegner</th><th class="c">Erg</th><th class="c">MP</th><th class="c">P</th></tr></thead>
     <tbody>
-      <tr>
-        <td>R1</td><td>10.09.</td><td>A</td><td>BKA 1</td>
-        <td class="c"><span class="badge badge-loss">2:6</span></td>
-        <td class="c loss">N</td><td class="c num">0</td>
-      </tr>
-      <tr>
-        <td>R2</td><td>17.09.</td><td>H</td><td>LAND 1 <span style="font-size:10px;color:var(--text-dim)">(kl.)</span></td>
-        <td class="c"><span class="badge badge-win">7:0</span></td>
-        <td class="c win">S</td><td class="c num">3</td>
-      </tr>
-      <tr>
-        <td>R3</td><td>23.09.</td><td>A</td><td>OWA 2</td>
-        <td class="c"><span class="badge badge-loss">4:6</span></td>
-        <td class="c loss">N</td><td class="c num">3</td>
-      </tr>
-      <tr>
-        <td>R4</td><td>07.10.</td><td>A</td><td>SKH 1</td>
-        <td class="c"><span class="badge badge-win">6:2</span></td>
-        <td class="c win">S</td><td class="c num">6</td>
-      </tr>
-      <tr>
-        <td>R5</td><td>15.10.</td><td>H</td><td>ORF 1</td>
-        <td class="c"><span class="badge badge-draw">5:5</span></td>
-        <td class="c draw">U</td><td class="c num">7</td>
-      </tr>
-      <tr>
-        <td>R6</td><td>22.10.</td><td>A</td><td>WILI 4</td>
-        <td class="c"><span class="badge badge-win">6:3</span></td>
-        <td class="c win">S</td><td class="c num">10</td>
-      </tr>
+      <tr><td>R1</td><td>10.09.</td><td>A</td><td>BKA 1</td><td class="c"><span class="badge badge-loss">2:6</span></td><td class="c loss">N</td><td class="c num">0</td></tr>
+      <tr><td>R2</td><td>17.09.</td><td>H</td><td>LAND 1</td><td class="c"><span class="badge badge-win">7:0</span></td><td class="c win">S</td><td class="c num">3</td></tr>
+      <tr><td>R3</td><td>23.09.</td><td>A</td><td>OWA 2</td><td class="c"><span class="badge badge-loss">4:6</span></td><td class="c loss">N</td><td class="c num">3</td></tr>
+      <tr><td>R4</td><td>07.10.</td><td>A</td><td>SKH 1</td><td class="c"><span class="badge badge-win">6:2</span></td><td class="c win">S</td><td class="c num">6</td></tr>
+      <tr><td>R5</td><td>15.10.</td><td>H</td><td>ORF 1</td><td class="c"><span class="badge badge-draw">5:5</span></td><td class="c draw">U</td><td class="c num">7</td></tr>
+      <tr><td>R6</td><td>22.10.</td><td>A</td><td>WILI 4</td><td class="c"><span class="badge badge-win">6:3</span></td><td class="c win">S</td><td class="c num">10</td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Sp 6 · S 3 · U 1 · N 2 · P 10 · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Sp 6 · S 3 · U 1 · N 2 · P 10 · Spielpunkte 30:22 · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
 </section>
 
 <!-- S04 -->
@@ -193,71 +157,23 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">E-%</th><th class="c">D-S</th><th class="c">D-N</th><th class="c">Ges</th></tr></thead>
     <tbody>
-      <tr>
-        <td>Georg</td>
-        <td class="c win">6</td><td class="c loss">0</td><td class="c">100%</td>
-        <td class="c win">2</td><td class="c loss">0</td><td class="c num">8/8</td>
-      </tr>
-      <tr>
-        <td>Erik</td>
-        <td class="c win">3</td><td class="c loss">0</td><td class="c">100%</td>
-        <td class="c win">1</td><td class="c loss">0</td><td class="c num">4/4</td>
-      </tr>
-      <tr>
-        <td>Bary</td>
-        <td class="c win">7</td><td class="c loss">6</td><td class="c">54%</td>
-        <td class="c">–</td><td class="c">–</td><td class="c num">7/13</td>
-      </tr>
-      <tr>
-        <td>Richard</td>
-        <td class="c win">1</td><td class="c loss">1</td><td class="c">50%</td>
-        <td class="c win">0</td><td class="c loss">1</td><td class="c num">1/3</td>
-      </tr>
-      <tr>
-        <td>Lukas</td>
-        <td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td>
-        <td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td>
-      </tr>
-      <tr>
-        <td>Christian</td>
-        <td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td>
-        <td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td>
-      </tr>
-      <tr>
-        <td>Max</td>
-        <td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td>
-        <td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td>
-      </tr>
-      <tr>
-        <td>Hubert</td>
-        <td class="c win">0</td><td class="c loss">7</td><td class="c">0%</td>
-        <td class="c win">3</td><td class="c loss">0</td><td class="c num">3/10</td>
-      </tr>
+      <tr><td>Georg</td><td class="c win">6</td><td class="c loss">0</td><td class="c">100%</td><td class="c win">2</td><td class="c loss">0</td><td class="c num">8/8</td></tr>
+      <tr><td>Erik</td><td class="c win">3</td><td class="c loss">0</td><td class="c">100%</td><td class="c win">1</td><td class="c loss">0</td><td class="c num">4/4</td></tr>
+      <tr><td>Bary</td><td class="c win">7</td><td class="c loss">6</td><td class="c">54%</td><td class="c">–</td><td class="c">–</td><td class="c num">7/13</td></tr>
+      <tr><td>Richi</td><td class="c win">1</td><td class="c loss">1</td><td class="c">50%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/3</td></tr>
+      <tr><td>Luke</td><td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td></tr>
+      <tr><td>Gidi</td><td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td></tr>
+      <tr><td>Max</td><td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td></tr>
+      <tr><td>HM</td><td class="c win">0</td><td class="c loss">7</td><td class="c">0%</td><td class="c win">3</td><td class="c loss">0</td><td class="c num">3/10</td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">R1–R6 · kampfloser Sieg R2 (7:0) nicht in Einzelstatistik · Ges = Siege/Spiele (Einzel + Doppel) · neu nachgerechnet aus voeb.xttv.at</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Stand nach R6 · Ges = Siege/Spiele (Einzel + Doppel) · aus oettv.xttv.at</div>
 </section>
 
 <!-- S05 -->
 <section id="s05" class="section">
-  <div class="sec-header">TAB · VÖB 1. Klasse B · Stand 23.10.2026</div>
-  <table>
-    <thead><tr><th class="c">#</th><th>Mannschaft</th><th class="c">Sp</th><th class="c">S</th><th class="c">U</th><th class="c">N</th><th class="c">Spiele</th><th class="c">P</th></tr></thead>
-    <tbody>
-      <tr><td class="c"><span class="pos-badge top3">1</span></td><td>Brunner TTC 1</td><td class="c">6</td><td class="c win">5</td><td class="c">0</td><td class="c">1</td><td class="c">34:10</td><td class="c num">15</td></tr>
-      <tr><td class="c"><span class="pos-badge top3">2</span></td><td>SK Bundesrechenzentrum 2</td><td class="c">4</td><td class="c win">4</td><td class="c">0</td><td class="c">0</td><td class="c">24:9</td><td class="c num">12</td></tr>
-      <tr><td class="c"><span class="pos-badge top3">3</span></td><td>Otto Wagner Areal 2</td><td class="c">5</td><td class="c win">4</td><td class="c">0</td><td class="c">1</td><td class="c">28:20</td><td class="c num">12</td></tr>
-      <tr class="highlight-row"><td class="c"><span class="pos-badge">4</span></td><td><strong>DÖB 1</strong></td><td class="c">6</td><td class="c win">3</td><td class="c">1</td><td class="c">2</td><td class="c">30:22</td><td class="c num"><strong>10</strong></td></tr>
-      <tr><td class="c"><span class="pos-badge">5</span></td><td>KSV Wiener Netze 1</td><td class="c">4</td><td class="c win">3</td><td class="c">0</td><td class="c">1</td><td class="c">20:10</td><td class="c num">9</td></tr>
-      <tr><td class="c"><span class="pos-badge">6</span></td><td>SK Bundeskanzleramt 1</td><td class="c">4</td><td class="c win">2</td><td class="c">0</td><td class="c">2</td><td class="c">15:17</td><td class="c num">6</td></tr>
-      <tr><td class="c"><span class="pos-badge">7</span></td><td>SK Handelsministerium 1</td><td class="c">5</td><td class="c win">2</td><td class="c">0</td><td class="c">3</td><td class="c">17:26</td><td class="c num">6</td></tr>
-      <tr><td class="c"><span class="pos-badge">8</span></td><td>ORF 1</td><td class="c">5</td><td class="c win">1</td><td class="c">1</td><td class="c">3</td><td class="c">19:26</td><td class="c num">4</td></tr>
-      <tr><td class="c"><span class="pos-badge">9</span></td><td>KSV Wiener Linien 4</td><td class="c">6</td><td class="c win">1</td><td class="c">0</td><td class="c">5</td><td class="c">18:34</td><td class="c num">3</td></tr>
-      <tr><td class="c"><span class="pos-badge">10</span></td><td>WTTC Landstraße 1</td><td class="c">5</td><td class="c win">1</td><td class="c">0</td><td class="c">4</td><td class="c">14:29</td><td class="c num">3</td></tr>
-      <tr><td class="c"><span class="pos-badge">11</span></td><td>ESV FJB 2</td><td class="c">4</td><td class="c win">0</td><td class="c">0</td><td class="c">4</td><td class="c">9:25</td><td class="c num">0</td></tr>
-    </tbody>
-  </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Quelle: voeb.xttv.at · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
+  <div class="sec-header">TAB · VÖB 1. Klasse B · Stand nach R6</div>
+  <p style="font-size:12px;color:var(--text-dim)">Ligatabelle zum Stand nach R6 nicht archiviert — aktuelle Tabelle siehe LIVE.</p>
 </section>
 
 <!-- S06 -->
@@ -266,17 +182,8 @@ tr:hover td { background: #1a2030; }
   <div class="next-match">
     <div class="next-match-title">Nächstes Spiel</div>
     <div class="next-match-info">BTTC 1 – DÖB 1</div>
-    <div class="next-match-sub">Mi. 11.11.2026 · 18:00 · Auswärtsspiel · R7 laut XTTV ohne Spiel für DÖB 1</div>
+    <div class="next-match-sub">Mi. 11.11.2026 · 18:00 · Auswärtsspiel · R7 ohne Spiel für DÖB 1</div>
   </div>
-  <div style="margin-bottom:8px">
-    <strong style="font-size:13px;color:#e6edf3">Brunner TTC 1</strong>
-    <span style="font-size:11px;color:var(--text-dim);margin-left:6px">Rang 1 · 6 Sp · 5S-0U-1N · 34:10 · 15 Pkte</span>
-  </div>
-  <p style="font-size:13px;line-height:1.6">
-    Nach dem Sieg bei WILI 4 wartet der Tabellenführer. Brunn hat nur ein Spiel verloren und mit 34:10 das klar
-    beste Spielverhältnis der Liga. Für DÖB 1 ist das die schwerste Auswärtsaufgabe bisher — jeder Punkt wäre ein Gewinn.
-    Das Doppel war zuletzt eine Stärke (drei Siege in Folge) und kann den Ausschlag geben.
-  </p>
 </section>
 
 <!-- S07 (MTX) -->
@@ -284,45 +191,31 @@ tr:hover td { background: #1a2030; }
   <div class="sec-header">MTX · Ergebnismatrix</div>
   <div style="overflow-x:auto">
     <table>
-      <thead>
-        <tr><th>Team</th><th class="c">BKA1</th><th class="c">LAND1</th><th class="c">OWA2</th><th class="c">SKH1</th><th class="c">ORF1</th><th class="c">WILI4</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>DÖB1</strong></td>
-          <td class="c"><span class="badge badge-loss">2:6</span></td>
-          <td class="c"><span class="badge badge-win">7:0</span></td>
-          <td class="c"><span class="badge badge-loss">4:6</span></td>
-          <td class="c"><span class="badge badge-win">6:2</span></td>
-          <td class="c"><span class="badge badge-draw">5:5</span></td>
-          <td class="c"><span class="badge badge-win">6:3</span></td>
-          <td class="c num" style="color:var(--text-dim)">10P</td>
-        </tr>
-      </tbody>
+      <thead><tr><th>Team</th><th class="c">BKA 1</th><th class="c">LAND 1</th><th class="c">OWA 2</th><th class="c">SKH 1</th><th class="c">ORF 1</th><th class="c">WILI 4</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th></tr></thead>
+      <tbody><tr><td><strong>DÖB 1</strong></td><td class="c"><span class="badge badge-loss">2:6</span></td><td class="c"><span class="badge badge-win">7:0</span></td><td class="c"><span class="badge badge-loss">4:6</span></td><td class="c"><span class="badge badge-win">6:2</span></td><td class="c"><span class="badge badge-draw">5:5</span></td><td class="c"><span class="badge badge-win">6:3</span></td><td class="c num" style="color:var(--text-dim)">10P</td></tr></tbody>
     </table>
   </div>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">kl. = kampfloser Sieg</div>
 </section>
 
 <!-- S08 (ANA) -->
 <section id="s08" class="section">
   <div class="sec-header">ANA · Einzelpunkte-Analyse · DG1 R6 · 22.10.2026</div>
-  <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">WILI 4 (Heim) – DÖB 1 (Gast) &nbsp;·&nbsp; aus DOEB-Sicht <strong>6:3</strong> &nbsp;·&nbsp; Aufstellung: Bary, Hubert, Erik</div>
-  <table>
-    <thead><tr><th>DÖB 1</th><th class="c">Ergebnis</th><th>WILI 4</th><th class="c">Art</th></tr></thead>
-    <tbody>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">WILI 4 (Heim) – DÖB 1 (Gast) &nbsp;·&nbsp; aus DOEB-Sicht <strong>6:3</strong></div>
+    <table>
+      <thead><tr><th>DÖB 1</th><th class="c">Ergebnis</th><th>WILI 4</th><th class="c">Art</th></tr></thead>
+      <tbody>
       <tr><td class="winner">Bary</td><td class="c"><span class="badge badge-win">3:2</span></td><td>Robert</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-      <tr><td>Hubert</td><td class="c"><span class="badge badge-loss">1:3</span></td><td class="winner">Sasa</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>HM</td><td class="c"><span class="badge badge-loss">1:3</span></td><td class="winner">Sasa</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
       <tr><td class="winner">Erik</td><td class="c"><span class="badge badge-win">3:0</span></td><td>Jan</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-      <tr><td class="winner">Hubert/Erik</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Jan/Robert</td><td class="c" style="font-size:11px;color:var(--text-dim)">D</td></tr>
+      <tr><td class="winner">HM/Erik</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Jan/Robert</td><td class="c" style="font-size:11px;color:var(--text-dim)">D</td></tr>
       <tr><td>Bary</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Sasa</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
       <tr><td class="winner">Erik</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Robert</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-      <tr><td>Hubert</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Jan</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>HM</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Jan</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
       <tr><td class="winner">Erik</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Sasa</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
       <tr><td class="winner">Bary</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Jan</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-    </tbody>
-  </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel · Spiel nach 9 Partien entschieden</div>
+      </tbody>
+    </table>
+    <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel</div>
 </section>
 
 <!-- S09 (GEG) -->
@@ -331,12 +224,12 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Kürzel</th><th>Mannschaft</th><th class="c">R</th><th class="c">H/A</th><th class="c">Erg</th><th>Bemerkung</th></tr></thead>
     <tbody>
-      <tr><td>BKA1</td><td>SK Bundeskanzleramt 1</td><td class="c">R1</td><td class="c">A</td><td class="c"><span class="badge badge-loss">2:6</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 6 · 6 Pkte · Adam sehr stark (ungesch.)</td></tr>
-      <tr><td>LAND1</td><td>WTTC Landstraße 1</td><td class="c">R2</td><td class="c">H</td><td class="c"><span class="badge badge-win">7:0</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 10 · 3 Pkte · kampflos · nicht angetreten</td></tr>
-      <tr><td>OWA2</td><td>Otto Wagner Areal 2</td><td class="c">R3</td><td class="c">A</td><td class="c"><span class="badge badge-loss">4:6</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 3 · 12 Pkte · gutes Team</td></tr>
-      <tr><td>SKH1</td><td>SK Handelsministerium 1</td><td class="c">R4</td><td class="c">A</td><td class="c"><span class="badge badge-win">6:2</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 7 · 6 Pkte · Julien stark</td></tr>
-      <tr><td>ORF1</td><td>ORF 1</td><td class="c">R5</td><td class="c">H</td><td class="c"><span class="badge badge-draw">5:5</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 8 · 4 Pkte · Mohsen sehr stark</td></tr>
-      <tr><td>WILI4</td><td>KSV Wiener Linien 4</td><td class="c">R6</td><td class="c">A</td><td class="c"><span class="badge badge-win">6:3</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 9 · 3 Pkte · Sasa stärkster Spieler</td></tr>
+      <tr><td>BKA 1</td><td>SK Bundeskanzleramt 1</td><td class="c">R1</td><td class="c">A</td><td class="c"><span class="badge badge-loss">2:6</span></td><td style="font-size:11px;color:var(--text-muted)">Adam sehr stark (ungeschlagen)</td></tr>
+      <tr><td>LAND 1</td><td>WTTC Landstraße 1</td><td class="c">R2</td><td class="c">H</td><td class="c"><span class="badge badge-win">7:0</span></td><td style="font-size:11px;color:var(--text-muted)">nicht angetreten (kampflos)</td></tr>
+      <tr><td>OWA 2</td><td>Otto Wagner Areal 2</td><td class="c">R3</td><td class="c">A</td><td class="c"><span class="badge badge-loss">4:6</span></td><td style="font-size:11px;color:var(--text-muted)">starkes Team, Pedro ungeschlagen</td></tr>
+      <tr><td>SKH 1</td><td>SK Handelsministerium 1</td><td class="c">R4</td><td class="c">A</td><td class="c"><span class="badge badge-win">6:2</span></td><td style="font-size:11px;color:var(--text-muted)">Julien und Timo stärkste Spieler</td></tr>
+      <tr><td>ORF 1</td><td>ORF 1</td><td class="c">R5</td><td class="c">H</td><td class="c"><span class="badge badge-draw">5:5</span></td><td style="font-size:11px;color:var(--text-muted)">Mohsen sehr stark</td></tr>
+      <tr><td>WILI 4</td><td>KSV Wiener Linien 4</td><td class="c">R6</td><td class="c">A</td><td class="c"><span class="badge badge-win">6:3</span></td><td style="font-size:11px;color:var(--text-muted)">Sasa stärkster Spieler</td></tr>
     </tbody>
   </table>
 </section>
@@ -351,10 +244,10 @@ tr:hover td { background: #1a2030; }
       <tr><td>Siege</td><td class="c win">3</td><td>Spielpunkte</td><td class="c num">30:22</td></tr>
       <tr><td>Unentschieden</td><td class="c draw">1</td><td>Einzel-Gewinnquote</td><td class="c num">50%</td></tr>
       <tr><td>Niederlagen</td><td class="c loss">2</td><td>Doppel-Gewinnquote</td><td class="c num">60%</td></tr>
-      <tr><td>Tabellenplatz</td><td class="c num">4/11</td><td>Runden gespielt</td><td class="c num">6/22</td></tr>
+      <tr><td>Runden gespielt</td><td class="c num">6/22</td><td></td><td></td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Quoten ohne kampflosen Sieg R2 · Einzel 20:20 · Doppel 3:2</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Einzel 20:20 · Doppel 3:2</div>
 </section>
 
 <!-- S11 (ARC) -->
@@ -370,6 +263,7 @@ tr:hover td { background: #1a2030; }
   </div>
   <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">→ <a href="../../../../archiv.html" style="color:var(--text-muted)">Vollständiges Archiv aller Teams</a></div>
 </section>
+
 
 <script>
 const sections = document.querySelectorAll('.section[id]');

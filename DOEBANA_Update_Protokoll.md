@@ -186,3 +186,11 @@ VÖB-Teams: `�` Encoding-Artefakt zwischen Buchstabe und Zahl → beim Parsen 
 
 *Ersetzt: `SU9ANA_Update_Protokoll.md` (su9-tt-Repo, erstellt 14.03.2026) — dieses Repo/diese Datei gilt nicht mehr.*
 *Erstellt: 21.10.2026*
+
+---
+
+## Namensregel (ab 27.10.2026)
+
+- **Unsere Spieler:** Rufname wie in `doeb-termine/data/spieler.json` (Richi, HM, Thom, Fabi, Joh. I., Azi, Luke, Gidi, Bary, Adi, Georg, Max, Erik, Cyril, Leopold …).
+- **Gegner:** nur Vorname. Keine Nachnamen, nirgends.
+- **Ergebnisse:** immer aus DOEB-Sicht (DOEB:Gegner).

@@ -70,6 +70,8 @@ tr:hover td { background: #1a2030; }
 .arc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
 .arc-link { display: block; padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text-muted); text-decoration: none; }
 .arc-link:hover { background: #2a1500; color: #e6edf3; }
+.result-big { display:flex; align-items:center; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
+.result-comment { font-size:13px; color:#c9d1d9; line-height:1.6; }
 </style>
 </head>
 <body>
@@ -102,7 +104,7 @@ tr:hover td { background: #1a2030; }
 <!-- S01 -->
 <section id="s01" class="section">
   <div class="sec-header">V1 · VÖB 1. Klasse B · DG1 R3 · 23.09.2026</div>
-  <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;flex-wrap:wrap">
+  <div class="result-big">
     <div>
       <div class="result-meta">Auswärts · Otto Wagner Areal 2</div>
       <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
@@ -113,8 +115,8 @@ tr:hover td { background: #1a2030; }
     </div>
   </div>
   <p class="result-comment">
-    Knappe Auswärtsniederlage. Georg gewann alle drei Einzel und mit Hubert das Doppel — vier der vier DOEB-Punkte gingen über ihn. Bary verlor zwei Spiele erst im fünften Satz.
-    Nach 3 Runden: 1S-0U-2N, 3 Punkte.
+    Knappe Auswärtsniederlage. Georg gewann alle drei Einzel und mit HM das Doppel — alle vier DOEB-Punkte gingen über ihn. Bary verlor zwei Spiele erst im fünften Satz.
+    Nach 3 Spielen: 1S-0U-2N, 3 Punkte.
   </p>
 </section>
 
@@ -124,21 +126,9 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">D</th><th>Detail</th></tr></thead>
     <tbody>
-      <tr>
-        <td>Bary</td>
-        <td class="c win">0</td><td class="c loss">3</td><td class="c">–</td>
-        <td style="font-size:11px;color:var(--text-muted)">2:3 gg. Arnold · 2:3 gg. Martin · 1:3 gg. Pedro</td>
-      </tr>
-      <tr>
-        <td>Hubert</td>
-        <td class="c win">0</td><td class="c loss">3</td><td class="c win">1:0</td>
-        <td style="font-size:11px;color:var(--text-muted)">1:3 gg. Martin · 0:3 gg. Pedro · 1:3 gg. Arnold · (D: 3:2)</td>
-      </tr>
-      <tr>
-        <td>Georg</td>
-        <td class="c win">3</td><td class="c loss">0</td><td class="c win">1:0</td>
-        <td style="font-size:11px;color:var(--text-muted)">3:2 gg. Pedro · 3:0 gg. Arnold · 3:1 gg. Martin · (D: 3:2)</td>
-      </tr>
+      <tr><td>Bary</td><td class="c win">0</td><td class="c loss">3</td><td class="c">–</td><td style="font-size:11px;color:var(--text-muted)">2:3 gg. Arnold · 2:3 gg. Martin · 1:3 gg. Pedro</td></tr>
+      <tr><td>HM</td><td class="c win">0</td><td class="c loss">3</td><td class="c win">1:0</td><td style="font-size:11px;color:var(--text-muted)">1:3 gg. Martin · 0:3 gg. Pedro · 1:3 gg. Arnold · (D: 3:2)</td></tr>
+      <tr><td>Georg</td><td class="c win">3</td><td class="c loss">0</td><td class="c win">1:0</td><td style="font-size:11px;color:var(--text-muted)">3:2 gg. Pedro · 3:0 gg. Arnold · 3:1 gg. Martin · (D: 3:2)</td></tr>
     </tbody>
   </table>
   <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">E = Einzel · D = Doppel (Siege:Niederlagen) · alle Ergebnisse aus DOEB-Sicht</div>
@@ -150,24 +140,12 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Rd</th><th>Datum</th><th>H/A</th><th>Gegner</th><th class="c">Erg</th><th class="c">MP</th><th class="c">P</th></tr></thead>
     <tbody>
-      <tr>
-        <td>R1</td><td>10.09.</td><td>A</td><td>BKA 1</td>
-        <td class="c"><span class="badge badge-loss">2:6</span></td>
-        <td class="c loss">N</td><td class="c num">0</td>
-      </tr>
-      <tr>
-        <td>R2</td><td>17.09.</td><td>H</td><td>LAND 1 <span style="font-size:10px;color:var(--text-dim)">(kl.)</span></td>
-        <td class="c"><span class="badge badge-win">7:0</span></td>
-        <td class="c win">S</td><td class="c num">3</td>
-      </tr>
-      <tr>
-        <td>R3</td><td>23.09.</td><td>A</td><td>OWA 2</td>
-        <td class="c"><span class="badge badge-loss">4:6</span></td>
-        <td class="c loss">N</td><td class="c num">3</td>
-      </tr>
+      <tr><td>R1</td><td>10.09.</td><td>A</td><td>BKA 1</td><td class="c"><span class="badge badge-loss">2:6</span></td><td class="c loss">N</td><td class="c num">0</td></tr>
+      <tr><td>R2</td><td>17.09.</td><td>H</td><td>LAND 1</td><td class="c"><span class="badge badge-win">7:0</span></td><td class="c win">S</td><td class="c num">3</td></tr>
+      <tr><td>R3</td><td>23.09.</td><td>A</td><td>OWA 2</td><td class="c"><span class="badge badge-loss">4:6</span></td><td class="c loss">N</td><td class="c num">3</td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Sp 3 · S 1 · U 0 · N 2 · P 3 · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Sp 3 · S 1 · U 0 · N 2 · P 3 · Spielpunkte 13:12 · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
 </section>
 
 <!-- S04 -->
@@ -176,34 +154,14 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">E-%</th><th class="c">D-S</th><th class="c">D-N</th><th class="c">Ges</th></tr></thead>
     <tbody>
-      <tr>
-        <td>Georg</td>
-        <td class="c win">3</td><td class="c loss">0</td><td class="c">100%</td>
-        <td class="c win">1</td><td class="c loss">0</td><td class="c num">4/4</td>
-      </tr>
-      <tr>
-        <td>Bary</td>
-        <td class="c win">0</td><td class="c loss">5</td><td class="c">0%</td>
-        <td class="c">–</td><td class="c">–</td><td class="c num">0/5</td>
-      </tr>
-      <tr>
-        <td>Richard</td>
-        <td class="c win">1</td><td class="c loss">1</td><td class="c">50%</td>
-        <td class="c win">0</td><td class="c loss">1</td><td class="c num">1/3</td>
-      </tr>
-      <tr>
-        <td>Max</td>
-        <td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td>
-        <td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td>
-      </tr>
-      <tr>
-        <td>Hubert</td>
-        <td class="c win">0</td><td class="c loss">3</td><td class="c">0%</td>
-        <td class="c win">1</td><td class="c loss">0</td><td class="c num">1/4</td>
-      </tr>
+      <tr><td>Georg</td><td class="c win">3</td><td class="c loss">0</td><td class="c">100%</td><td class="c win">1</td><td class="c loss">0</td><td class="c num">4/4</td></tr>
+      <tr><td>Bary</td><td class="c win">0</td><td class="c loss">5</td><td class="c">0%</td><td class="c">–</td><td class="c">–</td><td class="c num">0/5</td></tr>
+      <tr><td>Richi</td><td class="c win">1</td><td class="c loss">1</td><td class="c">50%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/3</td></tr>
+      <tr><td>Max</td><td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td></tr>
+      <tr><td>HM</td><td class="c win">0</td><td class="c loss">3</td><td class="c">0%</td><td class="c win">1</td><td class="c loss">0</td><td class="c num">1/4</td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">R1–R3 · kampfloser Sieg R2 (7:0) nicht in Einzelstatistik · Ges = Siege/Spiele (Einzel + Doppel) · aus voeb.xttv.at</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Stand nach R3 · Ges = Siege/Spiele (Einzel + Doppel) · aus oettv.xttv.at</div>
 </section>
 
 <!-- S05 -->
@@ -218,7 +176,7 @@ tr:hover td { background: #1a2030; }
   <div class="next-match">
     <div class="next-match-title">Nächstes Spiel</div>
     <div class="next-match-info">SKH 1 – DÖB 1</div>
-    <div class="next-match-sub">07.10.2026 · Auswärtsspiel · SK Handelsministerium 1</div>
+    <div class="next-match-sub">Mi. 07.10.2026 · 18:00 · Auswärtsspiel</div>
   </div>
 </section>
 
@@ -227,43 +185,32 @@ tr:hover td { background: #1a2030; }
   <div class="sec-header">MTX · Ergebnismatrix</div>
   <div style="overflow-x:auto">
     <table>
-      <thead>
-        <tr><th>Team</th><th class="c">BKA1</th><th class="c">LAND1</th><th class="c">OWA2</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>DÖB1</strong></td>
-          <td class="c"><span class="badge badge-loss">2:6</span></td>
-          <td class="c"><span class="badge badge-win">7:0</span></td>
-          <td class="c"><span class="badge badge-loss">4:6</span></td>
-          <td class="c num" style="color:var(--text-dim)">3P</td>
-        </tr>
-      </tbody>
+      <thead><tr><th>Team</th><th class="c">BKA 1</th><th class="c">LAND 1</th><th class="c">OWA 2</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th></tr></thead>
+      <tbody><tr><td><strong>DÖB 1</strong></td><td class="c"><span class="badge badge-loss">2:6</span></td><td class="c"><span class="badge badge-win">7:0</span></td><td class="c"><span class="badge badge-loss">4:6</span></td><td class="c num" style="color:var(--text-dim)">3P</td></tr></tbody>
     </table>
   </div>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">kl. = kampfloser Sieg</div>
 </section>
 
 <!-- S08 (ANA) -->
 <section id="s08" class="section">
   <div class="sec-header">ANA · Einzelpunkte-Analyse · DG1 R3 · 23.09.2026</div>
-  <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">OWA 2 (Heim) – DÖB 1 (Gast) &nbsp;·&nbsp; aus DOEB-Sicht <strong>4:6</strong></div>
-  <table>
-    <thead><tr><th>DÖB 1</th><th class="c">Ergebnis</th><th>OWA 2</th><th class="c">Art</th></tr></thead>
-    <tbody>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">OWA 2 (Heim) – DÖB 1 (Gast) &nbsp;·&nbsp; aus DOEB-Sicht <strong>4:6</strong></div>
+    <table>
+      <thead><tr><th>DÖB 1</th><th class="c">Ergebnis</th><th>OWA 2</th><th class="c">Art</th></tr></thead>
+      <tbody>
       <tr><td>Bary</td><td class="c"><span class="badge badge-loss">2:3</span></td><td class="winner">Arnold</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-      <tr><td>Hubert</td><td class="c"><span class="badge badge-loss">1:3</span></td><td class="winner">Martin</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>HM</td><td class="c"><span class="badge badge-loss">1:3</span></td><td class="winner">Martin</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
       <tr><td class="winner">Georg</td><td class="c"><span class="badge badge-win">3:2</span></td><td>Pedro</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-      <tr><td class="winner">Hubert/Georg</td><td class="c"><span class="badge badge-win">3:2</span></td><td>Martin/Pedro</td><td class="c" style="font-size:11px;color:var(--text-dim)">D</td></tr>
+      <tr><td class="winner">HM/Georg</td><td class="c"><span class="badge badge-win">3:2</span></td><td>Martin/Pedro</td><td class="c" style="font-size:11px;color:var(--text-dim)">D</td></tr>
       <tr><td>Bary</td><td class="c"><span class="badge badge-loss">2:3</span></td><td class="winner">Martin</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
       <tr><td class="winner">Georg</td><td class="c"><span class="badge badge-win">3:0</span></td><td>Arnold</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-      <tr><td>Hubert</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Pedro</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>HM</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Pedro</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
       <tr><td class="winner">Georg</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Martin</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
       <tr><td>Bary</td><td class="c"><span class="badge badge-loss">1:3</span></td><td class="winner">Pedro</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-      <tr><td>Hubert</td><td class="c"><span class="badge badge-loss">1:3</span></td><td class="winner">Arnold</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
-    </tbody>
-  </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel</div>
+      <tr><td>HM</td><td class="c"><span class="badge badge-loss">1:3</span></td><td class="winner">Arnold</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel</div>
 </section>
 
 <!-- S09 (GEG) -->
@@ -272,9 +219,9 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Kürzel</th><th>Mannschaft</th><th class="c">R</th><th class="c">H/A</th><th class="c">Erg</th><th>Bemerkung</th></tr></thead>
     <tbody>
-      <tr><td>BKA1</td><td>SK Bundeskanzleramt 1</td><td class="c">R1</td><td class="c">A</td><td class="c"><span class="badge badge-loss">2:6</span></td><td style="font-size:11px;color:var(--text-muted)">Adam sehr stark (ungeschlagen)</td></tr>
-      <tr><td>LAND1</td><td>WTTC Landstraße 1</td><td class="c">R2</td><td class="c">H</td><td class="c"><span class="badge badge-win">7:0</span></td><td style="font-size:11px;color:var(--text-muted)">nicht angetreten (kampflos)</td></tr>
-      <tr><td>OWA2</td><td>Otto Wagner Areal 2</td><td class="c">R3</td><td class="c">A</td><td class="c"><span class="badge badge-loss">4:6</span></td><td style="font-size:11px;color:var(--text-muted)">starkes Team, Pedro ungeschlagen</td></tr>
+      <tr><td>BKA 1</td><td>SK Bundeskanzleramt 1</td><td class="c">R1</td><td class="c">A</td><td class="c"><span class="badge badge-loss">2:6</span></td><td style="font-size:11px;color:var(--text-muted)">Adam sehr stark (ungeschlagen)</td></tr>
+      <tr><td>LAND 1</td><td>WTTC Landstraße 1</td><td class="c">R2</td><td class="c">H</td><td class="c"><span class="badge badge-win">7:0</span></td><td style="font-size:11px;color:var(--text-muted)">nicht angetreten (kampflos)</td></tr>
+      <tr><td>OWA 2</td><td>Otto Wagner Areal 2</td><td class="c">R3</td><td class="c">A</td><td class="c"><span class="badge badge-loss">4:6</span></td><td style="font-size:11px;color:var(--text-muted)">starkes Team, Pedro ungeschlagen</td></tr>
     </tbody>
   </table>
 </section>
@@ -292,7 +239,7 @@ tr:hover td { background: #1a2030; }
       <tr><td>Runden gespielt</td><td class="c num">3/22</td><td></td><td></td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Quoten ohne kampflosen Sieg R2 · Einzel 5:11 · Doppel 1:1</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Einzel 5:11 · Doppel 1:1</div>
 </section>
 
 <!-- S11 (ARC) -->
@@ -305,6 +252,7 @@ tr:hover td { background: #1a2030; }
   </div>
   <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">→ <a href="../../../../archiv.html" style="color:var(--text-muted)">Vollständiges Archiv aller Teams</a></div>
 </section>
+
 
 <script>
 const sections = document.querySelectorAll('.section[id]');
