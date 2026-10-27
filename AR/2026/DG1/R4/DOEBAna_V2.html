@@ -69,12 +69,14 @@ tr:hover td { background: #1a2030; }
 .arc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
 .arc-link { display: block; padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text-muted); text-decoration: none; }
 .arc-link:hover { background: #2a1500; color: #e6edf3; }
+.result-big { display:flex; align-items:center; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
+.result-comment { font-size:13px; color:#c9d1d9; line-height:1.6; }
 </style>
 </head>
 <body>
 
 <div id="bar1">
-  <div style="display:flex;align-items:center;gap:6px;"><span class="title">DOEB TT-Übersicht</span><span class="sep">·</span><span style="font-size:11px;color:var(--text-dim)">Stand: 08.10.2026</span></div>
+  <div style="display:flex;align-items:center;gap:6px;"><span class="title"><a href="https://hubertmicheluzzi.github.io/doeb-termine/" style="color:inherit;text-decoration:none;">DOEB TT-Übersicht</a></span><span class="sep">·</span><span style="font-size:11px;color:var(--text-dim)">Stand nach Runde 4</span></div>
   <div style="display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:fit-content;">
     <a href="../../../../LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
     <a href="../../../../LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
@@ -101,34 +103,34 @@ tr:hover td { background: #1a2030; }
 <!-- S01 -->
 <section id="s01" class="section">
   <div class="sec-header">V2 · VÖB 4. Klasse · DG1 R4 · 08.10.2026</div>
-  <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;flex-wrap:wrap">
+  <div class="result-big">
     <div>
-      <div class="result-meta">Heimspiel · vs. FSF 3</div>
+      <div class="result-meta">Heim · Freizeit Sport Finanz 3</div>
       <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
         <span class="result-score">5 : 5</span>
         <span class="badge badge-draw">U</span>
       </div>
-      <div class="result-meta" style="margin-top:3px">DÖB 2 · Do. 08.10.2026 · noch nicht bestätigt</div>
+      <div class="result-meta" style="margin-top:3px">FSF 3 · 08.10.2026</div>
     </div>
   </div>
-  <p style="font-size:13px;color:#c9d1d9;line-height:1.6">
-    Heimunentschieden gegen FSF 3 — Ergebnis noch nicht vom Gegner bestätigt.
-    Nach zuvor einem Sieg (vs. LAND2) und zwei Niederlagen (vs. BKA3 und ATTW4) steht DÖB 2
-    bei 1S-1U-2N und 4 Punkten auf Rang 8. Der Anschluss ans obere Mittelfeld ist möglich,
-    wenn an den Heimsieg aus R3 angeknüpft wird.
+  <p class="result-comment">
+    Heimremis gegen FSF 3. Adi und Johannes I. holten je zwei Punkte, Cyril einen. Mohammad gewann für FSF alle vier Spiele (3 Einzel und Doppel).
+    Nach 4 Spielen: 1S-1U-2N, 4 Punkte.
   </p>
 </section>
 
 <!-- S02 -->
 <section id="s02" class="section">
   <div class="sec-header">LEIS · Spielerleistung · DG1 R4</div>
-  
   <table>
-    <thead><tr><th>Spieler</th><th class="c">Ges</th><th>Bemerkung</th></tr></thead>
+    <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">D</th><th>Detail</th></tr></thead>
     <tbody>
-      <tr><td colspan="3" style="font-size:12px;color:var(--text-dim);text-align:center;padding:10px">Einzelpaarungen aus XTTV noch nicht verfügbar</td></tr>
+      <tr><td>Adi</td><td class="c win">2</td><td class="c loss">1</td><td class="c">–</td><td style="font-size:11px;color:var(--text-muted)">3:2 gg. Massoud · 0:3 gg. Mohammad · 3:0 gg. Manfred</td></tr>
+      <tr><td>Johannes I.</td><td class="c win">2</td><td class="c loss">1</td><td class="c loss">0:1</td><td style="font-size:11px;color:var(--text-muted)">3:0 gg. Manfred · 3:0 gg. Massoud · 0:3 gg. Mohammad · (D: 2:3)</td></tr>
+      <tr><td>Cyril</td><td class="c win">1</td><td class="c loss">2</td><td class="c loss">0:1</td><td style="font-size:11px;color:var(--text-muted)">0:3 gg. Mohammad · 3:1 gg. Manfred · 2:3 gg. Massoud · (D: 2:3)</td></tr>
     </tbody>
   </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">E = Einzel · D = Doppel (Siege:Niederlagen) · alle Ergebnisse aus DOEB-Sicht</div>
 </section>
 
 <!-- S03 -->
@@ -137,59 +139,34 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Rd</th><th>Datum</th><th>H/A</th><th>Gegner</th><th class="c">Erg</th><th class="c">MP</th><th class="c">P</th></tr></thead>
     <tbody>
-      <tr>
-        <td>R1</td><td>10.09.</td><td>H</td><td>BKA 3</td>
-        <td class="c"><span class="badge badge-loss">1:6</span></td>
-        <td class="c loss">N</td><td class="c num">0</td>
-      </tr>
-      <tr>
-        <td>R2</td><td>16.09.</td><td>A</td><td>ATTW 4</td>
-        <td class="c"><span class="badge badge-loss">4:6</span></td>
-        <td class="c loss">N</td><td class="c num">0</td>
-      </tr>
-      <tr>
-        <td>R3</td><td>24.09.</td><td>H</td><td>LAND 2</td>
-        <td class="c"><span class="badge badge-win">6:4</span></td>
-        <td class="c win">S</td><td class="c num">3</td>
-      </tr>
-      <tr>
-        <td>R4</td><td>08.10.</td><td>H</td><td>FSF 3</td>
-        <td class="c"><span class="badge badge-draw">5:5</span></td>
-        <td class="c draw">U <span style="font-size:9px;color:var(--text-dim)">(unbet.)</span></td>
-        <td class="c num">4</td>
-      </tr>
+      <tr><td>R1</td><td>10.09.</td><td>H</td><td>BKA 3</td><td class="c"><span class="badge badge-loss">1:6</span></td><td class="c loss">N</td><td class="c num">0</td></tr>
+      <tr><td>R2</td><td>16.09.</td><td>A</td><td>ATTW 4</td><td class="c"><span class="badge badge-loss">4:6</span></td><td class="c loss">N</td><td class="c num">0</td></tr>
+      <tr><td>R3</td><td>24.09.</td><td>H</td><td>LAND 2</td><td class="c"><span class="badge badge-win">6:4</span></td><td class="c win">S</td><td class="c num">3</td></tr>
+      <tr><td>R4</td><td>08.10.</td><td>H</td><td>FSF 3</td><td class="c"><span class="badge badge-draw">5:5</span></td><td class="c draw">U</td><td class="c num">4</td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Sp 4 · S 1 · U 1 · N 2 · P 4 · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Sp 4 · S 1 · U 1 · N 2 · P 4 · Spielpunkte 16:21 · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
 </section>
 
 <!-- S04 -->
 <section id="s04" class="section">
   <div class="sec-header">STAT · Spielerstatistik kumuliert</div>
-  <p style="font-size:12px;color:var(--text-dim)">Einzelstatistiken folgen nach vollständiger Erfassung aller Spielpaarungen aus XTTV</p>
+  <table>
+    <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">E-%</th><th class="c">D-S</th><th class="c">D-N</th><th class="c">Ges</th></tr></thead>
+    <tbody>
+      <tr><td>Johannes I.</td><td class="c win">5</td><td class="c loss">3</td><td class="c">62%</td><td class="c win">1</td><td class="c loss">2</td><td class="c num">6/11</td></tr>
+      <tr><td>Adi</td><td class="c win">5</td><td class="c loss">6</td><td class="c">45%</td><td class="c win">1</td><td class="c loss">2</td><td class="c num">6/14</td></tr>
+      <tr><td>Fabian</td><td class="c win">3</td><td class="c loss">0</td><td class="c">100%</td><td class="c">–</td><td class="c">–</td><td class="c num">3/3</td></tr>
+      <tr><td>Cyril</td><td class="c win">2</td><td class="c loss">9</td><td class="c">18%</td><td class="c win">0</td><td class="c loss">2</td><td class="c num">2/13</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Stand nach R4 · Ges = Siege/Spiele (Einzel + Doppel) · aus oettv.xttv.at</div>
 </section>
 
 <!-- S05 -->
 <section id="s05" class="section">
-  <div class="sec-header">TAB · VÖB 4. Klasse · Stand 10.10.2026</div>
-  <table>
-    <thead><tr><th class="c">#</th><th>Mannschaft</th><th class="c">Sp</th><th class="c">S</th><th class="c">U</th><th class="c">N</th><th class="c">P</th></tr></thead>
-    <tbody>
-      <tr><td class="c"><span class="pos-badge top3">1</span></td><td>ATUS Langenzersdorf 2</td><td class="c">4</td><td class="c win">4</td><td class="c">0</td><td class="c">0</td><td class="c num">12</td></tr>
-      <tr><td class="c"><span class="pos-badge top3">2</span></td><td>TTC KÖST 1</td><td class="c">4</td><td class="c win">3</td><td class="c draw">1</td><td class="c">0</td><td class="c num">10</td></tr>
-      <tr><td class="c"><span class="pos-badge top3">3</span></td><td>ASKÖ TT Wien 14 4</td><td class="c">5</td><td class="c win">3</td><td class="c draw">1</td><td class="c">1</td><td class="c num">10</td></tr>
-      <tr><td class="c"><span class="pos-badge">4</span></td><td>TTC Olympic 4</td><td class="c">4</td><td class="c win">3</td><td class="c">0</td><td class="c">1</td><td class="c num">9</td></tr>
-      <tr><td class="c"><span class="pos-badge">5</span></td><td>SK Bundeskanzleramt 3</td><td class="c">4</td><td class="c win">3</td><td class="c">0</td><td class="c">1</td><td class="c num">9</td></tr>
-      <tr><td class="c"><span class="pos-badge">6</span></td><td>KSV Unterrichtsministerium 3</td><td class="c">4</td><td class="c win">2</td><td class="c">0</td><td class="c">2</td><td class="c num">6</td></tr>
-      <tr><td class="c"><span class="pos-badge">7</span></td><td>KSV Hauptgruppe I 3</td><td class="c">4</td><td class="c win">1</td><td class="c draw">1</td><td class="c">2</td><td class="c num">4</td></tr>
-      <tr class="highlight-row"><td class="c"><span class="pos-badge">8</span></td><td><strong>Union Döbling 2</strong></td><td class="c">4</td><td class="c win">1</td><td class="c draw">1</td><td class="c">2</td><td class="c num"><strong>4</strong></td></tr>
-      <tr><td class="c"><span class="pos-badge">9</span></td><td>WTTC Landstraße 2</td><td class="c">4</td><td class="c win">1</td><td class="c">0</td><td class="c loss">3</td><td class="c num">3</td></tr>
-      <tr><td class="c"><span class="pos-badge">10</span></td><td>SV Post Wien 4</td><td class="c">4</td><td class="c">0</td><td class="c draw">2</td><td class="c">2</td><td class="c num">2</td></tr>
-      <tr><td class="c"><span class="pos-badge">11</span></td><td>Freizeit Sport Finanz 3</td><td class="c">4</td><td class="c">0</td><td class="c draw">1</td><td class="c loss">3</td><td class="c num">1</td></tr>
-      <tr><td class="c"><span class="pos-badge">12</span></td><td>ASKÖ TT Wien 14 5</td><td class="c">5</td><td class="c">0</td><td class="c draw">1</td><td class="c loss">4</td><td class="c num">1</td></tr>
-    </tbody>
-  </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Quelle: voeb.xttv.at · R4-Unentschieden DÖB2 noch nicht bestätigt → P ggf. angepasst</div>
+  <div class="sec-header">TAB · VÖB 4. Klasse · Stand nach R4</div>
+  <p style="font-size:12px;color:var(--text-dim)">Ligatabelle zum Stand nach R4 nicht archiviert — aktuelle Tabelle siehe LIVE.</p>
 </section>
 
 <!-- S06 -->
@@ -197,18 +174,9 @@ tr:hover td { background: #1a2030; }
   <div class="sec-header">DEMN · Nächste Partie & Gegnereinschätzung</div>
   <div class="next-match">
     <div class="next-match-title">Nächstes Spiel</div>
-    <div class="next-match-info">OLY 4 – DÖB 2 · So. 12.10.2026</div>
-    <div class="next-match-sub">Auswärts · TTC Olympic</div>
+    <div class="next-match-info">OLY 4 – DÖB 2</div>
+    <div class="next-match-sub">Mo. 12.10.2026 · 18:00 · Auswärtsspiel (später auf 30.10. verschoben)</div>
   </div>
-  <div style="margin-bottom:8px">
-    <strong style="font-size:13px;color:#e6edf3">TTC Olympic 4</strong>
-    <span style="font-size:11px;color:var(--text-dim);margin-left:6px">Rang 4 · 4 Sp · 9 Pkte</span>
-  </div>
-  <p style="font-size:13px;line-height:1.6">
-    Olympic 4 ist mit 9 Punkten aus 4 Spielen (3S-1N) ein klarer Favorit in dieser Begegnung.
-    Rang 4 in der Tabelle, deutlich vor DÖB 2. Das wird eine schwierige Auswärtsaufgabe —
-    ein Punkt wäre schon ein gutes Ergebnis. Ziel: kompaktes Auftreten, Doppel nutzen.
-  </p>
 </section>
 
 <!-- S07 (MTX) -->
@@ -216,29 +184,32 @@ tr:hover td { background: #1a2030; }
   <div class="sec-header">MTX · Ergebnismatrix</div>
   <div style="overflow-x:auto">
     <table>
-      <thead>
-        <tr><th>Team</th><th class="c">BKA3</th><th class="c">ATTW4</th><th class="c">LAND2</th><th class="c">FSF3</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>DÖB2</strong></td>
-          <td class="c"><span class="badge badge-loss">1:6</span></td>
-          <td class="c"><span class="badge badge-loss">4:6</span></td>
-          <td class="c"><span class="badge badge-win">6:4</span></td>
-          <td class="c"><span class="badge badge-draw">5:5</span></td>
-          <td class="c num" style="color:var(--text-dim)">4P</td>
-        </tr>
-      </tbody>
+      <thead><tr><th>Team</th><th class="c">BKA 3</th><th class="c">ATTW 4</th><th class="c">LAND 2</th><th class="c">FSF 3</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th></tr></thead>
+      <tbody><tr><td><strong>DÖB 2</strong></td><td class="c"><span class="badge badge-loss">1:6</span></td><td class="c"><span class="badge badge-loss">4:6</span></td><td class="c"><span class="badge badge-win">6:4</span></td><td class="c"><span class="badge badge-draw">5:5</span></td><td class="c num" style="color:var(--text-dim)">4P</td></tr></tbody>
     </table>
   </div>
 </section>
 
-<!-- S08 (ANA) — letzte eingetragene Runde mit Einzelergebnissen = R3 -->
+<!-- S08 (ANA) -->
 <section id="s08" class="section">
-  <div class="sec-header">ANA · Einzelpunkte-Analyse · DG1 R3 · 24.09.2026</div>
-  <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">DÖB 2 (Heim) – LAND 2 (Gast) &nbsp;·&nbsp; <strong>6:4</strong></div>
-  <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px">Einzelpaarungen R3 und R4 aus XTTV noch nicht detailliert verfügbar — wird ergänzt nach Bestätigung.</p>
-  <div style="font-size:11px;color:var(--text-dim)">E = Einzel · D = Doppel</div>
+  <div class="sec-header">ANA · Einzelpunkte-Analyse · DG1 R4 · 08.10.2026</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">DÖB 2 (Heim) – FSF 3 (Gast) &nbsp;·&nbsp; aus DOEB-Sicht <strong>5:5</strong></div>
+    <table>
+      <thead><tr><th>DÖB 2</th><th class="c">Ergebnis</th><th>FSF 3</th><th class="c">Art</th></tr></thead>
+      <tbody>
+      <tr><td class="winner">Adi</td><td class="c"><span class="badge badge-win">3:2</span></td><td>Massoud</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Johannes I.</td><td class="c"><span class="badge badge-win">3:0</span></td><td>Manfred</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>Cyril</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Mohammad</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>Cyril/Johannes I.</td><td class="c"><span class="badge badge-loss">2:3</span></td><td class="winner">Manfred/Mohammad</td><td class="c" style="font-size:11px;color:var(--text-dim)">D</td></tr>
+      <tr><td class="winner">Johannes I.</td><td class="c"><span class="badge badge-win">3:0</span></td><td>Massoud</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>Adi</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Mohammad</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Cyril</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Manfred</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>Johannes I.</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Mohammad</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>Cyril</td><td class="c"><span class="badge badge-loss">2:3</span></td><td class="winner">Massoud</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Adi</td><td class="c"><span class="badge badge-win">3:0</span></td><td>Manfred</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel</div>
 </section>
 
 <!-- S09 (GEG) -->
@@ -247,10 +218,10 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Kürzel</th><th>Mannschaft</th><th class="c">R</th><th class="c">H/A</th><th class="c">Erg</th><th>Bemerkung</th></tr></thead>
     <tbody>
-      <tr><td>BKA3</td><td>SK Bundeskanzleramt 3</td><td class="c">R1</td><td class="c">A</td><td class="c"><span class="badge badge-loss">1:6</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 5 · 9 Pkte · klar stärker</td></tr>
-      <tr><td>ATTW4</td><td>ASKÖ TT Wien 14 4</td><td class="c">R2</td><td class="c">A</td><td class="c"><span class="badge badge-loss">4:6</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 3 · knappe Auswärtsniederlage</td></tr>
-      <tr><td>LAND2</td><td>WTTC Landstraße 2</td><td class="c">R3</td><td class="c">H</td><td class="c"><span class="badge badge-win">6:4</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 9 · 3 Pkte · Heimsieg verdient</td></tr>
-      <tr><td>FSF3</td><td>Freizeit Sport Finanz 3</td><td class="c">R4</td><td class="c">H</td><td class="c"><span class="badge badge-draw">5:5</span></td><td style="font-size:11px;color:var(--text-muted)">Rang 11 · 1 Pkt · Unentschieden (unbet.)</td></tr>
+      <tr><td>BKA 3</td><td>SK Bundeskanzleramt 3</td><td class="c">R1</td><td class="c">H</td><td class="c"><span class="badge badge-loss">1:6</span></td><td style="font-size:11px;color:var(--text-muted)">György und Norbert stark</td></tr>
+      <tr><td>ATTW 4</td><td>ASKÖ Tischtennis Wien 14 4</td><td class="c">R2</td><td class="c">A</td><td class="c"><span class="badge badge-loss">4:6</span></td><td style="font-size:11px;color:var(--text-muted)">Paul und Alois stark</td></tr>
+      <tr><td>LAND 2</td><td>WTTC Landstraße 2</td><td class="c">R3</td><td class="c">H</td><td class="c"><span class="badge badge-win">6:4</span></td><td style="font-size:11px;color:var(--text-muted)">Panagiotis stärkster Spieler</td></tr>
+      <tr><td>FSF 3</td><td>Freizeit Sport Finanz 3</td><td class="c">R4</td><td class="c">H</td><td class="c"><span class="badge badge-draw">5:5</span></td><td style="font-size:11px;color:var(--text-muted)">Mohammad ungeschlagen</td></tr>
     </tbody>
   </table>
 </section>
@@ -261,23 +232,24 @@ tr:hover td { background: #1a2030; }
   <table>
     <thead><tr><th>Kennzahl</th><th class="c">Wert</th><th>Kennzahl</th><th class="c">Wert</th></tr></thead>
     <tbody>
-      <tr><td>Spiele gesamt</td><td class="c num">4</td><td>Mannschaftspunkte</td><td class="c num">4*</td></tr>
+      <tr><td>Spiele gesamt</td><td class="c num">4</td><td>Mannschaftspunkte</td><td class="c num">4</td></tr>
       <tr><td>Siege</td><td class="c win">1</td><td>Spielpunkte</td><td class="c num">16:21</td></tr>
-      <tr><td>Unentschieden</td><td class="c draw">1</td><td>Tabellenplatz</td><td class="c num">8/12</td></tr>
-      <tr><td>Niederlagen</td><td class="c loss">2</td><td>Runden gespielt</td><td class="c num">4/22</td></tr>
+      <tr><td>Unentschieden</td><td class="c draw">1</td><td>Einzel-Gewinnquote</td><td class="c num">45%</td></tr>
+      <tr><td>Niederlagen</td><td class="c loss">2</td><td>Doppel-Gewinnquote</td><td class="c num">25%</td></tr>
+      <tr><td>Runden gespielt</td><td class="c num">4/22</td><td></td><td></td></tr>
     </tbody>
   </table>
-  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">* R4-Ergebnis noch unbestätigt</div>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Einzel 15:18 · Doppel 1:3</div>
 </section>
 
 <!-- S11 (ARC) -->
 <section class="section">
   <div class="sec-header">ARC · Archiv</div>
   <div class="arc-grid">
-    <a href="../AR/2026/DG1/R1/DOEBAna_V2.html" class="arc-link">DG1 R1 · 10.09.2026</a>
-    <a href="../AR/2026/DG1/R2/DOEBAna_V2.html" class="arc-link">DG1 R2 · 16.09.2026</a>
-    <a href="../AR/2026/DG1/R3/DOEBAna_V2.html" class="arc-link">DG1 R3 · 24.09.2026</a>
-    <a href="../AR/2026/DG1/R4/DOEBAna_V2.html" class="arc-link">DG1 R4 · 08.10.2026</a>
+    <a href="../R1/DOEBAna_V2.html" class="arc-link">DG1 R1 · 10.09.2026</a>
+    <a href="../R2/DOEBAna_V2.html" class="arc-link">DG1 R2 · 16.09.2026</a>
+    <a href="../R3/DOEBAna_V2.html" class="arc-link">DG1 R3 · 24.09.2026</a>
+    <a href="../R4/DOEBAna_V2.html" class="arc-link">DG1 R4 · 08.10.2026</a>
   </div>
   <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">→ <a href="../../../../archiv.html" style="color:var(--text-muted)">Vollständiges Archiv aller Teams</a></div>
 </section>
@@ -294,5 +266,6 @@ function updateActive() {
 window.addEventListener('scroll', updateActive, {passive:true});
 updateActive();
 </script>
+
 </body>
 </html>
