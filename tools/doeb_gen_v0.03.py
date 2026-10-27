@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-doeb_gen_v0.02.py — DoebAna-Generator (Testseiten für W1, W2, V1, V2)
+doeb_gen_v0.03.py — DoebAna-Generator (LIVE-Seiten W1, W2, V1, V2)
 
 Liest NUR die öffentlichen Dateien aus doeb-termine:
   data/termine.json   (Format doeb-termine/1)
@@ -10,9 +10,10 @@ Vorlage (Kopfleiste, CSS) und als Quelle für die Analyse-Texte
 (Kommentar Sektion 01, Gegnereinschätzung Sektion 06, Bemerkungen Sektion 09).
 
 Aufruf:
-  python3 tools/doeb_gen_v0.02.py --data <ordner mit termine.json/tabellen.json> --team w1
+  python3 tools/doeb_gen_v0.03.py --data <ordner mit termine.json/tabellen.json> [--team w1|w2|v1|v2|alle] [--ziel live|test]
 Ausgabe:
-  test/DOEBAna_<TEAM>_gen_v0.02.html   (die echten LIVE-Seiten bleiben unverändert)
+  --ziel live (Standard): LIVE/DOEBAna_<TEAM>.html
+  --ziel test:            test/DOEBAna_<TEAM>_gen.html
 
 Regeln: unsere Spieler = Rufname, Gegner = Vorname (so wie in den Dateien),
 Ergebnisse immer aus DOEB-Sicht. DoebAna schreibt nie in doeb-termine.
@@ -59,7 +60,9 @@ def inner_text(s, sid, pattern):
     m = re.search(pattern, s[i:j], re.S)
     return m.group(1).strip() if m else None
 
-def build(team, termine, tabellen, vorlage):
+KURZ = {'w1': '3.Kl.B', 'w2': 'Gr.VIb', 'v1': '1.Kl.B', 'v2': '4.Kl'}
+
+def build(team, termine, tabellen, vorlage, ziel='live'):
     b = termine['bewerbe'][team]
     tb = tabellen['bewerbe'][team]
     T = b['label']
@@ -119,12 +122,14 @@ def build(team, termine, tabellen, vorlage):
 
     s = vorlage
     rd = f'DG1 R{n} · {dmy(letzte["datum"])}'
-    s = re.sub(r'<title>[^<]*</title>', f'<title>DOEBAna · {T} · TEST Generator v0.02 · {rd}</title>', s, count=1)
-    s = re.sub(r'Stand: \d\d\.\d\d\.\d{4}</span></div>',
-               f'Stand: {dmy(tabellen["stand"][:10])} · Generator-Test</span></div>', s, count=1)
-    # Navigation aus test/ zurück nach LIVE/
-    for t in ['W1', 'W2', 'V1', 'V2']:
-        s = s.replace(f'<a href="DOEBAna_{t}.html"', f'<a href="../LIVE/DOEBAna_{t}.html"')
+    test = ziel == 'test'
+    titel = f'TEST · {rd}' if test else f'{KURZ.get(team, "")} · {rd}'
+    s = re.sub(r'<title>[^<]*</title>', f'<title>DOEBAna · {T} · {titel}</title>', s, count=1)
+    s = re.sub(r'Stand: \d\d\.\d\d\.\d{4}[^<]*</span></div>',
+               f'Stand: {dmy(tabellen["stand"][:10])}{" · Generator-Test" if test else ""}</span></div>', s, count=1)
+    if test:  # Navigation aus test/ zurück nach LIVE/
+        for t in ['W1', 'W2', 'V1', 'V2']:
+            s = s.replace(f'<a href="DOEBAna_{t}.html"', f'<a href="../LIVE/DOEBAna_{t}.html"')
 
     # S01 — Kommentar aus Vorlage übernehmen, wenn er zur selben Runde gehört
     a, c2 = letzte['punkteEigen'], letzte['punkteGegner']; rr = res(a, c2)
@@ -320,7 +325,7 @@ def build(team, termine, tabellen, vorlage):
   <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Einzel {es}:{en} · Doppel {dbl[0]}:{dbl[1]} · Kontrolle Tabelle: {eig["einzel"]} / {eig["punkte"]} P</div>
 </section>''')
 
-    # S11 — Archiv-Links (Pfade von test/ aus)
+    # S11 — Archiv-Links (test/ und LIVE/ liegen gleich tief)
     links = ''.join(f'    <a href="../AR/2026/DG1/R{g["runde"]}/DOEBAna_{T}.html" class="arc-link">DG1 R{g["runde"]} · {dmy(g["datum"])}</a>\n'
                     for g in gespielt)
     i = s.index('<div class="arc-grid">'); j = s.index('</div>', i)
@@ -331,20 +336,27 @@ def build(team, termine, tabellen, vorlage):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--data', required=True, help='Ordner mit termine.json und tabellen.json')
-    ap.add_argument('--team', default='w1')
+    ap.add_argument('--team', default='alle', help='w1, w2, v1, v2 oder alle')
+    ap.add_argument('--ziel', default='live', choices=['live', 'test'])
     a = ap.parse_args()
     termine = json.load(open(os.path.join(a.data, 'termine.json'), encoding='utf-8'))
     tabellen = json.load(open(os.path.join(a.data, 'tabellen.json'), encoding='utf-8'))
     assert termine.get('format') == 'doeb-termine/1', termine.get('format')
     assert tabellen.get('format') == 'doeb-tabellen/1', tabellen.get('format')
-    T = termine['bewerbe'][a.team]['label']
-    vorlage = open(os.path.join(ROOT, 'LIVE', f'DOEBAna_{T}.html'), encoding='utf-8').read()
-    s, info = build(a.team, termine, tabellen, vorlage)
-    os.makedirs(os.path.join(ROOT, 'test'), exist_ok=True)
-    out = os.path.join(ROOT, 'test', f'DOEBAna_{T}_gen_v0.02.html')
-    open(out, 'w', encoding='utf-8').write(s)
-    print('geschrieben:', os.path.relpath(out, ROOT))
-    print(info)
+    teams = ['w1', 'w2', 'v1', 'v2'] if a.team == 'alle' else [a.team]
+    for team in teams:
+        T = termine['bewerbe'][team]['label']
+        live = os.path.join(ROOT, 'LIVE', f'DOEBAna_{T}.html')
+        vorlage = open(live, encoding='utf-8').read()
+        s, info = build(team, termine, tabellen, vorlage, a.ziel)
+        if a.ziel == 'live':
+            out = live
+        else:
+            os.makedirs(os.path.join(ROOT, 'test'), exist_ok=True)
+            out = os.path.join(ROOT, 'test', f'DOEBAna_{T}_gen.html')
+        open(out, 'w', encoding='utf-8').write(s)
+        print('geschrieben:', os.path.relpath(out, ROOT), '·', info['team'], 'R' + str(info['runde']),
+              info['punkte'], 'P', info['spielpunkte'], '· Tabelle', info['tabelle'])
 
 if __name__ == '__main__':
     main()
