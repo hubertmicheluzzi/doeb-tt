@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-doeb_gen_v0.01.py — DoebAna-Generator (erster Schritt: nur W1 LIVE als Testseite)
+doeb_gen_v0.02.py — DoebAna-Generator (Testseiten für W1, W2, V1, V2)
 
 Liest NUR die öffentlichen Dateien aus doeb-termine:
   data/termine.json   (Format doeb-termine/1)
@@ -10,9 +10,9 @@ Vorlage (Kopfleiste, CSS) und als Quelle für die Analyse-Texte
 (Kommentar Sektion 01, Gegnereinschätzung Sektion 06, Bemerkungen Sektion 09).
 
 Aufruf:
-  python3 tools/doeb_gen_v0.01.py --data <ordner mit termine.json/tabellen.json> --team w1
+  python3 tools/doeb_gen_v0.02.py --data <ordner mit termine.json/tabellen.json> --team w1
 Ausgabe:
-  test/DOEBAna_W1_gen_v0.01.html   (die echte LIVE-Seite bleibt unverändert)
+  test/DOEBAna_<TEAM>_gen_v0.02.html   (die echten LIVE-Seiten bleiben unverändert)
 
 Regeln: unsere Spieler = Rufname, Gegner = Vorname (so wie in den Dateien),
 Ergebnisse immer aus DOEB-Sicht. DoebAna schreibt nie in doeb-termine.
@@ -26,6 +26,10 @@ MPC = {'S': 'win', 'U': 'draw', 'N': 'loss'}
 DIM = '<td class="c" style="font-size:11px;color:var(--text-dim)">'
 WTAG = ['Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.', 'So.']
 MAXR = {'w1': 18, 'w2': 16, 'v1': 22, 'v2': 22}
+HINWEIS = {'PT': 'Platztausch', 'verschoben': 'verschoben', 'abgesagt': 'abgesagt'}
+
+def hinweis(h):
+    return HINWEIS.get(h, h) if h else ''
 
 def e(t):
     return html.escape(str(t if t is not None else '–'), quote=False)
@@ -89,8 +93,9 @@ def build(team, termine, tabellen, vorlage):
                 ver += f'      <tr><td>R{r}</td><td>–</td><td>–</td><td style="color:var(--text-dim)">spielfrei</td><td class="c">–</td><td class="c">–</td><td class="c num">{pts}</td></tr>\n'
             continue
         if g not in gespielt:
-            if r < n or g.get('hinweis') == 'verschoben':
-                ver += (f'      <tr><td>R{r}</td><td>{dmy(g["datum"], True)}</td><td>{g["ha"]}</td><td>{e(g["gegner"])}</td>'
+            if r < n or g.get('hinweis'):
+                hw = f' <span style="font-size:10px;color:var(--text-dim)">({e(hinweis(g.get("hinweis")))})</span>' if g.get('hinweis') else ''
+                ver += (f'      <tr><td>R{r}</td><td>{dmy(g["datum"], True)}</td><td>{g["ha"]}</td><td>{e(g["gegner"])}{hw}</td>'
                         f'<td class="c">–</td><td class="c" style="color:var(--text-dim)">offen</td><td class="c num">{pts}</td></tr>\n')
             continue
         a, c2 = g['punkteEigen'], g['punkteGegner']; x = res(a, c2)
@@ -114,7 +119,7 @@ def build(team, termine, tabellen, vorlage):
 
     s = vorlage
     rd = f'DG1 R{n} · {dmy(letzte["datum"])}'
-    s = re.sub(r'<title>[^<]*</title>', f'<title>DOEBAna · {T} · TEST Generator v0.01 · {rd}</title>', s, count=1)
+    s = re.sub(r'<title>[^<]*</title>', f'<title>DOEBAna · {T} · TEST Generator v0.02 · {rd}</title>', s, count=1)
     s = re.sub(r'Stand: \d\d\.\d\d\.\d{4}</span></div>',
                f'Stand: {dmy(tabellen["stand"][:10])} · Generator-Test</span></div>', s, count=1)
     # Navigation aus test/ zurück nach LIVE/
@@ -234,7 +239,7 @@ def build(team, termine, tabellen, vorlage):
   <div class="next-match">
     <div class="next-match-title">Nächstes Spiel · R{nx["runde"]}</div>
     <div class="next-match-info">{e(info)}</div>
-    <div class="next-match-sub">{wtag(nx["datum"])} {dmy(nx["datum"])} · {e(nx.get("zeit"))} · {"Heimspiel" if nx["ha"] == "H" else "Auswärtsspiel"}{" · " + e(nx["hinweis"]) if nx.get("hinweis") else ""}</div>
+    <div class="next-match-sub">{wtag(nx["datum"])} {dmy(nx["datum"])} · {e(nx.get("zeit"))} · {"Heimspiel" if nx["ha"] == "H" else "Auswärtsspiel"}{" · " + e(hinweis(nx["hinweis"])) if nx.get("hinweis") else ""}</div>
   </div>
   <div style="margin-bottom:8px">
     <strong style="font-size:13px;color:#e6edf3">{e(nx["gegner"])}</strong>
@@ -336,7 +341,7 @@ def main():
     vorlage = open(os.path.join(ROOT, 'LIVE', f'DOEBAna_{T}.html'), encoding='utf-8').read()
     s, info = build(a.team, termine, tabellen, vorlage)
     os.makedirs(os.path.join(ROOT, 'test'), exist_ok=True)
-    out = os.path.join(ROOT, 'test', f'DOEBAna_{T}_gen_v0.01.html')
+    out = os.path.join(ROOT, 'test', f'DOEBAna_{T}_gen_v0.02.html')
     open(out, 'w', encoding='utf-8').write(s)
     print('geschrieben:', os.path.relpath(out, ROOT))
     print(info)

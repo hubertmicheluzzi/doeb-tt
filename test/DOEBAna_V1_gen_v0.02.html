@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOEBAna · V1 · TEST Generator v0.02 · DG1 R6 · 22.10.2026</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #c9d1d9; font-size: 14px; line-height: 1.5; padding-top: 110px; }
+:root {
+  --voeb-1: #e65100; --voeb-2: #f57c00; --wttv-1: #1565c0; --wttv-2: #1976d2;
+  --archiv: #546e7a; --regeln: #c62828; --active: var(--voeb-1);
+  --border: #30363d; --bg-card: #161b22; --text-muted: #8b949e; --text-dim: #6e7681;
+  --green: #2ea043; --red: #da3633; --yellow: #d29922;
+}
+#bar1::-webkit-scrollbar{display:none;}
+#bar1 {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: #161b22;
+  border-bottom: 1px solid var(--border);
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+#bar1 .title { font-size: 13px; color: #e6edf3; font-weight: 600; white-space: nowrap; margin-right: 4px; }
+#bar1 .sep { color: var(--text-dim); }
+.team-btn { padding: 3px 5px; border-radius: 4px; font-size: 11px; font-weight: 600; text-decoration: none; border: 1px solid transparent; white-space: nowrap; }
+.btn-w1 { background: transparent; color: #64b5f6; border-color: #1565c0; }
+.btn-w2 { background: transparent; color: #90caf9; border-color: #1976d2; }
+.btn-v1 { background: var(--voeb-1); color: #fff; border-color: var(--voeb-1); border-top: 2px solid #ffb74d; padding-top: 3px; }
+.btn-v2 { background: transparent; color: #ffa726; border-color: var(--voeb-2); }
+.btn-arc { background: transparent; color: #90a4ae; border-color: var(--archiv); }
+.btn-reg { background: transparent; color: #ef9a9a; border-color: var(--regeln); }
+#bar2 { position: fixed; top: 62px; left: 0; right: 0; z-index: 99; background: #0d1117; border-bottom: 2px solid var(--voeb-1); padding: 5px 10px; display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+#bar2::-webkit-scrollbar { display: none; }
+.sec-btn { padding: 2px 3px; border-radius: 2px; font-size: 10px; font-weight: 500; text-decoration: none; color: var(--text-muted); border: 1px solid var(--border); white-space: nowrap; flex-shrink: 0; }
+.sec-btn.active { background: var(--voeb-1); color: #fff; border-color: var(--voeb-1); }
+
+.section { border-bottom: 1px solid var(--border); padding: 16px 12px; scroll-margin-top: 96px; }
+.section:last-child { border-bottom: none; }
+.sec-header { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 4px; border-bottom: 1px solid var(--border); color: #ffb74d; }
+table { width: 100%; border-collapse: collapse; }
+th { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); padding: 4px 8px; text-align: left; }
+td { padding: 5px 8px; border-bottom: 1px solid #1f2937; font-size: 13px; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #1a2030; }
+.c { text-align: center; } .num { font-variant-numeric: tabular-nums; }
+.highlight-row td { background: #2a1500; }
+.highlight-row:hover td { background: #351a00; }
+.win { color: #2ea043; font-weight: 600; } .loss { color: #da3633; } .draw { color: #d29922; }
+.badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; vertical-align: middle; }
+.badge-win  { background: #0d3521; color: #3fb950; border: 1px solid #2ea043; }
+.badge-loss { background: #3d1010; color: #f85149; border: 1px solid #da3633; }
+.badge-draw { background: #3d2c00; color: #e3b341; border: 1px solid #d29922; }
+.result-score { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; color: #e6edf3; }
+.result-meta { font-size: 12px; color: var(--text-muted); }
+.result-comment { font-size: 13px; color: #c9d1d9; line-height: 1.6; }
+.pos-badge { display: inline-block; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700; text-align: center; line-height: 22px; background: var(--border); color: var(--text-muted); }
+.pos-badge.top3 { background: #3a1a00; color: #ffb74d; }
+.next-match { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; margin-bottom: 10px; }
+.next-match-title { font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+.next-match-info  { font-size: 14px; font-weight: 600; color: #e6edf3; }
+.next-match-sub   { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.winner { color: #3fb950; font-weight: 600; }
+.arc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
+.arc-link { display: block; padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text-muted); text-decoration: none; }
+.arc-link:hover { background: #2a1500; color: #e6edf3; }
+.result-big { display:flex; align-items:center; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
+.result-comment { font-size:13px; color:#c9d1d9; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<div id="bar1">
+  <div style="display:flex;align-items:center;gap:6px;"><span class="title"><a href="https://hubertmicheluzzi.github.io/doeb-termine/" style="color:inherit;text-decoration:none;">DOEB TT-Übersicht</a></span><span class="sep">·</span><span style="font-size:11px;color:var(--text-dim)">Stand: 27.10.2026 · Generator-Test</span></div>
+  <div style="display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:fit-content;">
+    <a href="../LIVE/DOEBAna_W1.html" class="team-btn btn-w1">W1·3.Kl.B</a>
+    <a href="../LIVE/DOEBAna_W2.html" class="team-btn btn-w2">W2·Gr.VIb</a>
+    <a href="../LIVE/DOEBAna_V1.html" class="team-btn btn-v1">V1·1.Kl.B</a>
+    <a href="../LIVE/DOEBAna_V2.html" class="team-btn btn-v2">V2·4.Kl</a>
+    <a href="../archiv.html"     class="team-btn btn-arc">Archiv</a>
+    <a href="../REAna.html"      class="team-btn btn-reg">Regeln</a>
+  </div>
+</div>
+
+<div id="bar2">
+  <a href="#s01" class="sec-btn">LEIS</a>
+  <a href="#s02" class="sec-btn">VERL</a>
+  <a href="#s03" class="sec-btn">STAT</a>
+  <a href="#s04" class="sec-btn">TAB</a>
+  <a href="#s05" class="sec-btn">DEMN</a>
+  <a href="#s06" class="sec-btn">MTX</a>
+  <a href="#s07" class="sec-btn">ANA</a>
+  <a href="#s08" class="sec-btn">GEG</a>
+  <a href="#s09" class="sec-btn">KEN</a>
+  <a href="#s10" class="sec-btn">ARC</a>
+</div>
+
+<!-- S01 -->
+<section id="s01" class="section">
+  <div class="sec-header">V1 · VÖB 1. Klasse B · DG1 R6 · 22.10.2026</div>
+  <div class="result-big">
+    <div>
+      <div class="result-meta">Auswärts · WILI 4</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+        <span class="result-score">6 : 3</span>
+        <span class="badge badge-win">S</span>
+      </div>
+      <div class="result-meta" style="margin-top:3px">Do. 22.10.2026 · 18:00 · bestätigt</div>
+    </div>
+  </div>
+  <p class="result-comment">
+    Klarer Auswärtssieg beim Tabellenvorletzten. Erik gab bei seinem ersten Einsatz der Saison kein Spiel ab: drei Einzelsiege und gemeinsam mit HM das Doppel. Bary holte zwei Einzelpunkte. HM blieb im Einzel ohne Sieg, hat aber alle drei Doppel der Saison gewonnen.
+    Nach 6 Spielen: 3S-1U-2N, 10 Punkte.
+  </p>
+</section>
+
+<!-- S02 -->
+<section id="s02" class="section">
+  <div class="sec-header">LEIS · Spielerleistung · DG1 R6</div>
+  <table>
+    <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">D</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><td>Bary</td><td class="c win">2</td><td class="c loss">1</td><td class="c">–</td><td style="font-size:11px;color:var(--text-muted)">3:2 gg. Robert · 0:3 gg. Sasa · 3:1 gg. Jan</td></tr>
+      <tr><td>HM</td><td class="c win">0</td><td class="c loss">2</td><td class="c win">1:0</td><td style="font-size:11px;color:var(--text-muted)">1:3 gg. Sasa · 0:3 gg. Jan · (D: 3:1)</td></tr>
+      <tr><td>Erik</td><td class="c win">3</td><td class="c loss">0</td><td class="c win">1:0</td><td style="font-size:11px;color:var(--text-muted)">3:0 gg. Jan · 3:1 gg. Robert · 3:1 gg. Sasa · (D: 3:1)</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">E = Einzel · D = Doppel (Siege:Niederlagen) · alle Ergebnisse aus DOEB-Sicht</div>
+</section>
+
+<!-- S03 -->
+<section id="s03" class="section">
+  <div class="sec-header">VERL · Saisonverlauf</div>
+  <table>
+    <thead><tr><th>Rd</th><th>Datum</th><th>H/A</th><th>Gegner</th><th class="c">Erg</th><th class="c">MP</th><th class="c">P</th></tr></thead>
+    <tbody>
+      <tr><td>R1</td><td>10.09.</td><td>A</td><td>BKA 1</td><td class="c"><span class="badge badge-loss">2:6</span></td><td class="c loss">N</td><td class="c num">0</td></tr>
+      <tr><td>R2</td><td>17.09.</td><td>H</td><td>LAND 1 <span style="font-size:10px;color:var(--text-dim)">(kl.)</span></td><td class="c"><span class="badge badge-win">7:0</span></td><td class="c win">S</td><td class="c num">3</td></tr>
+      <tr><td>R3</td><td>23.09.</td><td>A</td><td>OWA 2</td><td class="c"><span class="badge badge-loss">4:6</span></td><td class="c loss">N</td><td class="c num">3</td></tr>
+      <tr><td>R4</td><td>07.10.</td><td>A</td><td>SKH 1</td><td class="c"><span class="badge badge-win">6:2</span></td><td class="c win">S</td><td class="c num">6</td></tr>
+      <tr><td>R5</td><td>15.10.</td><td>H</td><td>ORF 1</td><td class="c"><span class="badge badge-draw">5:5</span></td><td class="c draw">U</td><td class="c num">7</td></tr>
+      <tr><td>R6</td><td>22.10.</td><td>A</td><td>WILI 4</td><td class="c"><span class="badge badge-win">6:3</span></td><td class="c win">S</td><td class="c num">10</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Sp 6 · S 3 · U 1 · N 2 · P 10 · Spielpunkte 30:22 · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
+</section>
+
+<!-- S04 -->
+<section id="s04" class="section">
+  <div class="sec-header">STAT · Spielerstatistik kumuliert</div>
+  <table>
+    <thead><tr><th>Spieler</th><th class="c">E-S</th><th class="c">E-N</th><th class="c">E-%</th><th class="c">D-S</th><th class="c">D-N</th><th class="c">Ges</th></tr></thead>
+    <tbody>
+      <tr><td>Georg</td><td class="c win">6</td><td class="c loss">0</td><td class="c">100%</td><td class="c win">2</td><td class="c loss">0</td><td class="c num">8/8</td></tr>
+      <tr><td>Bary</td><td class="c win">7</td><td class="c loss">6</td><td class="c">54%</td><td class="c">–</td><td class="c">–</td><td class="c num">7/13</td></tr>
+      <tr><td>Erik</td><td class="c win">3</td><td class="c loss">0</td><td class="c">100%</td><td class="c win">1</td><td class="c loss">0</td><td class="c num">4/4</td></tr>
+      <tr><td>HM</td><td class="c win">0</td><td class="c loss">7</td><td class="c">0%</td><td class="c win">3</td><td class="c loss">0</td><td class="c num">3/10</td></tr>
+      <tr><td>Gidi</td><td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td></tr>
+      <tr><td>Luke</td><td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td></tr>
+      <tr><td>Max</td><td class="c win">1</td><td class="c loss">2</td><td class="c">33%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/4</td></tr>
+      <tr><td>Richi</td><td class="c win">1</td><td class="c loss">1</td><td class="c">50%</td><td class="c win">0</td><td class="c loss">1</td><td class="c num">1/3</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Stand nach R6 · Ges = Siege/Spiele (Einzel + Doppel) · aus termine.json</div>
+</section>
+
+<!-- S05 -->
+<section id="s05" class="section">
+  <div class="sec-header">TAB · VÖB 1. Klasse B · Stand 27.10.2026</div>
+  <table>
+    <thead><tr><th class="c">#</th><th>Mannschaft</th><th class="c">Sp</th><th class="c">S</th><th class="c">U</th><th class="c">N</th><th class="c">Spiele</th><th class="c">P</th></tr></thead>
+    <tbody>
+      <tr><td class="c"><span class="pos-badge top3">1</span></td><td>BTTC 1</td><td class="c">6</td><td class="c win">5</td><td class="c">0</td><td class="c">1</td><td class="c">34:10</td><td class="c num">15</td></tr>
+      <tr><td class="c"><span class="pos-badge top3">2</span></td><td>BRZ 2</td><td class="c">4</td><td class="c win">4</td><td class="c">0</td><td class="c">0</td><td class="c">24:9</td><td class="c num">12</td></tr>
+      <tr><td class="c"><span class="pos-badge top3">3</span></td><td>OWA 2</td><td class="c">5</td><td class="c win">4</td><td class="c">0</td><td class="c">1</td><td class="c">28:20</td><td class="c num">12</td></tr>
+      <tr class="highlight-row"><td class="c"><span class="pos-badge">4</span></td><td><strong>DÖB 1</strong></td><td class="c">6</td><td class="c win">3</td><td class="c">1</td><td class="c">2</td><td class="c">30:22</td><td class="c num"><strong>10</strong></td></tr>
+      <tr><td class="c"><span class="pos-badge">5</span></td><td>WN 1</td><td class="c">4</td><td class="c win">3</td><td class="c">0</td><td class="c">1</td><td class="c">20:10</td><td class="c num">9</td></tr>
+      <tr><td class="c"><span class="pos-badge">6</span></td><td>BKA 1</td><td class="c">4</td><td class="c win">2</td><td class="c">0</td><td class="c">2</td><td class="c">15:17</td><td class="c num">6</td></tr>
+      <tr><td class="c"><span class="pos-badge">7</span></td><td>SKH 1</td><td class="c">5</td><td class="c win">2</td><td class="c">0</td><td class="c">3</td><td class="c">17:26</td><td class="c num">6</td></tr>
+      <tr><td class="c"><span class="pos-badge">8</span></td><td>ORF 1</td><td class="c">5</td><td class="c win">1</td><td class="c">1</td><td class="c">3</td><td class="c">19:26</td><td class="c num">4</td></tr>
+      <tr><td class="c"><span class="pos-badge">9</span></td><td>WILI 4</td><td class="c">6</td><td class="c win">1</td><td class="c">0</td><td class="c">5</td><td class="c">18:34</td><td class="c num">3</td></tr>
+      <tr><td class="c"><span class="pos-badge">10</span></td><td>LAND 1</td><td class="c">5</td><td class="c win">1</td><td class="c">0</td><td class="c">4</td><td class="c">14:29</td><td class="c num">3</td></tr>
+      <tr><td class="c"><span class="pos-badge">11</span></td><td>FJB 2</td><td class="c">4</td><td class="c win">0</td><td class="c">0</td><td class="c">4</td><td class="c">9:25</td><td class="c num">0</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Quelle: tabellen.json · VÖB: Sieg=3, Unentschieden=1, Niederlage=0</div>
+</section>
+
+<!-- S06 -->
+<section id="s06" class="section">
+  <div class="sec-header">DEMN · Nächste Partie & Gegnereinschätzung</div>
+  <div class="next-match">
+    <div class="next-match-title">Nächstes Spiel · R8</div>
+    <div class="next-match-info">BTTC 1 – DÖB 1</div>
+    <div class="next-match-sub">Mi. 11.11.2026 · 18:00 · Auswärtsspiel</div>
+  </div>
+  <div style="margin-bottom:8px">
+    <strong style="font-size:13px;color:#e6edf3">BTTC 1</strong>
+    <span style="font-size:11px;color:var(--text-dim);margin-left:6px">Rang 1 · 6 Sp · 5S-0U-1N · 34:10 · 15 Pkte</span>
+  </div>
+  <p style="font-size:13px;line-height:1.6">Nach dem Sieg bei WILI 4 wartet der Tabellenführer. Brunn hat nur ein Spiel verloren und mit 34:10 das klar beste Spielverhältnis der Liga — die schwerste Auswärtsaufgabe bisher. Das Doppel war zuletzt eine Stärke (drei Siege in Folge) und kann den Ausschlag geben.</p>
+</section>
+
+<!-- S07 (MTX) -->
+<section id="s07" class="section">
+  <div class="sec-header">MTX · Ergebnismatrix</div>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Team</th><th class="c">BKA 1</th><th class="c">LAND 1</th><th class="c">OWA 2</th><th class="c">SKH 1</th><th class="c">ORF 1</th><th class="c">WILI 4</th><th class="c" style="color:var(--text-dim);font-size:10px">Σ</th></tr></thead>
+      <tbody><tr><td><strong>DÖB 1</strong></td><td class="c"><span class="badge badge-loss">2:6</span></td><td class="c"><span class="badge badge-win">7:0</span></td><td class="c"><span class="badge badge-loss">4:6</span></td><td class="c"><span class="badge badge-win">6:2</span></td><td class="c"><span class="badge badge-draw">5:5</span></td><td class="c"><span class="badge badge-win">6:3</span></td><td class="c num" style="color:var(--text-dim)">10P</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- S08 (ANA) -->
+<section id="s08" class="section">
+  <div class="sec-header" id="ana-head">ANA · Einzelpunkte-Analyse · DG1 R6 · 22.10.2026</div>
+  <div id="ana-static">
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">WILI 4 (Heim) – DÖB 1 (Gast) &nbsp;·&nbsp; aus DOEB-Sicht <strong>6:3</strong> &nbsp;·&nbsp; Aufstellung: Bary, Erik, HM</div>
+    <table>
+      <thead><tr><th>DÖB 1</th><th class="c">Ergebnis</th><th>WILI 4</th><th class="c">Art</th></tr></thead>
+      <tbody>
+      <tr><td class="winner">Bary</td><td class="c"><span class="badge badge-win">3:2</span></td><td>Robert</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>HM</td><td class="c"><span class="badge badge-loss">1:3</span></td><td class="winner">Sasa</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Erik</td><td class="c"><span class="badge badge-win">3:0</span></td><td>Jan</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">HM/Erik</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Jan/Robert</td><td class="c" style="font-size:11px;color:var(--text-dim)">D</td></tr>
+      <tr><td>Bary</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Sasa</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Erik</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Robert</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td>HM</td><td class="c"><span class="badge badge-loss">0:3</span></td><td class="winner">Jan</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Erik</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Sasa</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      <tr><td class="winner">Bary</td><td class="c"><span class="badge badge-win">3:1</span></td><td>Jan</td><td class="c" style="font-size:11px;color:var(--text-dim)">E</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel</div>
+  </div>
+  <div id="ana-auto" style="display:none">
+    <div id="ana-sub" style="font-size:12px;color:var(--text-muted);margin-bottom:8px"></div>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>DÖB 1</th><th class="c">Ergebnis</th><th id="ana-gegner">Gegner</th><th class="c">Art</th></tr></thead>
+      <tbody id="ana-body"></tbody>
+    </table>
+    </div>
+  </div>
+  <div id="ana-foot" style="margin-top:6px;font-size:11px;color:var(--text-dim)"></div>
+</section>
+
+<!-- S09 (GEG) -->
+<section id="s09" class="section">
+  <div class="sec-header">GEG · Gegnerprofile</div>
+  <table>
+    <thead><tr><th>Gegner</th><th class="c">R</th><th class="c">H/A</th><th class="c">Erg</th><th>Bemerkung</th></tr></thead>
+    <tbody>
+      <tr><td>BKA 1</td><td class="c">R1</td><td class="c">A</td><td class="c"><span class="badge badge-loss">2:6</span></td><td style="font-size:11px;color:var(--text-muted)">Adam sehr stark (ungeschlagen)</td></tr>
+      <tr><td>LAND 1</td><td class="c">R2</td><td class="c">H</td><td class="c"><span class="badge badge-win">7:0</span></td><td style="font-size:11px;color:var(--text-muted)">nicht angetreten (kampflos)</td></tr>
+      <tr><td>OWA 2</td><td class="c">R3</td><td class="c">A</td><td class="c"><span class="badge badge-loss">4:6</span></td><td style="font-size:11px;color:var(--text-muted)">starkes Team, Pedro ungeschlagen</td></tr>
+      <tr><td>SKH 1</td><td class="c">R4</td><td class="c">A</td><td class="c"><span class="badge badge-win">6:2</span></td><td style="font-size:11px;color:var(--text-muted)">Julien und Timo stärkste Spieler</td></tr>
+      <tr><td>ORF 1</td><td class="c">R5</td><td class="c">H</td><td class="c"><span class="badge badge-draw">5:5</span></td><td style="font-size:11px;color:var(--text-muted)">Mohsen sehr stark</td></tr>
+      <tr><td>WILI 4</td><td class="c">R6</td><td class="c">A</td><td class="c"><span class="badge badge-win">6:3</span></td><td style="font-size:11px;color:var(--text-muted)">Sasa stärkster Spieler</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- S10 (KEN) -->
+<section id="s10" class="section">
+  <div class="sec-header">KEN · Saisonkennzahlen</div>
+  <table>
+    <thead><tr><th>Kennzahl</th><th class="c">Wert</th><th>Kennzahl</th><th class="c">Wert</th></tr></thead>
+    <tbody>
+      <tr><td>Spiele gesamt</td><td class="c num">6</td><td>Mannschaftspunkte</td><td class="c num">10</td></tr>
+      <tr><td>Siege</td><td class="c win">3</td><td>Spielpunkte</td><td class="c num">30:22</td></tr>
+      <tr><td>Unentschieden</td><td class="c draw">1</td><td>Einzel-Gewinnquote</td><td class="c num">50%</td></tr>
+      <tr><td>Niederlagen</td><td class="c loss">2</td><td>Doppel-Gewinnquote</td><td class="c num">60%</td></tr>
+      <tr><td>Tabellenplatz</td><td class="c num">4/11</td><td>Runden gespielt</td><td class="c num">6/22</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:6px;font-size:11px;color:var(--text-dim)">Einzel 20:20 · Doppel 3:2 · Kontrolle Tabelle: 30:22 / 10 P</div>
+</section>
+
+<!-- S11 (ARC) -->
+<section class="section">
+  <div class="sec-header">ARC · Archiv</div>
+  <div class="arc-grid">
+    <a href="../AR/2026/DG1/R1/DOEBAna_V1.html" class="arc-link">DG1 R1 · 10.09.2026</a>
+    <a href="../AR/2026/DG1/R2/DOEBAna_V1.html" class="arc-link">DG1 R2 · 17.09.2026</a>
+    <a href="../AR/2026/DG1/R3/DOEBAna_V1.html" class="arc-link">DG1 R3 · 23.09.2026</a>
+    <a href="../AR/2026/DG1/R4/DOEBAna_V1.html" class="arc-link">DG1 R4 · 07.10.2026</a>
+    <a href="../AR/2026/DG1/R5/DOEBAna_V1.html" class="arc-link">DG1 R5 · 15.10.2026</a>
+    <a href="../AR/2026/DG1/R6/DOEBAna_V1.html" class="arc-link">DG1 R6 · 22.10.2026</a>
+  </div>
+  <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">→ <a href="../archiv.html" style="color:var(--text-muted)">Vollständiges Archiv aller Teams</a></div>
+</section>
+
+<script>
+/* ANA (S08): letzte V1-Runde automatisch aus doeb-termine/data/spieler.json (nur lesen).
+   Klappt das Laden nicht, bleibt die von Hand eingetragene Tabelle stehen. */
+(function () {
+  const QUELLE = 'https://hubertmicheluzzi.github.io/doeb-termine/data/spieler.json';
+  const BEWERB = 'v1';
+  const NR = ['I','II','III','IIIA','IV','V','VI','VII','VIII','IX','X'];
+  const esc = t => String(t == null ? '–' : t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const foot = document.getElementById('ana-foot');
+
+  fetch(QUELLE + '?t=' + Date.now(), {cache: 'no-store'})
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(d => {
+      if (d.format !== 'doeb-spieler/1') throw new Error('Format ' + d.format);
+      const spiele = {};
+      (d.spieler || []).forEach(sp => (sp.spiele || []).forEach(g => {
+        if (g.bewerb !== BEWERB) return;
+        const key = g.runde + '|' + g.nr;
+        if (g.art === 'Doppel') {
+          const paar = [sp.name, g.partner || '–'].sort().join('/');
+          if (!spiele[key]) spiele[key] = Object.assign({}, g, {wir: paar});
+        } else {
+          spiele[key] = Object.assign({}, g, {wir: sp.name});
+        }
+      }));
+      const alle = Object.values(spiele);
+      if (!alle.length) throw new Error('keine Spiele für ' + BEWERB.toUpperCase() + ' in der Datei');
+      const letztesDatum = alle.map(g => g.datum).sort().pop();
+      const runde = alle.filter(g => g.datum === letztesDatum)
+                        .sort((a, b) => NR.indexOf(a.nr) - NR.indexOf(b.nr));
+      const g0 = runde[0];
+      const siege = runde.filter(g => g.sieg).length;
+      const m = /^(\d+)\.(\d+)$/.exec(g0.runde || '');
+      const rd = m ? 'DG' + m[1] + ' R' + m[2] : esc(g0.runde);
+      const dt = (letztesDatum || '').split('-').reverse().join('.');
+      const aufstellung = [];
+      runde.forEach(g => { if (g.art === 'Einzel' && !aufstellung.includes(g.wir)) aufstellung.push(g.wir); });
+
+      document.getElementById('ana-head').textContent = 'ANA · Einzelpunkte-Analyse · ' + rd + ' · ' + dt;
+      document.getElementById('ana-sub').innerHTML = 'DÖB 1 – ' + esc(g0.gegnerTeam) +
+        ' &nbsp;·&nbsp; aus DOEB-Sicht <strong>' + siege + ':' + (runde.length - siege) + '</strong>' +
+        ' &nbsp;·&nbsp; Aufstellung: ' + aufstellung.map(esc).join(', ');
+      document.getElementById('ana-gegner').textContent = g0.gegnerTeam || 'Gegner';
+      document.getElementById('ana-body').innerHTML = runde.map(g =>
+        '<tr><td' + (g.sieg ? ' class="winner"' : '') + '>' + esc(g.wir) + '</td>' +
+        '<td class="c"><span class="badge ' + (g.sieg ? 'badge-win' : 'badge-loss') + '">' + esc(g.saetze) + '</span></td>' +
+        '<td' + (g.sieg ? '' : ' class="winner"') + '>' + esc(String(g.gegner || '').replace(/ \/ /g, '/')) + '</td>' +
+        '<td class="c" style="font-size:11px;color:var(--text-dim)">' + (g.art === 'Doppel' ? 'D' : 'E') + '</td></tr>'
+      ).join('');
+      const st = d.stand ? new Date(d.stand).toLocaleString('de-AT', {dateStyle: 'medium', timeStyle: 'short'}) : '?';
+      foot.textContent = 'Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel · automatisch aus spieler.json · Datenstand ' + st;
+    })
+    .catch(err => {
+      foot.textContent += ' · (automatische Daten nicht verfügbar: ' + err.message + ' — von Hand eingetragener Stand)';
+    });
+})();
+</script>
+
+<script>
+const sections = document.querySelectorAll('.section[id]');
+const secBtns  = document.querySelectorAll('#bar2 .sec-btn');
+const secIds   = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10'];
+function updateActive() {
+  let current = 'none';
+  sections.forEach(sec => { if (sec.getBoundingClientRect().top <= 100) current = sec.id; });
+  secBtns.forEach((btn, i) => btn.classList.toggle('active', secIds[i] === current));
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+</script>
+</body>
+</html>
