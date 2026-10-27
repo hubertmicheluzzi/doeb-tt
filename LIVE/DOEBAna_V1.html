@@ -397,7 +397,7 @@ tr:hover td { background: #1a2030; }
         }
       }));
       const alle = Object.values(spiele);
-      if (!alle.length) throw new Error('keine V1-Spiele');
+      if (!alle.length) throw new Error('keine Spiele für ' + BEWERB.toUpperCase() + ' in der Datei');
       const letztesDatum = alle.map(g => g.datum).sort().pop();
       const runde = alle.filter(g => g.datum === letztesDatum)
                         .sort((a, b) => NR.indexOf(a.nr) - NR.indexOf(b.nr));

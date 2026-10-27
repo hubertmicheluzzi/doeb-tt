@@ -239,7 +239,8 @@ tr:hover td { background: #1a2030; }
 
 <!-- S08 (ANA) -->
 <section id="s08" class="section">
-  <div class="sec-header">ANA · Einzelpunkte-Analyse · DG1 R4 · 08.10.2026</div>
+  <div class="sec-header" id="ana-head">ANA · Einzelpunkte-Analyse · DG1 R4 · 08.10.2026</div>
+  <div id="ana-static">
   <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">DÖB 2 (Heim) – FSF 3 (Gast) &nbsp;·&nbsp; <strong>5:5</strong> <span style="font-size:10px;color:var(--text-dim)">(unbet.)</span></div>
   <table>
     <thead><tr><th>Gast</th><th class="c">Erg</th><th>DÖB 2</th><th class="c" style="width:28px">Art</th></tr></thead>
@@ -276,6 +277,17 @@ tr:hover td { background: #1a2030; }
       </tbody>
     </table>
   </div>
+  </div>
+  <div id="ana-auto" style="display:none">
+    <div id="ana-sub" style="font-size:12px;color:var(--text-muted);margin-bottom:8px"></div>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>DÖB 2</th><th class="c">Ergebnis</th><th id="ana-gegner">Gegner</th><th class="c">Art</th></tr></thead>
+      <tbody id="ana-body"></tbody>
+    </table>
+    </div>
+  </div>
+  <div id="ana-foot" style="margin-top:6px;font-size:11px;color:var(--text-dim)"></div>
 </section>
 
 <!-- S09 (GEG) -->
@@ -331,5 +343,65 @@ function updateActive() {
 window.addEventListener('scroll', updateActive, {passive:true});
 updateActive();
 </script>
+<script>
+/* ANA (S08): letzte V1-Runde automatisch aus doeb-termine/data/spieler.json (nur lesen).
+   Klappt das Laden nicht, bleibt die von Hand eingetragene Tabelle stehen. */
+(function () {
+  const QUELLE = 'https://hubertmicheluzzi.github.io/doeb-termine/data/spieler.json';
+  const BEWERB = 'v2';
+  const NR = ['I','II','III','IIIA','IV','V','VI','VII','VIII','IX','X'];
+  const esc = t => String(t == null ? '–' : t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const foot = document.getElementById('ana-foot');
+
+  fetch(QUELLE + '?t=' + Date.now(), {cache: 'no-store'})
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(d => {
+      if (d.format !== 'doeb-spieler/1') throw new Error('Format ' + d.format);
+      const spiele = {};
+      (d.spieler || []).forEach(sp => (sp.spiele || []).forEach(g => {
+        if (g.bewerb !== BEWERB) return;
+        const key = g.runde + '|' + g.nr;
+        if (g.art === 'Doppel') {
+          const paar = [sp.name, g.partner || '–'].sort().join('/');
+          if (!spiele[key]) spiele[key] = Object.assign({}, g, {wir: paar});
+        } else {
+          spiele[key] = Object.assign({}, g, {wir: sp.name});
+        }
+      }));
+      const alle = Object.values(spiele);
+      if (!alle.length) throw new Error('keine Spiele für ' + BEWERB.toUpperCase() + ' in der Datei');
+      const letztesDatum = alle.map(g => g.datum).sort().pop();
+      const runde = alle.filter(g => g.datum === letztesDatum)
+                        .sort((a, b) => NR.indexOf(a.nr) - NR.indexOf(b.nr));
+      const g0 = runde[0];
+      const siege = runde.filter(g => g.sieg).length;
+      const m = /^(\d+)\.(\d+)$/.exec(g0.runde || '');
+      const rd = m ? 'DG' + m[1] + ' R' + m[2] : esc(g0.runde);
+      const dt = (letztesDatum || '').split('-').reverse().join('.');
+      const aufstellung = [];
+      runde.forEach(g => { if (g.art === 'Einzel' && !aufstellung.includes(g.wir)) aufstellung.push(g.wir); });
+
+      document.getElementById('ana-head').textContent = 'ANA · Einzelpunkte-Analyse · ' + rd + ' · ' + dt;
+      document.getElementById('ana-sub').innerHTML = 'DÖB 2 – ' + esc(g0.gegnerTeam) +
+        ' &nbsp;·&nbsp; aus DOEB-Sicht <strong>' + siege + ':' + (runde.length - siege) + '</strong>' +
+        ' &nbsp;·&nbsp; Aufstellung: ' + aufstellung.map(esc).join(', ');
+      document.getElementById('ana-gegner').textContent = g0.gegnerTeam || 'Gegner';
+      document.getElementById('ana-body').innerHTML = runde.map(g =>
+        '<tr><td' + (g.sieg ? ' class="winner"' : '') + '>' + esc(g.wir) + '</td>' +
+        '<td class="c"><span class="badge ' + (g.sieg ? 'badge-win' : 'badge-loss') + '">' + esc(g.saetze) + '</span></td>' +
+        '<td' + (g.sieg ? '' : ' class="winner"') + '>' + esc(String(g.gegner || '').replace(/ \/ /g, '/')) + '</td>' +
+        '<td class="c" style="font-size:11px;color:var(--text-dim)">' + (g.art === 'Doppel' ? 'D' : 'E') + '</td></tr>'
+      ).join('');
+      const st = d.stand ? new Date(d.stand).toLocaleString('de-AT', {dateStyle: 'medium', timeStyle: 'short'}) : '?';
+      foot.textContent = 'Ergebnisse immer aus DOEB-Sicht (DOEB:Gegner) · E = Einzel · D = Doppel · automatisch aus spieler.json · Datenstand ' + st;
+      document.getElementById('ana-static').style.display = 'none';
+      document.getElementById('ana-auto').style.display = '';
+    })
+    .catch(err => {
+      foot.textContent = '(automatische Daten nicht verfügbar: ' + err.message + ' — von Hand eingetragener Stand)';
+    });
+})();
+</script>
+
 </body>
 </html>
